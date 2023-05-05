@@ -12,4 +12,6 @@ public interface ElementRepository extends JpaRepository<Element, Long> {
 
     boolean existsByNomOrCode(String nom, String code);
 
+    Optional<Element> findByNom(String nom);
+
 }
