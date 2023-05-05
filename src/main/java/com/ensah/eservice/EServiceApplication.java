@@ -22,10 +22,10 @@ public class EServiceApplication {
     CommandLineRunner commandLineRunner(SuperAdminRepository repository, CompteRepository compteRepository, PasswordEncoder encoder) {
         return args -> {
             SuperAdmin superAdmin = new SuperAdmin();
-            superAdmin.setNom("adil");
-            superAdmin.setPrenom("arbib");
-            superAdmin.setNomArabe("أربيب");
-            superAdmin.setPrenomArab("عادل");
+            superAdmin.setNom("admin");
+            superAdmin.setPrenom("admin");
+            superAdmin.setNomArabe("أدمين");
+            superAdmin.setPrenomArab("أدمين");
             superAdmin.setEmail("adil2001@gmail.com");
             superAdmin.setTel("0689070809");
             superAdmin.setRole(Role.SUPER_ADMIN);

@@ -15,6 +15,8 @@ import java.util.Collection;
 @Setter
 @Getter
 public class Niveau {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

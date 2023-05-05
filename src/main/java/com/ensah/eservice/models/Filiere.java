@@ -32,4 +32,7 @@ public class Filiere {
     @OneToMany
     private Collection<Accreditation> accreditations;
 
+    @OneToMany
+    private Collection<Niveau> niveaus;
+
 }

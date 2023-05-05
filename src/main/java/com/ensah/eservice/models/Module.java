@@ -14,6 +14,8 @@ import java.util.Collection;
 @Setter
 @Getter
 public class Module {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
