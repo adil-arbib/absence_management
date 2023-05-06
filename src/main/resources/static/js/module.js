@@ -1,6 +1,9 @@
 const submitButton = document.getElementById("module-add")
 
 
+const myList = /*[[${listElements}]]*/ [];
+console.log(myList)
+
 // const input = document.getElementById("value-input")
 // const button = document.getElementById("addBtn")
 // const divContainer = document.getElementById("div-container")
@@ -70,8 +73,7 @@ const submitButton = document.getElementById("module-add")
 //
 // submitButton.addEventListener("click", function() {
 //     let selectedItemsData = JSON.stringify(selectedItems);
-    let myList  = /*[[${listElements}]]*/ [];
-    console.log(myList)
+
 
 // $.ajax({
 //         type: "POST",

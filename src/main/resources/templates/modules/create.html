@@ -103,7 +103,11 @@
 
 
 <script th:src="@{/js/utils.js}"></script>
-<script th:src = "@{/js/module.js}"></script>
+
+<script th:inline="javascript" >
+    let myList = /*[[${listElements}]]*/ [];
+    console.log(myList)
+</script>
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
 <script th:src="@{/assets/vendor/libs/jquery/jquery.js}"></script>
