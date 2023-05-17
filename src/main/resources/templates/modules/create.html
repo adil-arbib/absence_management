@@ -106,7 +106,24 @@
 
 <script th:inline="javascript" >
     let myList = /*[[${listElements}]]*/ [];
-    console.log(myList)
+    const submitButton = document.getElementById('module-add')
+
+    submitButton.addEventListener("click", function() {
+        let selectedItemsData = JSON.stringify(myList);
+
+    $.ajax({
+            type: "POST",
+            url: "/modules/create",
+            data: selectedItemsData,
+            contentType: "application/json",
+            success: function() {
+                alert("Items submitted successfully");
+            },
+            error: function() {
+                alert("Error submitting items");
+            }
+        });
+    })
 </script>
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->

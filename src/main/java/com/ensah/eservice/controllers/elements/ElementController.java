@@ -3,14 +3,13 @@ package com.ensah.eservice.controllers.elements;
 
 import com.ensah.eservice.dto.elements.ElementDTO;
 import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
+import com.ensah.eservice.exceptions.notfound.NotFoundException;
 import com.ensah.eservice.services.ElementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -36,14 +35,42 @@ public class ElementController {
         } catch (AlreadyExistsException e) {
             model.addAttribute("toastMessage", e.getMessage());
         }
-        return "elements/create";
+        return "redirect:/elements/create";
     }
 
     @GetMapping
-    public String allElements(Model model) {
-        model.addAttribute("elements", elementService.getAll());
+    public String allElements(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "keyword", defaultValue = "") String keyword,
+            Model model) {
+        Page<ElementDTO> elementsPage = elementService.getElementsPage(page, size, keyword);
+        model.addAttribute("elementsPage", elementsPage);
+        model.addAttribute("pages", new int[elementsPage.getTotalPages()]);
+        model.addAttribute("currentPage" ,page);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("max", elementsPage.getTotalPages() -1 );
+        model.addAttribute("size" ,size);
         return "elements/all";
     }
 
+
+    @PostMapping("/delete")
+    public String deleteElement(@RequestParam("id") Long id) throws NotFoundException {
+        elementService.deleteElement(id);
+        return "redirect:/elements";
+    }
+
+    @GetMapping("/{id}")
+    public String showElementPage(@PathVariable Long id, Model model) throws NotFoundException {
+        model.addAttribute("element", elementService.getElementById(id));
+        return "elements/element";
+    }
+
+    @PostMapping("/update")
+    public String updateElement(@ModelAttribute("element") ElementDTO elementDTO) throws NotFoundException {
+        elementService.updateElement(elementDTO);
+        return "redirect:/elements";
+    }
 
 }

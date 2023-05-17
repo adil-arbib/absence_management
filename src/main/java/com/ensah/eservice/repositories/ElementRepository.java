@@ -2,6 +2,8 @@ package com.ensah.eservice.repositories;
 
 
 import com.ensah.eservice.models.Element;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +15,7 @@ public interface ElementRepository extends JpaRepository<Element, Long> {
     boolean existsByNomOrCode(String nom, String code);
 
     Optional<Element> findByNom(String nom);
+
+    Page<Element> findByNomContains(String nom, Pageable pageable);
 
 }

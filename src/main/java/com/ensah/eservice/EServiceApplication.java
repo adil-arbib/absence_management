@@ -18,28 +18,6 @@ public class EServiceApplication {
         SpringApplication.run(EServiceApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner commandLineRunner(SuperAdminRepository repository, CompteRepository compteRepository, PasswordEncoder encoder) {
-        return args -> {
-            SuperAdmin superAdmin = new SuperAdmin();
-            superAdmin.setNom("admin");
-            superAdmin.setPrenom("admin");
-            superAdmin.setNomArabe("أدمين");
-            superAdmin.setPrenomArab("أدمين");
-            superAdmin.setEmail("adil2001@gmail.com");
-            superAdmin.setTel("0689070809");
-            superAdmin.setRole(Role.SUPER_ADMIN);
-            SuperAdmin savedSa = repository.save(superAdmin);
-            Compte compte = new Compte();
-            compte.setEnabled(true);
-            compte.setAccountNotExpired(true);
-            compte.setAccountNotLocked(true);
-            compte.setDisconnectAccount(true);
-            compte.setUtilisateur(savedSa);
-            compte.setUsername("admin");
-            compte.setPassword(encoder.encode("1234"));
-            compteRepository.save(compte);
-        };
-    }
+
 
 }
