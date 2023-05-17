@@ -23,7 +23,6 @@ import java.util.List;
 public class ModuleController {
 
     private final ModuleService moduleService;
-
     private final ElementService elementService;
 
 
@@ -58,5 +57,40 @@ public class ModuleController {
         model.addAttribute("size" ,size);
         return "modules/all";
     }
+
+    @GetMapping("/{id}")
+    public String showModulePage(@PathVariable Long id, Model model) throws NotFoundException {
+        model.addAttribute("module", moduleService.getModuleById(id));
+        model.addAttribute("restElements", moduleService.getRestElements(id));
+        return "modules/module";
+    }
+
+    @PostMapping("/update")
+    public String updateModule(@ModelAttribute("module") ModuleDTO moduleDTO) throws NotFoundException {
+        moduleService.update(moduleDTO);
+        return "redirect:/modules/"+moduleDTO.getId();
+    }
+
+
+
+    @PostMapping("/{moduleId}/elements/remove")
+    public String removeContactFromGroup(
+            @PathVariable("moduleId") Long moduleId,
+            @RequestParam("elementId") Long elementId
+    ) throws NotFoundException {
+        moduleService.removeElementFromModule(moduleId, elementId);
+        return "redirect:/modules/"+moduleId;
+    }
+
+    @PostMapping("/{moduleId}/elements/add")
+    public String addContactsToGroup(
+            @PathVariable("moduleId") Long moduleId,
+            @RequestParam(name = "selectedElements") List<Long> selectedElementsIds
+    ) throws NotFoundException {
+        moduleService.addElementToModule(moduleId, selectedElementsIds);
+        return "redirect:/modules/"+moduleId;
+    }
+
+
 
 }

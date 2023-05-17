@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+  />
+
+  <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+
+  <meta name="description" content=""/>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" th:href="@{/assets/img/favicon/favicon.ico}"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+          rel="stylesheet"
+  />
+
+  <!-- Icons. Uncomment required icon fonts -->
+  <link rel="stylesheet" th:href="@{/assets/vendor/fonts/boxicons.css}"/>
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" th:href="@{/assets/vendor/css/core.css}" class="template-customizer-core-css"/>
+  <link rel="stylesheet" th:href="@{/assets/vendor/css/theme-default.css}" class="template-customizer-theme-css"/>
+  <link rel="stylesheet" th:href="@{/assets/css/demo.css}"/>
+
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" th:href="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}"/>
+
+  <link rel="stylesheet" th:href="@{/assets/vendor/libs/apex-charts/apex-charts.css}"/>
+
+  <!-- Page CSS -->
+
+  <!-- Helpers -->
+  <script th:src="@{/assets/vendor/js/helpers.js}"></script>
+
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script th:src="@{/assets/js/config.js}"></script>
+</head>
+<body>
+
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+
+
+    <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <h4 class="fw-bold py-3 mb-4" >Module / <span class="text-muted fw-light" th:text="${module.nom}"></span> </h4>
+          <div class="card mb-4">
+            <h5 class="card-header">Modification de module</h5>
+            <div class="card-body">
+              <form method="post" th:action="@{/modules/update}" th:object="${module}">
+                <input type="hidden" th:field="${module.id}">
+                <div class="mb-3 row">
+                  <label for="nom" class="col-md-2 col-form-label">Nom*</label>
+                  <div class="col-md-10">
+                    <input th:field="*{nom}" th:value="${module.nom}" class="form-control" type="search" id="nom" required/>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label for="code" class="col-md-2 col-form-label">Code*</label>
+                  <div class="col-md-10">
+                    <input th:field="*{code}" th:value="${module.code}" class="form-control" type="search" id="code" required/>
+                  </div>
+                </div>
+
+                <div class="demo-inline-spacing">
+                  <button type="submit" class="btn btn-primary">Modifier</button>
+                  <button type="reset" class="btn btn-secondary" >Annuler
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <h5 class="card-header">Les elements</h5>
+            <div class="card-body">
+              <div class="mt-3" style="text-align: right;">
+                <!-- Button trigger modal -->
+                <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalCenter"
+                >
+                  Ajouter
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="modalCenterTitle">Ajouter des elements</h5>
+                        <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                        ></button>
+                      </div>
+                      <form method="post" th:action="@{/modules/{moduleId}/elements/add(moduleId=${module.id})}">
+                        <div class="modal-body">
+                          <input class="form-control" type="search" id="searchInput" placeholder="chercher un element"/>
+                          <div style="height: 200px; width: auto; overflow-y: scroll; text-align: left">
+                            <div style="display: block;" th:each="element : ${restElements}" class="items-div">
+                              <input
+                                      th:value="${element.id}"
+                                      type="checkbox"
+                                      class="form-check-input"
+                                      name="selectedElements"
+                              />
+                              <label class="form-check-label" th:text="${element.nom}"> </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Fermer
+                          </button>
+                          <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table class="table mt-3">
+                <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Code</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                <tr th:each="element : ${module.elements}">
+                  <td th:text="${element.nom}"></td>
+                  <td th:text="${element.code}"></td>
+                  <td>
+                    <form method="post" th:action="@{/modules/{moduleId}/elements/remove(moduleId=${module.id})}"
+                          th:object="${element}">
+                      <input type="hidden" name="elementId" th:value="${element.id}"/>
+                      <button type="submit" class="dropdown-item"
+                              th:onclick="return confirmDelete()"
+                      ><i class="bx bx-trash me-1"></i></button
+                      >
+                    </form>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+<script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/search.js}"></script>
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script th:src="@{/assets/vendor/libs/jquery/jquery.js}"></script>
+<script th:src="@{/assets/vendor/libs/popper/popper.js}"></script>
+<script th:src="@{/assets/vendor/js/bootstrap.js}"></script>
+<script th:src="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
+
+<script th:src="@{/assets/vendor/js/menu.js}"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script th:src="@{/assets/vendor/libs/apex-charts/apexcharts.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/assets/js/main.js}"></script>
+
+<!-- Page JS -->
+<script th:src="@{/assets/js/dashboards-analytics.js}"></script>
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+</body>
+</html>

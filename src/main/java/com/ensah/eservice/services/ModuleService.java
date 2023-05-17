@@ -32,6 +32,8 @@ public class ModuleService {
 
     private final ModuleMapper moduleMapper;
 
+    private final ElementMapper elementMapper;
+
 
 
 
@@ -48,28 +50,58 @@ public class ModuleService {
             }
             module.setElements(elements);
         }
-        return moduleMapper.toModuleDTO(moduleRepository.save(module));
+        return moduleMapper.moduleToModuleDTO(moduleRepository.save(module));
+    }
+
+    public void update(ModuleDTO moduleDTO) throws NotFoundException {
+        Module module = moduleRepository.findById(moduleDTO.getId()).orElseThrow(NotFoundException::new);
+        moduleMapper.updateModuleFromDTO(moduleDTO, module);
+        moduleRepository.save(module);
     }
 
     public List<ModuleDTO> getALl(){
         return moduleMapper.toModuleDTOList(moduleRepository.findAll());
     }
 
+    public ModuleDTO getModuleById(Long id) throws NotFoundException {
+        return moduleMapper.moduleToModuleDTO(moduleRepository.findById(id).orElseThrow(NotFoundException::new));
+    }
 
     private Page<ModuleDTO> findByNomContains(int page, int size, String keyword) {
         Page<Module> modulePage = moduleRepository.findByNomContains(keyword, PageRequest.of(page, size));
-        return modulePage.map(moduleMapper::toModuleDTO);
+        return modulePage.map(moduleMapper::moduleToModuleDTO);
     }
 
     private Page<ModuleDTO> getAll(int page, int size){
         return moduleRepository.findAll(PageRequest.of(page, size))
-                .map(moduleMapper::toModuleDTO);
+                .map(moduleMapper::moduleToModuleDTO);
     }
 
     public Page<ModuleDTO> getModulesPage(int page, int size, String keyword){
         return keyword.isEmpty()
                 ? getAll(page, size)
                 : findByNomContains(page, size, keyword);
+    }
+
+    public List<ElementDTO> getRestElements(Long moduleId) throws NotFoundException {
+        Module module = moduleRepository.findById(moduleId).orElseThrow(NotFoundException::new);
+        List<Element> elements = elementRepository.findByIdNotIn(module.getElements().stream().map(Element::getId).collect(Collectors.toList()));
+        return elements.isEmpty()
+                ? elementRepository.findAll().stream().map(elementMapper::toElementDTO).collect(Collectors.toList())
+                : elements.stream().map(elementMapper::toElementDTO).collect(Collectors.toList());
+    }
+
+    public void addElementToModule(Long moduleId, List<Long> elementIds) throws NotFoundException {
+        Module module = moduleRepository.findById(moduleId).orElseThrow(NotFoundException::new);
+        module.getElements().addAll(elementRepository.findByIdIn(elementIds));
+        moduleRepository.save(module);
+    }
+
+    public void removeElementFromModule(Long moduleId, Long elementId) throws NotFoundException {
+        Module module = moduleRepository.findById(moduleId).orElseThrow(NotFoundException::new);
+        Element element = elementRepository.findById(elementId).orElseThrow(NotFoundException::new);
+        module.getElements().remove(element);
+        moduleRepository.save(module);
     }
 
 }
