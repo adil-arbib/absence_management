@@ -22,6 +22,10 @@ public class ElementService {
    private final ElementMapper elementMapper;
 
 
+   public List<ElementDTO> getAllElements() {
+      return elementMapper.toElementDTOList(elementRepository.findAll());
+   }
+
    public ElementDTO getElementById(Long id) throws NotFoundException {
       return elementMapper.toElementDTO(
               elementRepository.findById(id).orElseThrow(NotFoundException::new)

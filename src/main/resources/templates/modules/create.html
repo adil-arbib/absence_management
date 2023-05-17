@@ -55,8 +55,6 @@
 
         <!-- Layout container -->
         <div class="layout-page">
-            <nav th:replace="~{fragments/navbar :: navbar}"></nav>
-
             <div class="content-wrapper">
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Modules /</span> Créer</h4>
@@ -77,9 +75,20 @@
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="code" class="col-md-2 col-form-label">Element*</label>
+                                    <label class="col-md-2 col-form-label">Elements</label>
                                     <div class="col-md-10">
-                                        <input  class="form-control" type="search" id="elements"/>
+                                        <input class="form-control" type="search" id="searchInput" placeholder="chercher un element"/>
+                                        <div class="col-md-10 mt-2" style="height: 150px; width: auto; overflow-y: scroll;">
+                                            <div style="display: block;" th:each="element : ${elements}"  class="items-div">
+                                                <input
+                                                        th:value="${element.id}"
+                                                        type="checkbox"
+                                                        class="form-check-input"
+                                                        name="selectedElements"
+                                                />
+                                                <label class="form-check-label" th:text="${element.nom}"> </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -103,28 +112,9 @@
 
 
 <script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/search.js}"></script>
 
-<script th:inline="javascript" >
-    let myList = /*[[${listElements}]]*/ [];
-    const submitButton = document.getElementById('module-add')
 
-    submitButton.addEventListener("click", function() {
-        let selectedItemsData = JSON.stringify(myList);
-
-    $.ajax({
-            type: "POST",
-            url: "/modules/create",
-            data: selectedItemsData,
-            contentType: "application/json",
-            success: function() {
-                alert("Items submitted successfully");
-            },
-            error: function() {
-                alert("Error submitting items");
-            }
-        });
-    })
-</script>
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
 <script th:src="@{/assets/vendor/libs/jquery/jquery.js}"></script>

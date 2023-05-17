@@ -6,14 +6,18 @@ import com.ensah.eservice.dto.elements.ElementMapper;
 import com.ensah.eservice.dto.modules.ModuleDTO;
 import com.ensah.eservice.dto.modules.ModuleMapper;
 import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
+import com.ensah.eservice.exceptions.notfound.NotFoundException;
 import com.ensah.eservice.models.Element;
 import com.ensah.eservice.models.Module;
 import com.ensah.eservice.repositories.ElementRepository;
 import com.ensah.eservice.repositories.ModuleRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.sql.ast.tree.expression.Collation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,25 +32,44 @@ public class ModuleService {
 
     private final ModuleMapper moduleMapper;
 
-    public Module create(ModuleDTO moduleDTO) throws AlreadyExistsException {
+
+
+
+    public ModuleDTO create(ModuleDTO moduleDTO, List<Long> elementsIds) throws AlreadyExistsException, NotFoundException {
         if(moduleRepository.existsByNomOrCode(moduleDTO.getNom(), moduleDTO.getCode()))
             throw  new AlreadyExistsException();
 
         Module module = moduleMapper.toCreateModule(moduleDTO);
-        if(moduleDTO.getElements() != null){
-            for( ElementDTO elementDTO : moduleDTO.getElements()){
-
-                Element element = elementRepository.findByNom(elementDTO.getNom()).
-                        orElseThrow();
-                module.getElements().add(element);
+        if(elementsIds != null && !elementsIds.isEmpty()){
+            List<Element> elements = new ArrayList<>();
+            for(Long id : elementsIds) {
+                Element element = elementRepository.findById(id).orElseThrow(NotFoundException::new);
+                elements.add(element);
             }
+            module.setElements(elements);
         }
-
-        return moduleRepository.save(module);
+        return moduleMapper.toModuleDTO(moduleRepository.save(module));
     }
 
     public List<ModuleDTO> getALl(){
         return moduleMapper.toModuleDTOList(moduleRepository.findAll());
+    }
+
+
+    private Page<ModuleDTO> findByNomContains(int page, int size, String keyword) {
+        Page<Module> modulePage = moduleRepository.findByNomContains(keyword, PageRequest.of(page, size));
+        return modulePage.map(moduleMapper::toModuleDTO);
+    }
+
+    private Page<ModuleDTO> getAll(int page, int size){
+        return moduleRepository.findAll(PageRequest.of(page, size))
+                .map(moduleMapper::toModuleDTO);
+    }
+
+    public Page<ModuleDTO> getModulesPage(int page, int size, String keyword){
+        return keyword.isEmpty()
+                ? getAll(page, size)
+                : findByNomContains(page, size, keyword);
     }
 
 }

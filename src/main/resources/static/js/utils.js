@@ -5,3 +5,4 @@ function clearFields(ids) {
 function confirmDelete() {
     return confirm("Êtes-vous sûr ??");
 }
+

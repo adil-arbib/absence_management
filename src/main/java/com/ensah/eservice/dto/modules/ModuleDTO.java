@@ -19,7 +19,6 @@ public class ModuleDTO {
     private Long id;
     private String nom;
     private String code;
-
     private Collection<ElementDTO> elements;
 
 }

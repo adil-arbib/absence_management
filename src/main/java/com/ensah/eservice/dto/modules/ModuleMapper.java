@@ -15,6 +15,7 @@ public interface ModuleMapper {
 
     Module toModule(ModuleDTO moduleDTO);
 
+    ModuleDTO toModuleDTO(Module module);
     @Mapping(target = "elements",ignore = true)
     Module toCreateModule(ModuleDTO moduledto);
 
