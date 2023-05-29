@@ -59,7 +59,7 @@ public class ModuleService {
         moduleRepository.save(module);
     }
 
-    public List<ModuleDTO> getALl(){
+    public List<ModuleDTO> getAll(){
         return moduleMapper.toModuleDTOList(moduleRepository.findAll());
     }
 
