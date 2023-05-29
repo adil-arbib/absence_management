@@ -1,14 +1,11 @@
 package com.ensah.eservice.controllers.modules;
 
 
-import com.ensah.eservice.dto.elements.ElementDTO;
-import com.ensah.eservice.dto.elements.ElementMapper;
 import com.ensah.eservice.dto.modules.ModuleDTO;
 import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
-import com.ensah.eservice.repositories.ElementRepository;
-import com.ensah.eservice.services.ElementService;
-import com.ensah.eservice.services.ModuleService;
+import com.ensah.eservice.services.structure_pedagogique.ElementService;
+import com.ensah.eservice.services.structure_pedagogique.ModuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;

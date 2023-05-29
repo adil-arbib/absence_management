@@ -1,13 +1,12 @@
 package com.ensah.eservice.dto.users;
 
+import com.ensah.eservice.dto.files.FileDTO;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@Builder
 @AllArgsConstructor
 public class UserDTO {
 
@@ -17,6 +16,15 @@ public class UserDTO {
 
     private String prenom;
 
-    private byte[] image;
+    private String nomArabe;
+
+    private String prenomArab;
+
+    private String email;
+
+    private String tel;
+
+    private FileDTO image;
+
 
 }

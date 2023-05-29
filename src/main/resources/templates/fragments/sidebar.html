@@ -1,54 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-    />
+  <meta charset="utf-8"/>
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+  />
 
-    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+  <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
-    <meta name="description" content="" />
+  <meta name="description" content=""/>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" th:href="@{/assets/img/favicon/favicon.ico}" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" th:href="@{/assets/img/favicon/favicon.ico}"/>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-            rel="stylesheet"
-    />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+          rel="stylesheet"
+  />
 
-    <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" th:href="@{/assets/vendor/fonts/boxicons.css}" />
+  <!-- Icons. Uncomment required icon fonts -->
+  <link rel="stylesheet" th:href="@{/assets/vendor/fonts/boxicons.css}"/>
 
-    <!-- Core CSS -->
-    <link rel="stylesheet" th:href="@{/assets/vendor/css/core.css}" class="template-customizer-core-css" />
-    <link rel="stylesheet" th:href="@{/assets/vendor/css/theme-default.css}" class="template-customizer-theme-css" />
-    <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
+  <!-- Core CSS -->
+  <link rel="stylesheet" th:href="@{/assets/vendor/css/core.css}" class="template-customizer-core-css"/>
+  <link rel="stylesheet" th:href="@{/assets/vendor/css/theme-default.css}" class="template-customizer-theme-css"/>
+  <link rel="stylesheet" th:href="@{/assets/css/demo.css}"/>
 
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" th:href="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}" />
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" th:href="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}"/>
 
-    <link rel="stylesheet" th:href="@{/assets/vendor/libs/apex-charts/apex-charts.css}" />
+  <link rel="stylesheet" th:href="@{/assets/vendor/libs/apex-charts/apex-charts.css}"/>
 
-    <!-- Page CSS -->
+  <!-- Page CSS -->
 
-    <!-- Helpers -->
-    <script th:src="@{/assets/vendor/js/helpers.js}"></script>
+  <!-- Helpers -->
+  <script th:src="@{/assets/vendor/js/helpers.js}"></script>
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script th:src="@{/assets/js/config.js}"></script>
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script th:src="@{/assets/js/config.js}"></script>
 </head>
 <body>
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" th:fragment="sidebar">
-    <div class="app-brand demo">
-        <a th:href="@{../index}" class="app-brand-link">
+  <div class="app-brand demo">
+    <a th:href="@{../index}" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg
                         width="25"
@@ -104,146 +104,161 @@
                   </g>
                 </svg>
               </span>
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">E-service</span>
-        </a>
+      <span class="app-brand-text demo menu-text fw-bolder ms-2">E-service</span>
+    </a>
 
-        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-            <i class="bx bx-chevron-left bx-sm align-middle"></i>
-        </a>
-    </div>
+    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+      <i class="bx bx-chevron-left bx-sm align-middle"></i>
+    </a>
+  </div>
 
-    <div class="menu-inner-shadow"></div>
+  <div class="menu-inner-shadow"></div>
 
-    <ul class="menu-inner py-1">
-        <!-- Dashboard -->
-        <li class="menu-item active">
-            <a th:href="@{/index}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Tableau de bord</div>
-            </a>
-        </li>
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Gestion de la structure pédagogique </span>
+  <ul class="menu-inner py-1">
+    <!-- Dashboard -->
+    <li class="menu-item active">
+      <a th:href="@{/index}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-home-circle"></i>
+        <div data-i18n="Analytics">Tableau de bord</div>
+      </a>
+    </li>
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Gestion de la structure pédagogique </span>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-dock-top"></i>
+        <div data-i18n="Account Settings">Filières</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a th:href="@{/filieres}" class="menu-link">
+            <div data-i18n="Account">Toutes les filières</div>
+          </a>
         </li>
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Filières</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a th:href="@{/filieres}" class="menu-link">
-                        <div data-i18n="Account">Toutes les filières</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a th:href="@{/filieres/create}" class="menu-link">
-                        <div data-i18n="Notifications">Ajouter une filières</div>
-                    </a>
-                </li>
-            </ul>
+          <a th:href="@{/filieres/create}" class="menu-link">
+            <div data-i18n="Notifications">Ajouter une filières</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+        <div data-i18n="Authentications">Niveaux</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a th:href="@{auth-login-basic.html}" class="menu-link" target="_blank">
+            <div data-i18n="Basic">Tous les niveaux</div>
+          </a>
         </li>
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-                <div data-i18n="Authentications">Niveaux</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a th:href="@{auth-login-basic.html}" class="menu-link" target="_blank">
-                        <div data-i18n="Basic">Tous les niveaux</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a th:href="@{auth-register-basic.html}" class="menu-link" target="_blank">
-                        <div data-i18n="Basic">Ajouter un niveaux</div>
-                    </a>
-                </li>
-            </ul>
+          <a th:href="@{auth-register-basic.html}" class="menu-link" target="_blank">
+            <div data-i18n="Basic">Ajouter un niveaux</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+        <div data-i18n="Misc">Modules</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a th:href="@{/modules}" class="menu-link">
+            <div data-i18n="Error">Tous les modules</div>
+          </a>
         </li>
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                <div data-i18n="Misc">Modules</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a th:href="@{/modules}" class="menu-link">
-                        <div data-i18n="Error">Tous les modules</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a th:href="@{/modules/create}" class="menu-link">
-                        <div data-i18n="Under Maintenance">Ajouter un module</div>
-                    </a>
-                </li>
-            </ul>
+          <a th:href="@{/modules/create}" class="menu-link">
+            <div data-i18n="Under Maintenance">Ajouter un module</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+        <div data-i18n="Misc">Éléments</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a th:href="@{/elements}" class="menu-link">
+            <div data-i18n="Error">Tous les éléments</div>
+          </a>
         </li>
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                <div data-i18n="Misc">Éléments</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a th:href="@{/elements}" class="menu-link">
-                        <div data-i18n="Error">Tous les éléments</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a th:href="@{/elements/create}" class="menu-link">
-                        <div data-i18n="Under Maintenance">Ajouter un éléments</div>
-                    </a>
-                </li>
-            </ul>
+          <a th:href="@{/elements/create}" class="menu-link">
+            <div data-i18n="Under Maintenance">Ajouter un éléments</div>
+          </a>
         </li>
-        <!-- Gestion des absences -->
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Gestion des absences</span></li>
-        <!-- Cards -->
-        <li class="menu-item">
-            <a th:href="@{cards-basic.html}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Basic">Absences</div>
-            </a>
-        </li>
+      </ul>
+    </li>
+    <!-- Gestion des absences -->
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Gestion des absences</span></li>
+    <!-- Cards -->
+    <li class="menu-item">
+      <a th:href="@{cards-basic.html}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <div data-i18n="Basic">Absences</div>
+      </a>
+    </li>
 
-        <li class="menu-item">
-            <a th:href="@{cards-basic.html}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Basic">Réclamations</div>
-            </a>
-        </li>
+    <li class="menu-item">
+      <a th:href="@{cards-basic.html}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <div data-i18n="Basic">Réclamations</div>
+      </a>
+    </li>
 
-        <!-- Forms & Tables -->
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Gestion des comptes</span></li>
-        <!-- Forms -->
-        <li class="menu-item">
-            <a th:href="@{cards-basic.html}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Basic">Etudiant</div>
-            </a>
-        </li>
+    <!-- Forms & Tables -->
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Gestion des comptes</span></li>
+    <!-- Forms -->
 
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+        <div data-i18n="Misc">Etudiants</div>
+      </a>
+      <ul class="menu-sub">
         <li class="menu-item">
-            <a th:href="@{cards-basic.html}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Basic">Enseignant</div>
-            </a>
+          <a th:href="@{/super-admin/etudiants}" class="menu-link">
+            <div data-i18n="Error">Tous les etudiants</div>
+          </a>
         </li>
+        <li class="menu-item">
+          <a th:href="@{/super-admin/etudiants/create}" class="menu-link">
+            <div data-i18n="Under Maintenance">Ajouter un etudiant</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a th:href="@{/super-admin/etudiants/recover}" class="menu-link">
+            <div data-i18n="Under Maintenance">Récupération</div>
+          </a>
+        </li>
+      </ul>
+    </li>
 
-        <li class="menu-item">
-            <a th:href="@{cards-basic.html}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Basic">Cadre Administrateur</div>
-            </a>
-        </li>
-    </ul>
+
+    <li class="menu-item">
+      <a th:href="@{cards-basic.html}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <div data-i18n="Basic">Enseignants</div>
+      </a>
+    </li>
+
+    <li class="menu-item">
+      <a th:href="@{cards-basic.html}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-collection"></i>
+        <div data-i18n="Basic">Cadres Administrateurs</div>
+      </a>
+    </li>
+  </ul>
 </aside>
 <!-- / Menu -->
-
-
-
-
 
 
 </body>

@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class Image {
+public class File {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +21,7 @@ public class Image {
     @Column(columnDefinition = "longblob")
     private byte[] data;
 
+    @Column(nullable = false)
+    private String type;
 
 }

@@ -2,11 +2,6 @@ package com.ensah.eservice.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.Collections;
 
 @Entity
 @AllArgsConstructor
@@ -30,7 +25,6 @@ public class Utilisateur
     @Column(nullable = false)
     protected String email;
 
-    @Column(nullable = false)
     protected String tel;
 
     @Column(nullable = false)
@@ -40,7 +34,7 @@ public class Utilisateur
     protected String prenomArab;
 
     @OneToOne
-    protected Image image;
+    protected File image;
 
     @Enumerated(EnumType.STRING)
     protected Role role;

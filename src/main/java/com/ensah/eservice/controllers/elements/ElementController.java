@@ -4,15 +4,12 @@ package com.ensah.eservice.controllers.elements;
 import com.ensah.eservice.dto.elements.ElementDTO;
 import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
-import com.ensah.eservice.services.ElementService;
+import com.ensah.eservice.services.structure_pedagogique.ElementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 @Controller
 @RequestMapping("/elements")

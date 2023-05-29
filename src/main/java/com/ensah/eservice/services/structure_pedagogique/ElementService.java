@@ -1,4 +1,4 @@
-package com.ensah.eservice.services;
+package com.ensah.eservice.services.structure_pedagogique;
 
 
 import com.ensah.eservice.dto.elements.ElementDTO;

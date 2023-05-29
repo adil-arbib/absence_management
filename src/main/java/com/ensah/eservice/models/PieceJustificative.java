@@ -29,5 +29,5 @@ public class PieceJustificative {
     private Date dateLivraison;
 
     @OneToOne
-    private Image source;
+    private File source;
 }
