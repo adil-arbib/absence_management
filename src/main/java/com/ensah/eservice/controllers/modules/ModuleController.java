@@ -1,12 +1,10 @@
 package com.ensah.eservice.controllers.modules;
 
 
-import com.ensah.eservice.dto.elements.ElementDTO;
-import com.ensah.eservice.dto.elements.ElementMapper;
+
 import com.ensah.eservice.dto.modules.ModuleDTO;
 import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
-import com.ensah.eservice.repositories.ElementRepository;
 import com.ensah.eservice.services.ElementService;
 import com.ensah.eservice.services.ModuleService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +40,7 @@ public class ModuleController {
         return "redirect:/modules/create";
     }
 
+
     @GetMapping
     public String allModules(
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -71,10 +70,8 @@ public class ModuleController {
         return "redirect:/modules/"+moduleDTO.getId();
     }
 
-
-
     @PostMapping("/{moduleId}/elements/remove")
-    public String removeContactFromGroup(
+    public String removeElementFromModule(
             @PathVariable("moduleId") Long moduleId,
             @RequestParam("elementId") Long elementId
     ) throws NotFoundException {
@@ -83,7 +80,7 @@ public class ModuleController {
     }
 
     @PostMapping("/{moduleId}/elements/add")
-    public String addContactsToGroup(
+    public String addElementToModule(
             @PathVariable("moduleId") Long moduleId,
             @RequestParam(name = "selectedElements") List<Long> selectedElementsIds
     ) throws NotFoundException {

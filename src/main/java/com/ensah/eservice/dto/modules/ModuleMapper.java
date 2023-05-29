@@ -19,7 +19,7 @@ public interface ModuleMapper {
 
     ElementMapper elementMapper = Mappers.getMapper(ElementMapper.class);
 
-    Module toModule(ModuleDTO moduleDTO);
+//    Module toModule(ModuleDTO moduleDTO);
 
     @Mapping(target = "elements",ignore = true)
     Module toCreateModule(ModuleDTO moduledto);

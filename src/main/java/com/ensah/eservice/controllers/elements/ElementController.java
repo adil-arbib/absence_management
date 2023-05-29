@@ -44,6 +44,7 @@ public class ElementController {
             @RequestParam(name = "size", defaultValue = "10") int size,
             @RequestParam(name = "keyword", defaultValue = "") String keyword,
             Model model) {
+
         Page<ElementDTO> elementsPage = elementService.getElementsPage(page, size, keyword);
         model.addAttribute("elementsPage", elementsPage);
         model.addAttribute("pages", new int[elementsPage.getTotalPages()]);
