@@ -74,11 +74,11 @@
 
 
         <div class="container-xxl flex-grow-1 container-p-y">
-          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Éléments /</span> Créer</h4>
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Enseignants /</span> Créer</h4>
           <div class="card mb-4">
-            <h5 class="card-header">Création de Élément</h5>
+            <h5 class="card-header">Création d'enseignants</h5>
             <div class="card-body">
-              <form method="post" th:action="@{/super-admin/etudiants/create}" th:object="${etudiant}">
+              <form method="post" th:action="@{/super-admin/enseignants/create}" th:object="${enseignant}">
                 <div class="mb-3 row">
                   <label for="nom" class="col-md-2 col-form-label">Nom*</label>
                   <div class="col-md-10">
@@ -119,21 +119,14 @@
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <label for="cne" class="col-md-2 col-form-label">CNE*</label>
+                  <label for="cin" class="col-md-2 col-form-label">CIN*</label>
                   <div class="col-md-10">
-                    <input th:field="*{cne}" class="form-control" type="search" id="cne" required/>
-                    <div th:if="${cneError != null}">
-                      <span class="text-danger" th:text="${cneError}"></span>
+                    <input th:field="*{cin}" class="form-control" type="search" id="cin" required/>
+                    <div th:if="${cinError != null}">
+                      <span class="text-danger" th:text="${cinError}"></span>
                     </div>
                   </div>
                 </div>
-                <div class="mb-3 row">
-                  <label for="dateNaissance" class="col-md-2 col-form-label">Date de naissance*</label>
-                  <div class="col-md-10">
-                    <input th:field="*{dateNaissance}" class="form-control" type="date" id="dateNaissance" required/>
-                  </div>
-                </div>
-
 
                 <div class="demo-inline-spacing">
                   <button type="submit" class="btn btn-primary">Ajouter</button>

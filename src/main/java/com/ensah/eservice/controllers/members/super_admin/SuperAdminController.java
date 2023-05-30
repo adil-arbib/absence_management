@@ -1,11 +1,13 @@
 package com.ensah.eservice.controllers.members.super_admin;
 
 import com.ensah.eservice.dto.elements.ElementDTO;
+import com.ensah.eservice.dto.users.enseignant.EnseignantDTO;
 import com.ensah.eservice.dto.users.etudiant.EtudiantDTO;
 import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
 import com.ensah.eservice.exceptions.alreadyExists.CneAlreadyExistsException;
 import com.ensah.eservice.exceptions.alreadyExists.EmailAlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
+import com.ensah.eservice.services.members.EnseignantService;
 import com.ensah.eservice.services.members.EtudiantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.Banner;
@@ -27,12 +29,10 @@ public class SuperAdminController {
 
    private final EtudiantService etudiantService;
 
+   private final EnseignantService enseignantService;
+
    @GetMapping("/etudiants")
-   public String allEtudiants(
-           @RequestParam(name = "page", defaultValue = "0") int page,
-           @RequestParam(name = "size", defaultValue = "10") int size,
-           @RequestParam(name = "keyword", defaultValue = "") String keyword,
-           Model model) {
+   public String allEtudiants(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size, @RequestParam(name = "keyword", defaultValue = "") String keyword, Model model) {
       Page<EtudiantDTO> etudiantsPage = etudiantService.findByAttributesContains(page, size, keyword);
       model.addAttribute("etudiantsPage", etudiantsPage);
       model.addAttribute("pages", new int[etudiantsPage.getTotalPages()]);
@@ -40,21 +40,18 @@ public class SuperAdminController {
       model.addAttribute("keyword", keyword);
       model.addAttribute("max", etudiantsPage.getTotalPages() - 1);
       model.addAttribute("size", size);
-      return "etudiants/all";
+      return "super_admin/etudiants/all";
    }
 
 
    @GetMapping("/etudiants/create")
    public String showCreateEtudiantPage(Model model) {
       model.addAttribute("etudiant", new EtudiantDTO());
-      return "etudiants/create";
+      return "super_admin/etudiants/create";
    }
 
    @PostMapping("/etudiants/create")
-   public String createEtudiant(
-           @ModelAttribute("etudiant") EtudiantDTO etudiantDTO,
-           Model model
-   ) {
+   public String createEtudiant(@ModelAttribute("etudiant") EtudiantDTO etudiantDTO, Model model) {
       boolean error = false;
       try {
          etudiantService.create(etudiantDTO);
@@ -67,9 +64,9 @@ public class SuperAdminController {
       }
       if (!error) {
          model.addAttribute("successMessage", "enregistré avec succès");
-         model.addAttribute("etudiant" , new EtudiantDTO());
+         model.addAttribute("etudiant", new EtudiantDTO());
       }
-      return "etudiants/create";
+      return "super_admin/etudiants/create";
    }
 
 
@@ -84,19 +81,14 @@ public class SuperAdminController {
    }
 
    @GetMapping("/etudiants/{id}")
-   public String showEtudiantPage(
-           @PathVariable Long id, Model model) throws NotFoundException {
+   public String showEtudiantPage(@PathVariable Long id, Model model) throws NotFoundException {
       model.addAttribute("etudiant", etudiantService.getById(id));
       System.out.println(etudiantService.getById(id));
-      return "etudiants/etudiant";
+      return "super_admin/etudiants/etudiant";
    }
 
    @PostMapping("/etudiants/update")
-   public String updateEtudiant(
-           @ModelAttribute("etudiant") EtudiantDTO etudiantDTO,
-           @RequestParam(value = "file", required = false) MultipartFile image,
-           Model model
-   ) throws NotFoundException, IOException {
+   public String updateEtudiant(@ModelAttribute("etudiant") EtudiantDTO etudiantDTO, @RequestParam(value = "file", required = false) MultipartFile image, Model model) throws NotFoundException, IOException {
       boolean error = false;
       try {
          etudiantService.update(etudiantDTO, image);
@@ -107,10 +99,130 @@ public class SuperAdminController {
          model.addAttribute("cneError", e.getMessage());
          error = true;
       }
-      if(!error) {
-         return "redirect:/super-admin/etudiants/"+etudiantDTO.getId();
+      if (!error) {
+         return "redirect:/super-admin/etudiants/" + etudiantDTO.getId();
       }
-      return "etudiants/etudiant";
+      return "super_admin/etudiants/etudiant";
    }
+
+
+   @GetMapping("/etudiants/recuperations")
+   public String getDeletedEtudiants(
+           @RequestParam(name = "page", defaultValue = "0") int page,
+           @RequestParam(name = "size", defaultValue = "10") int size,
+           @RequestParam(name = "keyword", defaultValue = "") String keyword,
+           Model model) {
+      Page<EtudiantDTO> etudiantsPage = etudiantService.getDeletedEtudiants(page, size, keyword);
+      model.addAttribute("etudiantsPage", etudiantsPage);
+      model.addAttribute("pages", new int[etudiantsPage.getTotalPages()]);
+      model.addAttribute("currentPage", page);
+      model.addAttribute("keyword", keyword);
+      model.addAttribute("max", etudiantsPage.getTotalPages() - 1);
+      model.addAttribute("size", size);
+      return "super_admin/etudiants/recuperations";
+
+   }
+
+
+   @PostMapping("/etudiants/recover")
+   public String recover(@RequestParam("id") Long id, Model model) {
+      try {
+         etudiantService.recover(id);
+      } catch (NotFoundException e) {
+         model.addAttribute("error", "");
+      }
+      return "redirect:/super-admin/etudiants/recuperations";
+   }
+
+
+
+   ////////////////////////////////////////////////////////////////////////////////////
+
+
+
+   @GetMapping("/enseignants")
+   public String allEnseignants(
+           @RequestParam(name = "page", defaultValue = "0") int page,
+           @RequestParam(name = "size", defaultValue = "10") int size,
+           @RequestParam(name = "keyword", defaultValue = "") String keyword,
+           Model model) {
+      Page<EnseignantDTO> enseignantsPage = enseignantService.findByAttributesContains(page, size, keyword);
+      model.addAttribute("enseignantsPage", enseignantsPage);
+      model.addAttribute("pages", new int[enseignantsPage.getTotalPages()]);
+      model.addAttribute("currentPage", page);
+      model.addAttribute("keyword", keyword);
+      model.addAttribute("max", enseignantsPage.getTotalPages() - 1);
+      model.addAttribute("size", size);
+      return "super_admin/enseignants/all";
+   }
+
+
+   @GetMapping("/enseignants/create")
+   public String showCreateEnseignantPage(Model model) {
+      model.addAttribute("enseignant", new EnseignantDTO());
+      return "super_admin/enseignants/create";
+   }
+
+   @PostMapping("/enseignants/create")
+   public String createEnseignant(@ModelAttribute("enseignant") EnseignantDTO enseignantDTO, Model model) {
+      boolean error = false;
+      try {
+         enseignantService.create(enseignantDTO);
+      } catch (CneAlreadyExistsException e) {
+         model.addAttribute("cinError", "cin existe déjà");
+         error = true;
+      } catch (EmailAlreadyExistsException e) {
+         model.addAttribute("emailError", e.getMessage());
+         error = true;
+      }
+      if (!error) {
+         model.addAttribute("successMessage", "enregistré avec succès");
+         model.addAttribute("enseignant", new EnseignantDTO());
+      }
+      return "super_admin/enseignants/create";
+   }
+
+
+   @PostMapping("/enseignants/delete")
+   public String deleteEnseignant(@RequestParam("id") Long id, Model model) {
+      try {
+         enseignantService.delete(id);
+      } catch (NotFoundException e) {
+         model.addAttribute("error", "");
+      }
+      return "redirect:/super-admin/enseignants";
+   }
+
+   @GetMapping("/enseignants/{id}")
+   public String showEnseignantPage(@PathVariable Long id, Model model) throws NotFoundException {
+      model.addAttribute("enseignant", enseignantService.getById(id));
+      return "super_admin/enseignants/enseignant";
+   }
+
+
+   @PostMapping("/enseignants/update")
+   public String updateEnseignant(
+           @ModelAttribute("enseignant") EnseignantDTO enseignantDTO,
+           @RequestParam(value = "file", required = false) MultipartFile image,
+           Model model) throws NotFoundException, IOException {
+      boolean error = false;
+      try {
+         enseignantService.update(enseignantDTO, image);
+      } catch (EmailAlreadyExistsException e) {
+         model.addAttribute("emailError", e.getMessage());
+         error = true;
+      } catch (CneAlreadyExistsException e) {
+         model.addAttribute("cinError", "cin existe déjà");
+         error = true;
+      }
+      if (!error) {
+         return "redirect:/super-admin/enseignants/" + enseignantDTO.getId();
+      }
+      return "super_admin/enseignants/enseignant";
+   }
+
+
+
+
 
 }

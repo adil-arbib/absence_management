@@ -14,8 +14,6 @@ import lombok.Setter;
 @Getter
 public class Enseignant extends Utilisateur{
 
-    @Column(nullable = false)
-    private String specialite;
 
     @Column(nullable = false)
     private String cin;

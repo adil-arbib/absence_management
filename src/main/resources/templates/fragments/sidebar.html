@@ -235,7 +235,7 @@
           </a>
         </li>
         <li class="menu-item">
-          <a th:href="@{/super-admin/etudiants/recover}" class="menu-link">
+          <a th:href="@{/super-admin/etudiants/recuperations}" class="menu-link">
             <div data-i18n="Under Maintenance">Récupération</div>
           </a>
         </li>
@@ -244,10 +244,22 @@
 
 
     <li class="menu-item">
-      <a th:href="@{cards-basic.html}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-collection"></i>
-        <div data-i18n="Basic">Enseignants</div>
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+        <div data-i18n="Misc">Enseignants</div>
       </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a th:href="@{/super-admin/enseignants}" class="menu-link">
+            <div data-i18n="Error">Tous les enseignants</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a th:href="@{/super-admin/enseignants/create}" class="menu-link">
+            <div data-i18n="Under Maintenance">Ajouter un enseignant</div>
+          </a>
+        </li>
+      </ul>
     </li>
 
     <li class="menu-item">

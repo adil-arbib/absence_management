@@ -10,6 +10,7 @@ import com.ensah.eservice.models.File;
 import com.ensah.eservice.models.Role;
 import com.ensah.eservice.repositories.EtudiantRepository;
 import com.ensah.eservice.repositories.ImageRepository;
+import com.ensah.eservice.repositories.UtilisateurRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +27,8 @@ public class EtudiantService {
 
    private final EtudiantRepository etudiantRepository;
 
+   private final UtilisateurRepository utilisateurRepository;
+
    private final ImageRepository imageRepository;
    private final EtudiantMapper etudiantMapper;
 
@@ -38,7 +41,7 @@ public class EtudiantService {
 
    public void create(EtudiantDTO etudiantDTO) throws CneAlreadyExistsException, EmailAlreadyExistsException {
       if (etudiantRepository.existsByCne(etudiantDTO.getCne())) throw new CneAlreadyExistsException();
-      if (etudiantRepository.existsByEmail(etudiantDTO.getEmail())) throw new EmailAlreadyExistsException();
+      if (utilisateurRepository.existsByEmail(etudiantDTO.getEmail())) throw new EmailAlreadyExistsException();
 
       Etudiant etudiant = etudiantMapper.toEtudiant(etudiantDTO);
       etudiant.setRole(Role.ETUDIANT);
@@ -51,7 +54,8 @@ public class EtudiantService {
    }
 
    public Page<EtudiantDTO> findByAttributesContains(int page, int size, String keyword) {
-      return etudiantRepository.findByNomContainsAndDeletedFalseOrPrenomContainsAndDeletedFalseOrNomArabeContainsAndDeletedFalseOrPrenomArabContainsAndDeletedFalse(keyword, keyword, keyword, keyword, PageRequest.of(page, size)).map(etudiantMapper::toEtudiantDTO);
+      return etudiantRepository.findByNomContainsAndDeletedFalseOrPrenomContainsAndDeletedFalseOrNomArabeContainsAndDeletedFalseOrPrenomArabContainsAndDeletedFalse(keyword, keyword, keyword, keyword, PageRequest.of(page, size))
+              .map(etudiantMapper::toEtudiantDTO);
    }
 
 
@@ -65,7 +69,7 @@ public class EtudiantService {
    public void update(EtudiantDTO etudiantDTO, MultipartFile file) throws NotFoundException, EmailAlreadyExistsException, CneAlreadyExistsException, IOException {
       Etudiant etudiant = etudiantRepository.findById(etudiantDTO.getId()).orElseThrow(NotFoundException::new);
       if(!etudiant.getEmail().equals(etudiantDTO.getEmail())
-              && etudiantRepository.existsByEmail(etudiantDTO.getEmail()))
+              && utilisateurRepository.existsByEmail(etudiantDTO.getEmail()))
          throw new EmailAlreadyExistsException();
       if(!etudiant.getCne().equals(etudiantDTO.getCne())
               && etudiantRepository.existsByCne(etudiantDTO.getCne()))
@@ -76,6 +80,18 @@ public class EtudiantService {
       image.setData(file.getBytes());
       image.setType(file.getContentType());
       etudiant.setImage(imageRepository.save(image));
+      etudiantRepository.save(etudiant);
+   }
+
+
+   public Page<EtudiantDTO> getDeletedEtudiants(int page, int size, String keyword) {
+      return etudiantRepository.findByNomContainsAndDeletedTrueOrPrenomContainsAndDeletedTrueOrNomArabeContainsAndDeletedTrueOrPrenomArabContainsAndDeletedTrue(keyword, keyword, keyword, keyword, PageRequest.of(page, size))
+              .map(etudiantMapper::toEtudiantDTO);
+   }
+
+   public void recover(Long id) throws NotFoundException {
+      Etudiant etudiant = etudiantRepository.findById(id).orElseThrow(NotFoundException::new);
+      etudiant.setDeleted(false);
       etudiantRepository.save(etudiant);
    }
 

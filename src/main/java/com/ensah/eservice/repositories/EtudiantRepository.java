@@ -12,8 +12,11 @@ public interface EtudiantRepository extends JpaRepository<Etudiant, Long> {
 
    boolean existsByCne(String cne);
 
-   boolean existsByEmail(String cne);
 
    Page<Etudiant> findByNomContainsAndDeletedFalseOrPrenomContainsAndDeletedFalseOrNomArabeContainsAndDeletedFalseOrPrenomArabContainsAndDeletedFalse(String nom, String prenom, String nomArab, String prenomArab, Pageable pageable);
+
+
+   Page<Etudiant> findByNomContainsAndDeletedTrueOrPrenomContainsAndDeletedTrueOrNomArabeContainsAndDeletedTrueOrPrenomArabContainsAndDeletedTrue(String nom, String prenom, String nomArab, String prenomArab, Pageable pageable);
+
 
 }
