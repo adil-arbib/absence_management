@@ -19,32 +19,6 @@ public class EServiceApplication {
     }
 
 
-    @Bean
-    CommandLineRunner commandLineRunner(
-            SuperAdminRepository superAdminRepository,
-            CompteRepository compteRepository,
-            PasswordEncoder passwordEncoder
-    ) {
-        return args -> {
-            SuperAdmin superAdmin = new SuperAdmin();
-            superAdmin.setEmail("admin@gmail.com");
-            superAdmin.setNom("admin");
-            superAdmin.setPrenom("admin");
-            superAdmin.setNomArabe("أدمين");
-            superAdmin.setPrenomArab("أدمين");
-            superAdmin.setRole(Role.SUPER_ADMIN);
-            superAdmin.setTel("0689070809");
 
-            Compte compte = new Compte();
-            compte.setUsername("admin");
-            compte.setPassword(passwordEncoder.bCryptPasswordEncoder().encode("123"));
-            compte.setUtilisateur(superAdminRepository.save(superAdmin));
-            compte.setEnabled(true);
-            compte.setAccountNotExpired(true);
-            compte.setAccountNotLocked(true);
-            compte.setDisconnectAccount(false);
-            compteRepository.save(compte);
-        };
-    }
 
 }
