@@ -71,7 +71,7 @@ public class EnseignantService {
 
    public void delete(Long id) throws NotFoundException {
       Enseignant enseignant = enseignantRepository.findById(id).orElseThrow(NotFoundException::new);
-      enseignantRepository.save(enseignant);
+      enseignantRepository.delete(enseignant);
    }
 
 
@@ -85,10 +85,13 @@ public class EnseignantService {
          throw new CneAlreadyExistsException();
 
       enseignantMapper.update(enseignantDTO, enseignant);
-      File image = new File();
-      image.setData(file.getBytes());
-      image.setType(file.getContentType());
-      enseignant.setImage(imageRepository.save(image));
+
+      if(file.getSize() != 0) {
+         File image = new File();
+         image.setData(file.getBytes());
+         image.setType(file.getContentType());
+         enseignant.setImage(imageRepository.save(image));
+      }
       enseignantRepository.save(enseignant);
    }
 

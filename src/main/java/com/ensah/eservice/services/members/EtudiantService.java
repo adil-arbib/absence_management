@@ -76,10 +76,12 @@ public class EtudiantService {
          throw new CneAlreadyExistsException();
 
       etudiantMapper.update(etudiantDTO, etudiant);
-      File image = new File();
-      image.setData(file.getBytes());
-      image.setType(file.getContentType());
-      etudiant.setImage(imageRepository.save(image));
+      if(file.getSize() != 0) {
+         File image = new File();
+         image.setData(file.getBytes());
+         image.setType(file.getContentType());
+         etudiant.setImage(imageRepository.save(image));
+      }
       etudiantRepository.save(etudiant);
    }
 

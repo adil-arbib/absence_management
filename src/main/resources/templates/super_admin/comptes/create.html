@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+
+
+</head>
+<body>
+
+<body>
+<h2>Form Example</h2>
+<form th:action="@{/super-admin/comptes/create}" method="post">
+  <div>
+    <label for="role">Select Role:</label>
+    <select id="role" name="role" th:onchange="toggleInput()">
+      <option value="etudiant" selected>Etudiant</option>
+      <option value="enseignant">Enseignant</option>
+    </select>
+  </div>
+  <div id="cinGroup">
+    <label for="cin">CIN:</label>
+    <input type="text" id="cin" name="cin">
+  </div>
+  <div id="cneGroup">
+    <label for="cne">CNE:</label>
+    <input type="text" id="cne" name="cne">
+  </div>
+  <div>
+    <button type="submit">Submit</button>
+  </div>
+</form>
+
+<script th:inline="javascript">
+
+    window.addEventListener('DOMContentLoaded', event => {
+        toggleInput();
+    });
+
+    function toggleInput() {
+        var role = document.getElementById("role").value;
+        var cinGroup = document.getElementById("cinGroup");
+        var cneGroup = document.getElementById("cneGroup");
+
+        if (role === "etudiant") {
+            cinGroup.style.display = "none";
+            cneGroup.style.display = "block";
+        } else if (role === "enseignant") {
+            cneGroup.style.display = "none";
+            cinGroup.style.display = "block";
+        }
+    }
+</script>
+</body>
+</body>
+
+</html>
