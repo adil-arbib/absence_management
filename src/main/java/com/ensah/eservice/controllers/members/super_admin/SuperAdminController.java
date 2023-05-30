@@ -1,12 +1,14 @@
 package com.ensah.eservice.controllers.members.super_admin;
 
 import com.ensah.eservice.dto.elements.ElementDTO;
+import com.ensah.eservice.dto.users.cadre_admin.CadreAdministrateurDTO;
 import com.ensah.eservice.dto.users.enseignant.EnseignantDTO;
 import com.ensah.eservice.dto.users.etudiant.EtudiantDTO;
 import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
 import com.ensah.eservice.exceptions.alreadyExists.CneAlreadyExistsException;
 import com.ensah.eservice.exceptions.alreadyExists.EmailAlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
+import com.ensah.eservice.services.members.CadreAdministrateurService;
 import com.ensah.eservice.services.members.EnseignantService;
 import com.ensah.eservice.services.members.EtudiantService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,8 @@ public class SuperAdminController {
    private final EtudiantService etudiantService;
 
    private final EnseignantService enseignantService;
+
+   private final CadreAdministrateurService cadreAdministrateurService;
 
    @GetMapping("/etudiants")
    public String allEtudiants(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size, @RequestParam(name = "keyword", defaultValue = "") String keyword, Model model) {
@@ -135,9 +139,7 @@ public class SuperAdminController {
    }
 
 
-
    ////////////////////////////////////////////////////////////////////////////////////
-
 
 
    @GetMapping("/enseignants")
@@ -221,8 +223,107 @@ public class SuperAdminController {
       return "super_admin/enseignants/enseignant";
    }
 
+//////////////////////////////////////////////////////////////////////////////////////////
 
 
+   @GetMapping("/cadres-administrateurs")
+   public String allCadresAdmins(
+           @RequestParam(name = "page", defaultValue = "0") int page,
+           @RequestParam(name = "size", defaultValue = "10") int size,
+           @RequestParam(name = "keyword", defaultValue = "") String keyword,
+           Model model) {
+      Page<CadreAdministrateurDTO> cadreAdminsPage = cadreAdministrateurService.findByAttributesContains(page, size, keyword);
+      model.addAttribute("cadreAdminsPage", cadreAdminsPage);
+      model.addAttribute("pages", new int[cadreAdminsPage.getTotalPages()]);
+      model.addAttribute("currentPage", page);
+      model.addAttribute("keyword", keyword);
+      model.addAttribute("max", cadreAdminsPage.getTotalPages() - 1);
+      model.addAttribute("size", size);
+      return "super_admin/cadres_administrateurs/all";
+   }
 
+
+   @GetMapping("/cadres-administrateurs/create")
+   public String showCreateCadreAdminPage(Model model) {
+      model.addAttribute("cadreAdmin", new CadreAdministrateurDTO());
+      return "super_admin/cadres_administrateurs/create";
+   }
+
+   @PostMapping("/cadres-administrateurs/create")
+   public String createCadreAdmin(@ModelAttribute("cadreAdmin") CadreAdministrateurDTO cadreAdministrateurDTO, Model model) {
+      boolean error = false;
+      try {
+         cadreAdministrateurService.create(cadreAdministrateurDTO);
+      } catch (EmailAlreadyExistsException e) {
+         model.addAttribute("emailError", e.getMessage());
+         error = true;
+      } catch (CneAlreadyExistsException e) {
+         model.addAttribute("cinError", "cin existe déjà");
+         error = true;
+      }
+      if (!error) {
+         model.addAttribute("successMessage", "enregistré avec succès");
+         model.addAttribute("cadreAdmin", new CadreAdministrateurDTO());
+      }
+      return "super_admin/cadres_administrateurs/create";
+   }
+
+
+   @PostMapping("/cadres-administrateurs/delete")
+   public String deleteCadreAdmin(@RequestParam("id") Long id) {
+      try {
+         cadreAdministrateurService.delete(id);
+      } catch (NotFoundException ignored) {
+      }
+      return "redirect:/super-admin/cadres-administrateurs";
+   }
+
+   @GetMapping("/cadres-administrateurs/{id}")
+   public String showCadreAdminPage(@PathVariable Long id, Model model) throws NotFoundException {
+      model.addAttribute("cadreAdmin", cadreAdministrateurService.getById(id));
+      return "super_admin/cadres_administrateurs/cadreAdmin";
+   }
+
+
+   @PostMapping("/cadres-administrateurs/update")
+   public String updateCadreAdmin(
+           @ModelAttribute("cadreAdmin") CadreAdministrateurDTO cadreAdministrateurDTO,
+           @RequestParam(value = "file", required = false) MultipartFile image,
+           Model model) throws NotFoundException, IOException {
+      boolean error = false;
+      try {
+         cadreAdministrateurService.update(cadreAdministrateurDTO, image);
+      } catch (EmailAlreadyExistsException e) {
+         model.addAttribute("emailError", e.getMessage());
+         error = true;
+      } catch (CneAlreadyExistsException e) {
+         model.addAttribute("cinError", "cin existe déjà");
+         error = true;
+      }
+      if (!error) {
+         return "redirect:/super-admin/cadres-administrateurs/" + cadreAdministrateurDTO.getId();
+      }
+      return "super_admin/cadres_administrateurs/cadreAdmin";
+   }
+
+///////////////////////////////////////////////////////////////////
+
+
+   @GetMapping("/comptes/create")
+   public String showCreateComptePage() {
+      return "super_admin/comptes/create";
+   }
+
+   @PostMapping("/comptes/create")
+   public String selectedRole(
+           @RequestParam("role") String role,
+           @RequestParam(value = "cin", required = false) String cin,
+           @RequestParam(value = "cne", required = false) String cne
+   ) {
+      System.out.println(role);
+      System.out.println(cne);
+      System.out.println(cin);
+      return "redirect:/super-admin/comptes/create";
+   }
 
 }

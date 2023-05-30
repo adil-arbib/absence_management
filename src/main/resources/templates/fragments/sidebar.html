@@ -263,11 +263,43 @@
     </li>
 
     <li class="menu-item">
-      <a th:href="@{cards-basic.html}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-collection"></i>
-        <div data-i18n="Basic">Cadres Administrateurs</div>
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+        <div data-i18n="Misc">Cadres Administrateurs</div>
       </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a th:href="@{/super-admin/cadres-administrateurs}" class="menu-link">
+            <div data-i18n="Error">Tous les cadres Administrateurs</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a th:href="@{/super-admin/cadres-administrateurs/create}" class="menu-link">
+            <div data-i18n="Under Maintenance">Ajouter un cadre Administrateur</div>
+          </a>
+        </li>
+      </ul>
     </li>
+
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+        <div data-i18n="Misc">Comptes</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a th:href="@{/super-admin/comptes}" class="menu-link">
+            <div data-i18n="Error">Tous les comptes</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a th:href="@{/super-admin/comptes/create}" class="menu-link">
+            <div data-i18n="Under Maintenance">Ajouter un compte</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+
   </ul>
 </aside>
 <!-- / Menu -->
