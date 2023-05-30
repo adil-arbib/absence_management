@@ -25,6 +25,8 @@ public interface NiveauMapper {
     @Mapping(target = "modules",ignore = true)
     List<NiveauDTO> listToNiveauDTO(List<Niveau> niveauList);
 
+
+    @Mapping(target = "modules",ignore = true)
     void updateNiveauFromDTO(NiveauDTO niveauDTO, @MappingTarget Niveau niveau);
 
 }

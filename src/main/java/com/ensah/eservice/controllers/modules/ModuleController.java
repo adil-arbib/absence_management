@@ -59,12 +59,14 @@ public class ModuleController {
     public String showModulePage(@PathVariable Long id, Model model) throws NotFoundException {
         model.addAttribute("module", moduleService.getModuleById(id));
         model.addAttribute("restElements", moduleService.getRestElements(id));
+
         return "modules/module";
     }
 
     @PostMapping("/update")
     public String updateModule(@ModelAttribute("module") ModuleDTO moduleDTO) throws NotFoundException {
         moduleService.update(moduleDTO);
+        System.out.println(moduleDTO);
         return "redirect:/modules/"+moduleDTO.getId();
     }
 

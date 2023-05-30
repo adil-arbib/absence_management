@@ -1,20 +1,18 @@
 package com.ensah.eservice.dto.filieres;
 
-
-import com.ensah.eservice.dto.accreditations.AccreditationDTO;
-import com.ensah.eservice.dto.users.UserDTO;
-import jakarta.persistence.Column;
+import com.ensah.eservice.models.Accreditation;
+import com.ensah.eservice.models.Niveau;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Collection;
 import java.util.Date;
 
+
 @Data
 @NoArgsConstructor
-@Builder
 @AllArgsConstructor
 public class FiliereDTO {
 
@@ -24,12 +22,12 @@ public class FiliereDTO {
 
     private String alias;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createAt;
 
-    private Collection<AccreditationDTO> accreditations;
 
-    private UserDTO coordinateur;
+    private Collection<Accreditation> accreditations;
 
+
+    private Collection<Niveau> niveaux;
 }
-
-

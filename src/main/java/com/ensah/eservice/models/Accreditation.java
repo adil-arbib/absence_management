@@ -25,4 +25,6 @@ public class Accreditation {
     @OneToOne
     private Enseignant coordinateur;
 
+
+
 }
