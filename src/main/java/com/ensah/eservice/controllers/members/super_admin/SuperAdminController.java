@@ -2,6 +2,7 @@ package com.ensah.eservice.controllers.members.super_admin;
 
 import com.ensah.eservice.dto.elements.ElementDTO;
 import com.ensah.eservice.dto.users.cadre_admin.CadreAdministrateurDTO;
+import com.ensah.eservice.dto.users.comptes.CompteDTO;
 import com.ensah.eservice.dto.users.enseignant.EnseignantDTO;
 import com.ensah.eservice.dto.users.etudiant.EtudiantDTO;
 import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
@@ -9,9 +10,11 @@ import com.ensah.eservice.exceptions.alreadyExists.CneAlreadyExistsException;
 import com.ensah.eservice.exceptions.alreadyExists.EmailAlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
 import com.ensah.eservice.services.members.CadreAdministrateurService;
+import com.ensah.eservice.services.members.CompteService;
 import com.ensah.eservice.services.members.EnseignantService;
 import com.ensah.eservice.services.members.EtudiantService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.boot.query.HbmResultSetMappingDescriptor;
 import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -34,6 +37,8 @@ public class SuperAdminController {
    private final EnseignantService enseignantService;
 
    private final CadreAdministrateurService cadreAdministrateurService;
+
+   private final CompteService compteService;
 
    @GetMapping("/etudiants")
    public String allEtudiants(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size, @RequestParam(name = "keyword", defaultValue = "") String keyword, Model model) {
@@ -315,16 +320,87 @@ public class SuperAdminController {
       return "super_admin/comptes/create";
    }
 
-   @PostMapping("/comptes/create")
+   @PostMapping("/comptes/search")
    public String selectedRole(
            @RequestParam("role") String role,
            @RequestParam(value = "cin", required = false) String cin,
-           @RequestParam(value = "cne", required = false) String cne
+           @RequestParam(value = "cne", required = false) String cne,
+           Model model
    ) {
-      System.out.println(role);
-      System.out.println(cne);
-      System.out.println(cin);
-      return "redirect:/super-admin/comptes/create";
+      boolean found = true;
+      CompteDTO compteDTO = new CompteDTO();
+      try {
+         compteDTO = compteService.suggestCompte(cin, cne);
+      } catch (NotFoundException e) {
+         model.addAttribute("idError", e.getMessage());
+         found = false;
+      }
+      if (found) {
+         model.addAttribute("found", true);
+         model.addAttribute("compteDTO", compteDTO);
+      }
+      return "super_admin/comptes/create";
+   }
+
+   @PostMapping("/comptes/create")
+   public String createCompte(@ModelAttribute("compteDTO") CompteDTO compteDTO, Model model) {
+      try {
+         compteService.createCompte(compteDTO);
+         model.addAttribute("successMessage", "créé avec succès");
+      } catch (AlreadyExistsException e) {
+         model.addAttribute("usernameError", e.getMessage());
+         model.addAttribute("compteDTO", compteDTO);
+         model.addAttribute("found", true);
+      } catch (NotFoundException ignored) {
+      }
+
+      return "super_admin/comptes/create";
+   }
+
+   @GetMapping("/comptes")
+   public String allComptes(
+           @RequestParam(name = "page", defaultValue = "0") int page,
+           @RequestParam(name = "size", defaultValue = "10") int size,
+           @RequestParam(name = "keyword", defaultValue = "") String keyword,
+           Model model
+   ) {
+      Page<CompteDTO> comptesPage = compteService.getAll(page, size, keyword);
+      System.out.println(comptesPage.getContent());
+      model.addAttribute("comptesPage", comptesPage);
+      model.addAttribute("pages", new int[comptesPage.getTotalPages()]);
+      model.addAttribute("currentPage", page);
+      model.addAttribute("keyword", keyword);
+      model.addAttribute("max", comptesPage.getTotalPages() - 1);
+      model.addAttribute("size", size);
+      return "super_admin/comptes/all";
+   }
+
+
+   @PostMapping("/comptes/delete")
+   public String deleteCompte(@RequestParam("id") Long id) {
+      try {
+         compteService.delete(id);
+      } catch (NotFoundException ignored) {}
+      return "redirect:/super-admin/comptes";
+   }
+
+   @GetMapping("/comptes/{id}")
+   public String showComptePage(@PathVariable Long id, Model model) throws NotFoundException {
+      model.addAttribute("compte", compteService.getById(id));
+      return "super_admin/comptes/compte";
+   }
+
+   @PostMapping("/comptes/update")
+   public String updateCompte(@ModelAttribute("compte") CompteDTO compteDTO, Model model) {
+      try {
+         compteService.update(compteDTO);
+         model.addAttribute("success", "modifié avec succès");
+      } catch (NotFoundException ignored) {}
+      catch (AlreadyExistsException e) {
+         model.addAttribute("usernameError", e.getMessage());
+         model.addAttribute("compte", compteDTO);
+      }
+      return "super_admin/comptes/compte";
    }
 
 }

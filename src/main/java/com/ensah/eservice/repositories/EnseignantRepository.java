@@ -16,6 +16,7 @@ public interface EnseignantRepository extends JpaRepository<Enseignant , Long> {
 
     Optional<Enseignant> findByCin(String cin);
 
+
     boolean existsByCin(String cni);
 
     List<Enseignant> findByIdNotIn(List<Long> ids);

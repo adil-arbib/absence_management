@@ -1,7 +1,10 @@
 package com.ensah.eservice.services;
 
+import com.ensah.eservice.models.Compte;
+import com.ensah.eservice.models.Utilisateur;
 import com.ensah.eservice.repositories.CompteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,9 +18,12 @@ public class UtilisateurService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return compteRepository.findByUsername(username)
+        Compte compte = compteRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
                         String.format("Utilisateur avec nom d'utilisateur %s non trouvé", username)
                 ));
+        if(!compte.isEnabled()) throw new DisabledException("Votre compte est désactivé. Veuillez contacter l'administrateur.");
+
+        return compte;
     }
 }

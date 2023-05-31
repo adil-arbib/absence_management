@@ -43,6 +43,7 @@
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script th:src="@{/assets/js/config.js}"></script>
+  <script th:src="@{/js/upload.js}"  defer="defer"></script>
 </head>
 <body>
 
@@ -59,88 +60,79 @@
 
       <div class="content-wrapper">
 
+
         <div id="toast" class="bs-toast toast fade show" role="alert" aria-live="assertive" aria-atomic="true"
              style="position: absolute; top: 10%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;"
-             th:if="${successMessage != null}"
+             th:if="${success != null}"
         >
           <div class="toast-header">
             <i class="bx bx-bell me-2"></i>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
-          <div class="toast-body" th:text="${successMessage}">
+          <div class="toast-body" th:text="${success}">
 
           </div>
         </div>
 
 
         <div class="container-xxl flex-grow-1 container-p-y">
-          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Comptes /</span> Créer</h4>
+          <h4 class="fw-bold py-3 mb-4" >Comptes / <span class="text-muted fw-light" th:text="${compte.username}"></span> </h4>
           <div class="card mb-4">
-            <h5 class="card-header">Recherche d'un utilisateur </h5>
+            <h5 class="card-header">Modification de compte</h5>
             <div class="card-body">
-              <form method="post" th:action="@{/super-admin/comptes/search}">
-                <div class="col-md-3">
-                  <label class="form-label" for="role">Sélectionner un rôle</label>
-                  <select id="role" name="role" th:onchange="toggleInput()" class="form-select color-dropdown">
-                    <option value="etudiant"  selected>Etudiant</option>
-                    <option value="enseignant">Enseignant / Cadre administrateur</option>
-                  </select>
-                </div>
-                <div id="cneGroup" >
-                  <label for="cne" class="col-md-2 col-form-label">CNE*</label>
-                  <div class="col-md-10">
-                    <input type="text" id="cne" name="cne" class="form-control"/>
-                    <div th:if="${idError != null}">
-                      <span class="text-danger" th:text="${idError}"></span>
-                    </div>
-                  </div>
-                </div>
-                <div id="cinGroup" >
-                  <label for="cin" class="col-md-2 col-form-label">CIN*</label>
-                  <div class="col-md-10">
-                    <input type="text" id="cin" name="cin" class="form-control"/>
-                    <div th:if="${idError != null}">
-                      <span class="text-danger" th:text="${idError}"></span>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <button type="submit" class="btn btn-primary mt-3">Chercher</button>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <div th:if="${found}" class="card mb-4">
-            <h5 class="card-header">Création d'un compte </h5>
-            <div class="card-body">
-              <form th:action="@{/super-admin/comptes/create}" method="post" th:object="${compteDTO}">
-                <input hidden th:field="*{utilisateur.id}" th:value="${compteDTO.utilisateur.id}">
+              <form method="post" th:action="@{/super-admin/comptes/update}" th:object="${compte}" >
+                <input type="hidden" th:field="${compte.id}">
                 <div class="mb-3 row">
-                  <label for="prenom" class="col-md-2 col-form-label">Login*</label>
+                  <label for="username" class="col-md-2 col-form-label">Login*</label>
                   <div class="col-md-10">
-                    <input th:field="*{username}" th:value="${compteDTO.username}" class="form-control" type="search" id="prenom" required/>
+                    <input th:field="*{username}" th:value="${compte.username}" class="form-control" type="search" id="username" required/>
                     <div th:if="${usernameError != null}">
                       <span class="text-danger" th:text="${usernameError}"></span>
                     </div>
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <label for="nomArabe" class="col-md-2 col-form-label">Mot de passe*</label>
+                  <label for="prenom" class="col-md-2 col-form-label">Mot de passe*</label>
                   <div class="col-md-10">
-                    <input th:field="*{password}" th:value="${compteDTO.password}" class="form-control" type="search" id="nomArabe" required/>
+                    <input th:field="*{password}" class="form-control" type="search" id="prenom"/>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-3">Créer</button>
+
+                <div  class="col-md">
+                  <label for="enabled" class="col-md-2 col-form-label">Activé</label>
+                  <div class="form-check form-check-inline mt-3" id="enabled">
+                    <input
+                            th:field="*{enabled}" th:value="true"
+                            th:checked="${compte.enabled}"
+                            class="form-check-input"
+                            type="radio"
+                            name="male"
+                            id="inlineRadio1"
+                    />
+                    <label class="form-check-label" for="inlineRadio1">Oui</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                            th:field="*{enabled}" th:value="false"
+                            th:checked="${!compte.enabled}"
+                            class="form-check-input"
+                            type="radio"
+                            name="inlineRadioOptions"
+                            id="inlineRadio2"
+                    />
+                    <label class="form-check-label" for="inlineRadio2">Non</label>
+                  </div>
+                </div>
+
+
+                <div class="demo-inline-spacing">
+                  <button type="submit" class="btn btn-primary">Enregistrer</button>
+                  <button type="reset" class="btn btn-secondary">Annuler</button>
+                </div>
               </form>
             </div>
           </div>
-
-
-
         </div>
-
-      </div>
       </div>
 
 
@@ -150,28 +142,9 @@
 
 </div>
 
-<script th:inline="javascript">
-
-    window.addEventListener('DOMContentLoaded', event => {
-        toggleInput();
-    });
-
-    function toggleInput() {
-        var role = document.getElementById("role").value;
-        var cinGroup = document.getElementById("cinGroup");
-        var cneGroup = document.getElementById("cneGroup");
-
-        if (role === "etudiant") {
-            cinGroup.style.display = "none";
-            cneGroup.style.display = "block";
-        } else if (role === "enseignant") {
-            cneGroup.style.display = "none";
-            cinGroup.style.display = "block";
-        }
-    }
-
+<script>
     document.addEventListener('DOMContentLoaded', function() {
-        var toast = document.getElementById('toast');
+        const toast = document.getElementById('toast');
 
         setTimeout(function() {
             toast.classList.remove('show');

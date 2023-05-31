@@ -6,11 +6,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface EtudiantRepository extends JpaRepository<Etudiant, Long> {
 
 
    boolean existsByCne(String cne);
+
+   Optional<Etudiant> findByCne(String cne);
 
 
    Page<Etudiant> findByNomContainsAndDeletedFalseOrPrenomContainsAndDeletedFalseOrNomArabeContainsAndDeletedFalseOrPrenomArabContainsAndDeletedFalse(String nom, String prenom, String nomArab, String prenomArab, Pageable pageable);

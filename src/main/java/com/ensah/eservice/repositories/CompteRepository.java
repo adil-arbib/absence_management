@@ -1,6 +1,8 @@
 package com.ensah.eservice.repositories;
 
 import com.ensah.eservice.models.Compte;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +12,11 @@ import java.util.Optional;
 public interface CompteRepository extends JpaRepository<Compte, Long> {
 
     Optional<Compte> findByUsername(String username);
+
+    boolean existsByUtilisateurId(Long id);
+
+    boolean existsByUsername(String username);
+
+    Page<Compte> findByUsernameContains(String username, PageRequest pageRequest);
 
 }
