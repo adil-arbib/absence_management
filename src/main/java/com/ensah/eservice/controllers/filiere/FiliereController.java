@@ -39,7 +39,6 @@ public class FiliereController {
             Model model){
 
         Page<FiliereDTO> filierePage = filiereService.getFilierePage(page, size, keyword);
-        System.out.println(filierePage);
 
         model.addAttribute("filierePage", filierePage);
         model.addAttribute("currentPage", page);
@@ -53,14 +52,12 @@ public class FiliereController {
     }
 
     @GetMapping("/create")
-    public String showCreatePage(Model model){
-        model.addAttribute("niveaux", niveauService.getAll());
-//        model.addAttribute("accreditations", accreditationService.getAll());
-        model.addAttribute("enseignants", enseignantService.getAll());
+    public String showCreatePage(Model model) throws NotFoundException {
+        model.addAttribute("niveaux", filiereService.getRestOfNiveaux());
+        model.addAttribute("enseignants", filiereService.getFreeEnseignants());
+        System.out.println(filiereService.getFreeEnseignants());
         model.addAttribute("filiereDTO", new FiliereDTO());
 
-
-//        System.out.println(accreditationService.getAll());
 
         return "filieres/create";
     }
@@ -72,10 +69,6 @@ public class FiliereController {
             @RequestParam(name = "selectedEnseignant", required = false)Long enseingnatId
     ) throws AlreadyExistsException, NotFoundException {
 
-        Date createAt2 = filiereDTO.getCreateAt();
-//        System.out.println(createAt);
-//        System.out.println(createAt2);
-        System.out.println(filiereDTO);
         filiereService.create(filiereDTO, enseingnatId, niveauxIds);
 
         return "redirect:/filieres/create";
@@ -86,7 +79,7 @@ public class FiliereController {
 
         model.addAttribute("filiere", filiereService.getFiliereById(id));
         model.addAttribute("currentCoordinateur", filiereService.getCurrentCoordinnateur(id));
-        model.addAttribute("restOfNiveaux", filiereService.getRestOfNiveaux(id));
+        model.addAttribute("restOfNiveaux", filiereService.getRestOfNiveaux());
         model.addAttribute("restOfEnseignants",filiereService.getRestOfEnseignants(id));
 
         return "filieres/filiere";

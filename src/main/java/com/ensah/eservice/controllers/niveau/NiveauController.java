@@ -8,7 +8,6 @@ import com.ensah.eservice.models.Niveau;
 import com.ensah.eservice.services.NiveauService;
 import com.ensah.eservice.services.structure_pedagogique.ModuleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,7 +60,7 @@ public class NiveauController {
 
         niveauService.create(niveauDTO, modulesIds);
 
-        return "redirect:/niveaux/create";
+        return "redirect:/create";
     }
 
     @GetMapping("/{id}")

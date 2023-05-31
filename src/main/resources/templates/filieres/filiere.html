@@ -256,7 +256,7 @@
                   <td th:text="${accreditation.debutAccreditation}"></td>
                   <td th:text="${accreditation.finAccreditation}"></td>
                   <td>
-                    <a class="dropdown-item" th:href="@{/super-admin/enseignants/{id}(id=${accreditation.getCoordinateur().id})}">
+                    <a class="dropdown-item" th:href="@{/accreditations/{id}(id=${accreditation.id})}">
                     <i class="bx bx-edit-alt me-1x"></i> </a>
 
 <!--                    <form method="post" th:action="@{/filieres/{filiereId}/niveaux/remove(filiereId=${filiere.id})}">-->

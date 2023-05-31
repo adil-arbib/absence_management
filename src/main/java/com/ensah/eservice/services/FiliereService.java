@@ -164,11 +164,20 @@ public class FiliereService {
         filiereRepository.save(filiere);
     }
 
-    public List<NiveauDTO> getRestOfNiveaux(Long id) throws NotFoundException {
+    //return tous le niveaux qui sont pas attribué á une filiere
+    public List<NiveauDTO> getRestOfNiveaux() throws NotFoundException {
 
-        Filiere filiere = filiereRepository.findById(id).orElseThrow(NotFoundException::new);
-        List<Niveau> niveauList = niveauRepository.findByIdNotIn(
-                filiere.getNiveaux().stream().map(Niveau::getId).collect(Collectors.toList()));
+        List<Filiere> filiereList = filiereRepository.findAll();
+        List<Long> niveauxIds = new ArrayList<>();
+
+        for(Filiere filiere : filiereList){
+            for (Niveau niveau :filiere.getNiveaux()){
+                niveauxIds.add(niveau.getId());
+            }
+        }
+
+        List<Niveau> niveauList = niveauRepository.findByIdNotIn(niveauxIds);
+
         return niveauList.isEmpty()
                 ? niveauRepository.findAll().stream().map(niveauMapper::toNiveauDTO).collect(Collectors.toList())
                 : niveauList.stream().map(niveauMapper::toNiveauDTO).collect(Collectors.toList());
@@ -216,6 +225,24 @@ public class FiliereService {
 
 
     }
+
+    public List<EnseignantDTO>  getFreeEnseignants() throws NotFoundException {
+
+        List<Filiere> filiereList = filiereRepository.findAll();
+
+        List<Long> enseignantIds = new ArrayList<>();
+
+
+        for(Filiere filiere : filiereList){
+            enseignantIds.add(getCurrentCoordinnateur(filiere.getId()).getId());
+        }
+
+        return enseignantRepository.findByIdNotIn(enseignantIds).stream().
+                map(enseignantMapper::toEnseignantDTO).collect(Collectors.toList());
+
+    }
+
+
 
 
 

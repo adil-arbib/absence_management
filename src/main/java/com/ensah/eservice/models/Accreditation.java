@@ -18,8 +18,10 @@ public class Accreditation {
     private Long id;
 
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date debutAccreditation;
 
+    @Temporal(TemporalType.DATE)
     private Date finAccreditation;
 
     @OneToOne
