@@ -98,6 +98,7 @@ public class SuperAdminController {
    @PostMapping("/etudiants/update")
    public String updateEtudiant(@ModelAttribute("etudiant") EtudiantDTO etudiantDTO, @RequestParam(value = "file", required = false) MultipartFile image, Model model) throws NotFoundException, IOException {
       boolean error = false;
+
       try {
          etudiantService.update(etudiantDTO, image);
       } catch (EmailAlreadyExistsException e) {

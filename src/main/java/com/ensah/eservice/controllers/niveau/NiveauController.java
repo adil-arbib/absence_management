@@ -59,7 +59,7 @@ public class NiveauController {
             @ModelAttribute NiveauDTO niveauDTO,
             @RequestParam(name = "selectedModules", required = false)List<Long> modulesIds) throws AlreadyExistsException, NotFoundException {
 
-        System.out.println(niveauService.create(niveauDTO, modulesIds));
+        niveauService.create(niveauDTO, modulesIds);
 
         return "redirect:/niveaux/create";
     }
@@ -75,10 +75,10 @@ public class NiveauController {
 
     @PostMapping("/update")
     public String updateNiveau(@ModelAttribute("niveau")NiveauDTO niveauDTO) throws NotFoundException {
-
+        System.out.println(niveauDTO);
         niveauService.update(niveauDTO);
 
-        return "redirect:/niveaux/niveau/" + niveauDTO.getId();
+        return "redirect:/niveaux/" + niveauDTO.getId();
     }
 
     @PostMapping("/delete")

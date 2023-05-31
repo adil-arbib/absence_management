@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +57,10 @@ public class EnseignantService {
 
    public Page<EnseignantDTO> getAll(int page, int size) {
       return enseignantRepository.findAll(PageRequest.of(page, size)).map(enseignantMapper::toEnseignantDTO);
+   }
+
+   public List<EnseignantDTO> getAll(){
+      return enseignantRepository.findAll().stream().map(enseignantMapper::toEnseignantDTO).collect(Collectors.toList());
    }
 
    public Page<EnseignantDTO> findByAttributesContains(int page, int size, String keyword) {
