@@ -2,6 +2,7 @@ package com.ensah.eservice.controllers.members.super_admin;
 
 import com.ensah.eservice.dto.elements.ElementDTO;
 import com.ensah.eservice.dto.users.cadre_admin.CadreAdministrateurDTO;
+import com.ensah.eservice.dto.users.comptes.CompteDTO;
 import com.ensah.eservice.dto.users.enseignant.EnseignantDTO;
 import com.ensah.eservice.dto.users.etudiant.EtudiantDTO;
 import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
@@ -9,6 +10,7 @@ import com.ensah.eservice.exceptions.alreadyExists.CneAlreadyExistsException;
 import com.ensah.eservice.exceptions.alreadyExists.EmailAlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
 import com.ensah.eservice.services.members.CadreAdministrateurService;
+import com.ensah.eservice.services.members.CompteService;
 import com.ensah.eservice.services.members.EnseignantService;
 import com.ensah.eservice.services.members.EtudiantService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,8 @@ public class SuperAdminController {
    private final EnseignantService enseignantService;
 
    private final CadreAdministrateurService cadreAdministrateurService;
+
+   private final CompteService compteService;
 
    @GetMapping("/etudiants")
    public String allEtudiants(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size, @RequestParam(name = "keyword", defaultValue = "") String keyword, Model model) {
@@ -314,16 +318,38 @@ public class SuperAdminController {
       return "super_admin/comptes/create";
    }
 
-   @PostMapping("/comptes/create")
+   @PostMapping("/comptes/search")
    public String selectedRole(
            @RequestParam("role") String role,
            @RequestParam(value = "cin", required = false) String cin,
-           @RequestParam(value = "cne", required = false) String cne
+           @RequestParam(value = "cne", required = false) String cne,
+           Model model
    ) {
-      System.out.println(role);
-      System.out.println(cne);
-      System.out.println(cin);
-      return "redirect:/super-admin/comptes/create";
+      boolean found = true;
+      CompteDTO compteDTO = new CompteDTO();
+      try {
+         compteDTO = compteService.suggestCompte(cin, cne);
+      } catch (NotFoundException e) {
+         model.addAttribute("idError", e.getMessage());
+         found = false;
+      }
+      if(found) {
+         model.addAttribute("found", true);
+         model.addAttribute("compteDTO", compteDTO);
+      }
+      return "super_admin/comptes/create";
+   }
+
+   @PostMapping("/comptes/create")
+   public String createCompte(@ModelAttribute("compteDTO") CompteDTO compteDTO, Model model) {
+      try {
+         compteService.createCompte(compteDTO);
+         model.addAttribute("successMessage", "créé avec succès");
+      } catch (AlreadyExistsException e) {
+         model.addAttribute("idError", e.getMessage());
+      } catch (NotFoundException ignored) {}
+
+      return "super_admin/comptes/create";
    }
 
 }
