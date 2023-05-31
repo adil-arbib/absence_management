@@ -120,8 +120,8 @@
                   <label for="prenom" class="col-md-2 col-form-label">Login*</label>
                   <div class="col-md-10">
                     <input th:field="*{username}" th:value="${compteDTO.username}" class="form-control" type="search" id="prenom" required/>
-                    <div th:if="${idError != null}">
-                      <span class="text-danger" th:text="${idError}"></span>
+                    <div th:if="${usernameError != null}">
+                      <span class="text-danger" th:text="${usernameError}"></span>
                     </div>
                   </div>
                 </div>

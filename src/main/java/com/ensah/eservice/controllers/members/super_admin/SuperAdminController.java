@@ -347,7 +347,9 @@ public class SuperAdminController {
          compteService.createCompte(compteDTO);
          model.addAttribute("successMessage", "créé avec succès");
       } catch (AlreadyExistsException e) {
-         model.addAttribute("idError", e.getMessage());
+         model.addAttribute("usernameError", e.getMessage());
+         model.addAttribute("compteDTO", compteDTO);
+         model.addAttribute("found", true);
       } catch (NotFoundException ignored) {}
 
       return "super_admin/comptes/create";
