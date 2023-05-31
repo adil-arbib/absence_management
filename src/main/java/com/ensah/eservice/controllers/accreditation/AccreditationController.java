@@ -3,6 +3,7 @@ package com.ensah.eservice.controllers.accreditation;
 import com.ensah.eservice.dto.accreditations.AccreditationDTO;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
 import com.ensah.eservice.services.AccreditationService;
+import com.ensah.eservice.services.FiliereService;
 import com.ensah.eservice.services.members.EnseignantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,12 +21,14 @@ public class AccreditationController {
     private final AccreditationService accreditationService;
     private final EnseignantService enseignantService;
 
+    private final FiliereService filiereService;
+
 
     @GetMapping("/create")
-    public String showForm(Model model){
+    public String showForm(Model model) throws NotFoundException {
 
         model.addAttribute("accreditationDTO", new AccreditationDTO());
-        model.addAttribute("enseignantList", enseignantService.getAll());
+        model.addAttribute("enseignantList", filiereService.getFreeEnseignants());
 
         return "accreditations/create";
     }
@@ -48,7 +51,7 @@ public class AccreditationController {
     public String showAccreditation(@PathVariable Long id, Model model) throws NotFoundException {
 
         model.addAttribute("accreditationDTO",accreditationService.findById(id));
-        model.addAttribute("enseignantList", enseignantService.getAll());
+        model.addAttribute("enseignantList", filiereService.getFreeEnseignants());
         System.out.println(accreditationService.findById(id));
 
         return "accreditations/accreditation";

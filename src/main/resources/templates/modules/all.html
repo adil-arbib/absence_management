@@ -69,13 +69,22 @@
         <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
           <!-- Search -->
           <div class="navbar-nav align-items-center">
-            <form method="get" th:action="@{/modules}">
+            <form method="get" th:action="@{/modules}" id="searchForm">
               <div class="nav-item d-flex align-items-center">
-                <i class="bx bx-search fs-4 lh-0"></i>
+                <i class="bx bx-search fs-4 lh-0" id="submit" type="submit"></i>
+<!--                <script>-->
+<!--                  const searchLens = document.getElementById("submit")-->
+<!--                  const searchForm = document.getElementById("searchForm")-->
+<!--                  searchLens.addEventListener("click",() =>{-->
+<!--                      searchForm.submit()-->
+<!--                  })-->
+
+<!--                </script>-->
 
                 <input
                         type="text"
                         name="keyword"
+                        id="searchInput"
                         th:value="${keyword}"
                         class="form-control border-0 shadow-none"
                         placeholder="Chercher..."
@@ -174,6 +183,10 @@
   </div>
 
 </div>
+
+
+<script th:src="@{/js/search.js}"></script>
+<script th:src="@{/js/utils.js}"></script>
 
 
 <!-- Core JS -->
