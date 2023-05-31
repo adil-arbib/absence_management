@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .and()
                 .formLogin()
                 .loginPage("/auth/login")
-                .failureForwardUrl("/auth/login-error");
+                .failureUrl("/auth/login?error");
 
         return http.build();
     }

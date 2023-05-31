@@ -14,6 +14,7 @@ import com.ensah.eservice.services.members.CompteService;
 import com.ensah.eservice.services.members.EnseignantService;
 import com.ensah.eservice.services.members.EtudiantService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.boot.query.HbmResultSetMappingDescriptor;
 import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -334,7 +335,7 @@ public class SuperAdminController {
          model.addAttribute("idError", e.getMessage());
          found = false;
       }
-      if(found) {
+      if (found) {
          model.addAttribute("found", true);
          model.addAttribute("compteDTO", compteDTO);
       }
@@ -350,9 +351,56 @@ public class SuperAdminController {
          model.addAttribute("usernameError", e.getMessage());
          model.addAttribute("compteDTO", compteDTO);
          model.addAttribute("found", true);
-      } catch (NotFoundException ignored) {}
+      } catch (NotFoundException ignored) {
+      }
 
       return "super_admin/comptes/create";
+   }
+
+   @GetMapping("/comptes")
+   public String allComptes(
+           @RequestParam(name = "page", defaultValue = "0") int page,
+           @RequestParam(name = "size", defaultValue = "10") int size,
+           @RequestParam(name = "keyword", defaultValue = "") String keyword,
+           Model model
+   ) {
+      Page<CompteDTO> comptesPage = compteService.getAll(page, size, keyword);
+      System.out.println(comptesPage.getContent());
+      model.addAttribute("comptesPage", comptesPage);
+      model.addAttribute("pages", new int[comptesPage.getTotalPages()]);
+      model.addAttribute("currentPage", page);
+      model.addAttribute("keyword", keyword);
+      model.addAttribute("max", comptesPage.getTotalPages() - 1);
+      model.addAttribute("size", size);
+      return "super_admin/comptes/all";
+   }
+
+
+   @PostMapping("/comptes/delete")
+   public String deleteCompte(@RequestParam("id") Long id) {
+      try {
+         compteService.delete(id);
+      } catch (NotFoundException ignored) {}
+      return "redirect:/super-admin/comptes";
+   }
+
+   @GetMapping("/comptes/{id}")
+   public String showComptePage(@PathVariable Long id, Model model) throws NotFoundException {
+      model.addAttribute("compte", compteService.getById(id));
+      return "super_admin/comptes/compte";
+   }
+
+   @PostMapping("/comptes/update")
+   public String updateCompte(@ModelAttribute("compte") CompteDTO compteDTO, Model model) {
+      try {
+         compteService.update(compteDTO);
+         model.addAttribute("success", "modifié avec succès");
+      } catch (NotFoundException ignored) {}
+      catch (AlreadyExistsException e) {
+         model.addAttribute("usernameError", e.getMessage());
+         model.addAttribute("compte", compteDTO);
+      }
+      return "super_admin/comptes/compte";
    }
 
 }

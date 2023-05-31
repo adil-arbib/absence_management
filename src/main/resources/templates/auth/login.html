@@ -163,11 +163,11 @@
                                 <label class="form-check-label" for="remember-me"> Remember Me </label>
                             </div>
                         </div>
-                        <div th:if="@{param.error}">
-                            <p>Username or password incorrect</p>
+                        <div th:if="${param.error}" class="error">
+                          <p th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"></p>
                         </div>
                         <div class="mb-3">
-                            <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                            <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                         </div>
                     </form>
 
