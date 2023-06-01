@@ -22,3 +22,7 @@ spring:
       max-request-size: 10MB
 
 
+absence:
+  seuil: 2
+
+

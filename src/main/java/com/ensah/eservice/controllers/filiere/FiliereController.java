@@ -54,8 +54,8 @@ public class FiliereController {
     @GetMapping("/create")
     public String showCreatePage(Model model) throws NotFoundException {
         model.addAttribute("niveaux", filiereService.getRestOfNiveaux());
-        model.addAttribute("enseignants", filiereService.getFreeEnseignants());
-        System.out.println(filiereService.getFreeEnseignants());
+        model.addAttribute("enseignants", filiereService.getRestEnseignants());
+        System.out.println(filiereService.getRestEnseignants());
         model.addAttribute("filiereDTO", new FiliereDTO());
 
 

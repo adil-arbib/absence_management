@@ -16,4 +16,6 @@ public interface AbsenceRepository extends JpaRepository<Absence, Long> {
      private Etudiant etudiant;**/
 
 
+
+
 }

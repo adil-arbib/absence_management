@@ -19,4 +19,8 @@ public interface FiliereRepository extends JpaRepository<Filiere, Long> {
     boolean existsByNomOrAlias(String nom, String alias);
 
     Page<Filiere> findByNomContains(String Nom, Pageable pageable);
+
+
+
+
 }

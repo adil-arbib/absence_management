@@ -60,7 +60,7 @@ public class NiveauController {
 
         niveauService.create(niveauDTO, modulesIds);
 
-        return "redirect:/create";
+        return "redirect:/niveaux/create";
     }
 
     @GetMapping("/{id}")

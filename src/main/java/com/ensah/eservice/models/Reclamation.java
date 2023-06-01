@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
+
 public class Reclamation extends Message {
 
    @ManyToOne

@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = {FileMapper.class})
 public interface EnseignantMapper {
 
@@ -17,6 +19,9 @@ public interface EnseignantMapper {
    @Mapping(target = "image", ignore = true)
    @Mapping(target = "email", source = "email")
    Enseignant toEnseignant(EnseignantDTO enseignantDTO);
+
+   @Mapping(target = "image", ignore = true)
+   List<EnseignantDTO> toEnseignantDTOList(List<Enseignant> etudiants);
 
 
    @Mapping(target = "image", ignore = true)

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -24,6 +25,9 @@ public class Niveau {
     private String alias;
 
     private String titre;
+
+    @OneToMany(mappedBy = "niveau" , cascade = CascadeType.ALL)
+    private List<Inscription> inscriptions;
 
     @OneToMany
     private Collection<Module> modules;

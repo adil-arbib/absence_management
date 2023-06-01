@@ -26,224 +26,243 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FiliereService {
 
-    private final FiliereRepository filiereRepository;
-    private final NiveauRepository niveauRepository;
-    private final EnseignantRepository enseignantRepository;
-    private final AccreditationRepository accreditationRepository;
-    private final FiliereMapper filiereMapper;
-    private final NiveauMapper niveauMapper;
-    private final EnseignantMapper enseignantMapper;
+   private final FiliereRepository filiereRepository;
+   private final NiveauRepository niveauRepository;
+   private final EnseignantRepository enseignantRepository;
+   private final AccreditationRepository accreditationRepository;
+   private final FiliereMapper filiereMapper;
+   private final NiveauMapper niveauMapper;
+   private final EnseignantMapper enseignantMapper;
 
 
-    public FiliereDTO getFiliereById(Long id) throws NotFoundException {
-        return filiereMapper.toFiliereDTO(filiereRepository.
-                findById(id).orElseThrow(NotFoundException::new));
-    }
+   public FiliereDTO getFiliereById(Long id) throws NotFoundException {
+      return filiereMapper.toFiliereDTO(filiereRepository.
+              findById(id).orElseThrow(NotFoundException::new));
+   }
 
-    public List<FiliereDTO> getAll(){
-            return filiereMapper.toFilierDTOList(filiereRepository.findAll());
-    }
+   public List<FiliereDTO> getAll() {
+      return filiereMapper.toFilierDTOList(filiereRepository.findAll());
+   }
 
-    public Page<FiliereDTO> getAll(int page, int size){
-        return filiereRepository.findAll(PageRequest.of(page, size)).map(filiereMapper::toFiliereDTO);
-    }
+   public Page<FiliereDTO> getAll(int page, int size) {
+      return filiereRepository.findAll(PageRequest.of(page, size)).map(filiereMapper::toFiliereDTO);
+   }
 
-    public Page<FiliereDTO> findByNomContains(int page, int size, String keyword){
+   public Page<FiliereDTO> findByNomContains(int page, int size, String keyword) {
 
-        Page<Filiere> filierePage = filiereRepository.
-                findByNomContains(keyword, PageRequest.of(page, size));
+      Page<Filiere> filierePage = filiereRepository.
+              findByNomContains(keyword, PageRequest.of(page, size));
 
-        return filierePage.map(filiereMapper::toFiliereDTO);
-    }
+      return filierePage.map(filiereMapper::toFiliereDTO);
+   }
 
-    public Page<FiliereDTO> getFilierePage(int page ,int size, String alias){
+   public Page<FiliereDTO> getFilierePage(int page, int size, String alias) {
 
-        return alias.isEmpty() ?
-                getAll(page, size) : findByNomContains(page, size, alias);
-    }
+      return alias.isEmpty() ?
+              getAll(page, size) : findByNomContains(page, size, alias);
+   }
 
-    public FiliereDTO create(FiliereDTO filiereDTO, Long enseignantId,
-                             List<Long> niveauxIds)
-            throws AlreadyExistsException, NotFoundException {
+   public FiliereDTO create(FiliereDTO filiereDTO, Long enseignantId,
+                            List<Long> niveauxIds)
+           throws AlreadyExistsException, NotFoundException {
 
-        if(filiereRepository.existsByNomOrAlias(filiereDTO.getNom(), filiereDTO.getAlias()))
-            throw new AlreadyExistsException();
+      if (filiereRepository.existsByNomOrAlias(filiereDTO.getNom(), filiereDTO.getAlias()))
+         throw new AlreadyExistsException();
 
 
-        Filiere filiere = filiereMapper.createFilier(filiereDTO);
+      Filiere filiere = filiereMapper.createFilier(filiereDTO);
 
-        if(niveauxIds != null && !niveauxIds.isEmpty() && enseignantId != null
-        ){
+      if (niveauxIds != null && !niveauxIds.isEmpty() && enseignantId != null
+      ) {
 
-            Enseignant enseignant = enseignantRepository.findById(enseignantId).orElseThrow(NotFoundException::new);
-            List<Niveau> niveauList = new ArrayList<>();
-            Collection<Accreditation> accreditationCollection = new ArrayList<>();
+         Enseignant enseignant = enseignantRepository.findById(enseignantId).orElseThrow(NotFoundException::new);
+         List<Niveau> niveauList = new ArrayList<>();
+         Collection<Accreditation> accreditationCollection = new ArrayList<>();
 
-            Calendar calendar  = Calendar.getInstance();
-            Date now = calendar.getTime();
+         Calendar calendar = Calendar.getInstance();
+         Date now = calendar.getTime();
 
-            Accreditation accreditation = new Accreditation();
-            accreditation.setCoordinateur(enseignant);
+         Accreditation accreditation = new Accreditation();
+         accreditation.setCoordinateur(enseignant);
 
 //            filiere.setCreateAt(now);
-            accreditation.setDebutAccreditation(filiere.getCreateAt());
+         accreditation.setDebutAccreditation(filiere.getCreateAt());
 
 
+         for (Long id : niveauxIds) {
+            Niveau niveau = niveauRepository.findById(id).
+                    orElseThrow(NotFoundException::new);
 
-            for(Long id : niveauxIds){
-                Niveau niveau = niveauRepository.findById(id).
-                        orElseThrow(NotFoundException::new);
-
-                niveauList.add(niveau);
-            }
-
-
-            filiere.setNiveaux(niveauList);
-            accreditationCollection.add(accreditation);
-            filiere.setAccreditations(accreditationCollection);
-
-            accreditationRepository.save(accreditation);
+            niveauList.add(niveau);
+         }
 
 
+         filiere.setNiveaux(niveauList);
+         accreditationCollection.add(accreditation);
+         filiere.setAccreditations(accreditationCollection);
 
-        }
-        return filiereMapper.toFiliereDTO(filiereRepository.save(filiere));
-    }
-
-    public void update(FiliereDTO filiereDTO) throws NotFoundException {
-        Filiere filiere = filiereRepository.findById(filiereDTO.getId()).
-                orElseThrow(NotFoundException::new);
-
-        filiereMapper.updateFiliereFromDTO(filiereDTO, filiere);
-        filiereRepository.save(filiere);
-    }
-
-    public void deleteFiliere(Long id) throws NotFoundException {
-        Filiere filiere = filiereRepository.findById(id).
-                orElseThrow(NotFoundException::new);
-
-        filiereRepository.delete(filiere);
-    }
+         accreditationRepository.save(accreditation);
 
 
-    public void addCordinnateurToFiliere(Long filiereId, Long enseignantId) throws NotFoundException {
+      }
+      return filiereMapper.toFiliereDTO(filiereRepository.save(filiere));
+   }
 
-        Filiere filiere = filiereRepository.findById(filiereId).
-                orElseThrow(NotFoundException::new);
-        Enseignant enseignant = enseignantRepository.findById(enseignantId).
-                orElseThrow(NotFoundException::new);
+   public void update(FiliereDTO filiereDTO) throws NotFoundException {
+      Filiere filiere = filiereRepository.findById(filiereDTO.getId()).
+              orElseThrow(NotFoundException::new);
 
-        List<Accreditation> accreditationList = (List<Accreditation>) filiere.getAccreditations();
-        Calendar calendar  = Calendar.getInstance();
-        Date now = calendar.getTime();
+      filiereMapper.updateFiliereFromDTO(filiereDTO, filiere);
+      filiereRepository.save(filiere);
+   }
+
+   public void deleteFiliere(Long id) throws NotFoundException {
+      Filiere filiere = filiereRepository.findById(id).
+              orElseThrow(NotFoundException::new);
+
+      filiereRepository.delete(filiere);
+   }
+
+
+   public void addCordinnateurToFiliere(Long filiereId, Long enseignantId) throws NotFoundException {
+
+      Filiere filiere = filiereRepository.findById(filiereId).
+              orElseThrow(NotFoundException::new);
+      Enseignant enseignant = enseignantRepository.findById(enseignantId).
+              orElseThrow(NotFoundException::new);
+
+      List<Accreditation> accreditationList = (List<Accreditation>) filiere.getAccreditations();
+      Calendar calendar = Calendar.getInstance();
+      Date now = calendar.getTime();
 
 //        Accreditation currentAccreditation = new Accreditation();
-        if(!accreditationList.isEmpty()){
-            Accreditation currentAccreditation = accreditationList.get(accreditationList.size() - 1);
-            currentAccreditation.setFinAccreditation(now);
-        }
+      if (!accreditationList.isEmpty()) {
+         Accreditation currentAccreditation = accreditationList.get(accreditationList.size() - 1);
+         currentAccreditation.setFinAccreditation(now);
+      }
 
 
-        Accreditation accreditation = new Accreditation();
-        accreditation.setCoordinateur(enseignant);
-        accreditation.setDebutAccreditation(now);
+      Accreditation accreditation = new Accreditation();
+      accreditation.setCoordinateur(enseignant);
+      accreditation.setDebutAccreditation(now);
 
 
-        filiere.getAccreditations().add(accreditation);
-        accreditationRepository.save(accreditation);
-        filiereRepository.save(filiere);
-    }
+      filiere.getAccreditations().add(accreditation);
+      accreditationRepository.save(accreditation);
+      filiereRepository.save(filiere);
+   }
 
 
-    public void addNiveauToFiliere(Long filiereId, List<Long> niveauList) throws NotFoundException {
-        Filiere filiere = filiereRepository.findById(filiereId).
-                orElseThrow(NotFoundException::new);
+   public void addNiveauToFiliere(Long filiereId, List<Long> niveauList) throws NotFoundException {
+      Filiere filiere = filiereRepository.findById(filiereId).
+              orElseThrow(NotFoundException::new);
 
-        List<Niveau> niveaux = niveauRepository.findByIdIn(niveauList);
-        filiere.getNiveaux().addAll(niveaux);
-        filiereRepository.save(filiere);
-    }
+      List<Niveau> niveaux = niveauRepository.findByIdIn(niveauList);
+      filiere.getNiveaux().addAll(niveaux);
+      filiereRepository.save(filiere);
+   }
 
-    //return tous le niveaux qui sont pas attribué á une filiere
-    public List<NiveauDTO> getRestOfNiveaux() throws NotFoundException {
+   //return tous le niveaux qui sont pas attribué á une filiere
+   public List<NiveauDTO> getRestOfNiveaux() throws NotFoundException {
 
-        List<Filiere> filiereList = filiereRepository.findAll();
-        List<Long> niveauxIds = new ArrayList<>();
+      List<Filiere> filiereList = filiereRepository.findAll();
 
-        for(Filiere filiere : filiereList){
-            for (Niveau niveau :filiere.getNiveaux()){
-                niveauxIds.add(niveau.getId());
-            }
-        }
+      if (filiereList.isEmpty()) return null;
 
-        List<Niveau> niveauList = niveauRepository.findByIdNotIn(niveauxIds);
+      List<Long> niveauxIds = new ArrayList<>();
 
-        return niveauList.isEmpty()
-                ? niveauRepository.findAll().stream().map(niveauMapper::toNiveauDTO).collect(Collectors.toList())
-                : niveauList.stream().map(niveauMapper::toNiveauDTO).collect(Collectors.toList());
-    }
+      for (Filiere filiere : filiereList) {
+         for (Niveau niveau : filiere.getNiveaux()) {
+            niveauxIds.add(niveau.getId());
+         }
+      }
 
-    public List<EnseignantDTO> getRestOfEnseignants(Long id) throws NotFoundException {
+      List<Niveau> niveauList = niveauRepository.findByIdNotIn(niveauxIds);
 
-        Filiere filiere = filiereRepository.findById(id).orElseThrow(NotFoundException::new);
+      return niveauList.isEmpty()
+              ? niveauRepository.findAll().stream().map(niveauMapper::toNiveauDTO).collect(Collectors.toList())
+              : niveauList.stream().map(niveauMapper::toNiveauDTO).collect(Collectors.toList());
+   }
 
-            List<Long> idsList = new ArrayList<>();
-            List<Accreditation> accreditationList = (List<Accreditation>) filiere.getAccreditations();
+   public List<EnseignantDTO> getRestOfEnseignants(Long id) throws NotFoundException {
 
-            for (Accreditation acc : accreditationList){
-                idsList.add((acc.getCoordinateur().getId()));
-            }
+      Filiere filiere = filiereRepository.findById(id).orElseThrow(NotFoundException::new);
 
-            List<Enseignant> enseignantList = enseignantRepository.findByIdNotIn(idsList);
+      List<Long> idsList = new ArrayList<>();
+      List<Accreditation> accreditationList = (List<Accreditation>) filiere.getAccreditations();
 
+      for (Accreditation acc : accreditationList) {
+         idsList.add((acc.getCoordinateur().getId()));
+      }
 
-
-        return enseignantList.isEmpty()
-                ? enseignantRepository.findAll().stream().map(enseignantMapper::toEnseignantDTO).collect(Collectors.toList())
-                : enseignantList.stream().map(enseignantMapper::toEnseignantDTO).collect(Collectors.toList());
-    }
-
-    public EnseignantDTO getCurrentCoordinnateur(Long id) throws NotFoundException {
-        Filiere filiere = filiereRepository.findById(id).orElseThrow(NotFoundException::new);
-        List<Accreditation> accreditationList = (List<Accreditation>) filiere.getAccreditations();
-        if (accreditationList.isEmpty())
-                return enseignantMapper.toEnseignantDTO(new Accreditation().getCoordinateur());
-            Enseignant enseignant = accreditationList.get(accreditationList.size() - 1).
-                    getCoordinateur();
+      List<Enseignant> enseignantList = enseignantRepository.findByIdNotIn(idsList);
 
 
-        return enseignantMapper.toEnseignantDTO(enseignant);
-    }
+      return enseignantList.isEmpty()
+              ? enseignantRepository.findAll().stream().map(enseignantMapper::toEnseignantDTO).collect(Collectors.toList())
+              : enseignantList.stream().map(enseignantMapper::toEnseignantDTO).collect(Collectors.toList());
+   }
 
-    public void removeNiveauFromFilier(Long filierId, Long niveauId) throws NotFoundException {
-        Filiere filiere = filiereRepository.findById(filierId).orElseThrow(NotFoundException::new);
-        Niveau niveau = niveauRepository.findById(niveauId).orElseThrow(NotFoundException::new);
+   public EnseignantDTO getCurrentCoordinnateur(Long id) throws NotFoundException {
+      Filiere filiere = filiereRepository.findById(id).orElseThrow(NotFoundException::new);
+      List<Accreditation> accreditationList = (List<Accreditation>) filiere.getAccreditations();
 
-        filiere.getNiveaux().remove(niveau);
-        filiereRepository.save(filiere);
+      if (accreditationList.isEmpty()) {
+         return null;
+      }
 
-
-
-    }
-
-    public List<EnseignantDTO>  getFreeEnseignants() throws NotFoundException {
-
-        List<Filiere> filiereList = filiereRepository.findAll();
-
-        List<Long> enseignantIds = new ArrayList<>();
+      Enseignant enseignant = accreditationList.get(accreditationList.size() - 1).
+              getCoordinateur();
 
 
-        for(Filiere filiere : filiereList){
-            enseignantIds.add(getCurrentCoordinnateur(filiere.getId()).getId());
-        }
+      return enseignantMapper.toEnseignantDTO(enseignant);
+   }
 
-        return enseignantRepository.findByIdNotIn(enseignantIds).stream().
-                map(enseignantMapper::toEnseignantDTO).collect(Collectors.toList());
+   public void removeNiveauFromFilier(Long filierId, Long niveauId) throws NotFoundException {
+      Filiere filiere = filiereRepository.findById(filierId).orElseThrow(NotFoundException::new);
+      Niveau niveau = niveauRepository.findById(niveauId).orElseThrow(NotFoundException::new);
 
-    }
+      filiere.getNiveaux().remove(niveau);
+      filiereRepository.save(filiere);
+
+   }
 
 
+   public List<EnseignantDTO> getFreeEnseignants() throws NotFoundException {
 
+      List<Filiere> filiereList = filiereRepository.findAll();
+
+      System.out.println(filiereList);
+      if (filiereList.isEmpty()) return null;
+
+      List<Long> enseignantIds = new ArrayList<>();
+
+
+      for (Filiere filiere : filiereList) {
+         enseignantIds.add(getCurrentCoordinnateur(filiere.getId()).getId());
+      }
+
+      return enseignantRepository.findByIdNotIn(enseignantIds).stream().
+              map(enseignantMapper::toEnseignantDTO).collect(Collectors.toList());
+
+   }
+
+
+   public List<EnseignantDTO> getRestEnseignants() {
+      List<Enseignant> enseignantList = accreditationRepository
+              .findByFinAccreditationAfter(new Date())
+              .stream()
+              .map(Accreditation::getCoordinateur).toList();
+
+      return enseignantMapper.toEnseignantDTOList(
+              enseignantList.isEmpty() ?
+                      enseignantRepository.findAll()
+                      : enseignantRepository.findByIdNotIn(
+                      enseignantList.stream().map(Enseignant::getId)
+                              .collect(Collectors.toList()))
+      );
+
+   }
 
 
 }
