@@ -1,13 +1,16 @@
 package com.ensah.eservice.services;
 
+import com.ensah.eservice.dto.filieres.FiliereDTO;
 import com.ensah.eservice.dto.modules.ModuleDTO;
 import com.ensah.eservice.dto.modules.ModuleMapper;
 import com.ensah.eservice.dto.niveau.NiveauDTO;
 import com.ensah.eservice.dto.niveau.NiveauMapper;
 import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
+import com.ensah.eservice.models.Filiere;
 import com.ensah.eservice.models.Module;
 import com.ensah.eservice.models.Niveau;
+import com.ensah.eservice.repositories.FiliereRepository;
 import com.ensah.eservice.repositories.ModuleRepository;
 import com.ensah.eservice.repositories.NiveauRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ public class NiveauService {
 
     private final NiveauRepository niveauRepository;
     private final ModuleRepository moduleRepository;
+    private final FiliereRepository filiereRepository;
 
     private final NiveauMapper niveauMapper;
     private final ModuleMapper moduleMapper;
@@ -127,6 +131,12 @@ public class NiveauService {
         niveauRepository.delete(niveau);
     }
 
+    public List<NiveauDTO> getByFiliere(FiliereDTO filiereDTO) throws NotFoundException {
+        Filiere filiere =filiereRepository.findByNomOrAlias(filiereDTO.getNom(),filiereDTO.getAlias())
+                .orElseThrow(NotFoundException::new);
+        List<Niveau> niveauList= filiere.getNiveaux().stream().toList();
+        return niveauMapper.listToNiveauDTO(niveauList);
+    }
 
 
 

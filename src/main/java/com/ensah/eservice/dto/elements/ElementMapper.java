@@ -10,12 +10,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ElementMapper {
 
-
     Element toElement(ElementDTO elementDTO);
 
     ElementDTO toElementDTO(Element element);
     List<ElementDTO> toElementDTOList(Collection<Element> elements);
-
     void updateElementFromDTO(ElementDTO elementDTO, @MappingTarget Element element);
 
 }

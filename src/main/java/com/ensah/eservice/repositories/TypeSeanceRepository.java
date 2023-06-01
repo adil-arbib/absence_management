@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TypeSeanceRepository extends JpaRepository<TypeSeance, Long> {
+    boolean existsByIntituleOrAlias(String intitule, String alias);
+
 }

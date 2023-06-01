@@ -23,14 +23,13 @@ public class EServiceApplication {
         SpringApplication.run(EServiceApplication.class, args);
     }
 
-//    @Bean
-//    public CommandLineRunner runner(AccreditationRepository accreditationRepository, EnseignantRepository enseignantRepository) {
-//        return args -> {
-//
-//            Accreditation accreditation = new Accreditation();
-//
-//
-//
+    @Bean
+    public CommandLineRunner runner(AccreditationRepository accreditationRepository, EnseignantRepository enseignantRepository) {
+        return args -> {
+
+            Accreditation accreditation = new Accreditation();
+
+
 //            Enseignant enseignant = new Enseignant("R115522");
 //            enseignant.setNom("doe");
 //            enseignant.setNomArabe("?");
@@ -53,10 +52,10 @@ public class EServiceApplication {
 //            accreditationRepository.save(accreditation);
 //
 //
-//
-//
-//        };
-//
-//
-//    }
+
+
+        };
+
+
+    }
 }
