@@ -23,13 +23,14 @@ public class EServiceApplication {
         SpringApplication.run(EServiceApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner runner(AccreditationRepository accreditationRepository, EnseignantRepository enseignantRepository) {
-        return args -> {
-
-            Accreditation accreditation = new Accreditation();
-
-
+//    @Bean
+//    public CommandLineRunner runner(AccreditationRepository accreditationRepository, EnseignantRepository enseignantRepository) {
+//        return args -> {
+//
+//            Accreditation accreditation = new Accreditation();
+//
+//
+//
 //            Enseignant enseignant = new Enseignant("R115522");
 //            enseignant.setNom("doe");
 //            enseignant.setNomArabe("?");
@@ -52,10 +53,39 @@ public class EServiceApplication {
 //            accreditationRepository.save(accreditation);
 //
 //
+//
+//
+//        };
+//
+//
+//    }
 
 
-        };
+//    @Bean
+//    CommandLineRunner commandLineRunner(
+//            SuperAdminRepository superAdminRepository,
+//            CompteRepository compteRepository,
+//            PasswordEncoder passwordEncoder
+//    ) {
+//        return args -> {
+//            SuperAdmin superAdmin = new SuperAdmin();
+//            superAdmin.setNom("admin");
+//            superAdmin.setPrenom("admin");
+//            superAdmin.setNomArabe("أدمين");
+//            superAdmin.setPrenomArab("أدمين");
+//            superAdmin.setEmail("admin@gmail.com");
+//            superAdmin.setTel("0689070809");
+//            superAdmin.setRole(Role.SUPER_ADMIN);
+//
+//            Compte compte = new Compte();
+//            compte.setUsername("admin");
+//            compte.setPassword(passwordEncoder.bCryptPasswordEncoder().encode("123"));
+//            compte.setUtilisateur(superAdminRepository.save(superAdmin));
+//            compte.setEnabled(true);
+//            compte.setAccountNotExpired(true);
+//            compte.setAccountNotLocked(true);
+//            compteRepository.save(compte);
+//        };
+//    }
 
-
-    }
 }

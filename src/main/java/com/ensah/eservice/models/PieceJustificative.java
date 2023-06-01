@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -20,9 +21,6 @@ public class PieceJustificative {
     private Long id;
 
     @Column(nullable = false)
-    private String cheminFichier;
-
-    @Column(nullable = false)
     private String intitule;
 
     @Column(nullable = false)
@@ -30,4 +28,7 @@ public class PieceJustificative {
 
     @OneToOne
     private File source;
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "pieceJustificatives")
+    private List<Absence> absences;
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -32,13 +33,21 @@ public class Absence {
     private AbsenceEtat etat;
 
     @ManyToOne
+    private Element element;
+
+    @ManyToOne
     private TypeSeance typeSeance;
 
     @ManyToOne
     private Enseignant enseignant;
 
     @ManyToOne
-    private Etudiant etudiant;
+    private Inscription inscription;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable( joinColumns = @JoinColumn(name="absence_id"),
+            inverseJoinColumns = @JoinColumn(name="pieceJustificative_id"))
+    private List<PieceJustificative> pieceJustificatives;
 
 
 }
