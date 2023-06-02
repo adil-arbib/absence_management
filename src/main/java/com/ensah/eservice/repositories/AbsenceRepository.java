@@ -22,6 +22,6 @@ public interface AbsenceRepository extends JpaRepository<Absence, Long> {
 
     Page<Absence> findByInscriptionAndElementCodeContains(Inscription inscription, String keyword, Pageable pageable);
 
-
+    Page<Absence> findByEnseignant_Id(Long Id, String keyword, Pageable pageable);
 
 }

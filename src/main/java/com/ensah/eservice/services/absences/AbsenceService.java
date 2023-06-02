@@ -2,32 +2,21 @@ package com.ensah.eservice.services.absences;
 
 import com.ensah.eservice.dto.absence.AbsenceDTO;
 import com.ensah.eservice.dto.absence.AbsenceMapper;
-import com.ensah.eservice.dto.inscription.InscriptionMapper;
-import com.ensah.eservice.dto.niveau.NiveauDTO;
-import com.ensah.eservice.dto.users.etudiant.EtudiantDTO;
-import com.ensah.eservice.dto.users.etudiant.EtudiantMapper;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
 import com.ensah.eservice.models.Absence;
-import com.ensah.eservice.models.Inscription;
 import com.ensah.eservice.repositories.AbsenceRepository;
-import com.ensah.eservice.services.InscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AbsenceService {
 
     private final AbsenceRepository absenceRepository;
-    private final InscriptionService inscriptionService;
     private final AbsenceMapper absenceMapper;
-    private final InscriptionMapper inscriptionMapper;
-    private final EtudiantMapper etudiantMapper;
+
 
     public void create(AbsenceDTO absenceDTO){
         absenceRepository.save(absenceMapper.toAbsence(absenceDTO));
@@ -48,13 +37,6 @@ public class AbsenceService {
             absenceRepository.save(absence);
     }
 
-    public List<EtudiantDTO> getStudents(NiveauDTO niveauDTO){
-        List<Inscription> list= inscriptionMapper.toInscriptionList(inscriptionService.getByNiveau(niveauDTO));
-        List<EtudiantDTO> etudiantList= new ArrayList<>();
-        for (Inscription inscription: list){
-            etudiantList.add(etudiantMapper.toEtudiantDTO(inscription.getEtudiant()));
-        }
-        return etudiantList;
-    }
+
 
 }
