@@ -2,16 +2,14 @@ package com.ensah.eservice.services.members;
 
 import com.ensah.eservice.dto.users.cadre_admin.CadreAdministrateurDTO;
 import com.ensah.eservice.dto.users.cadre_admin.CadreAdministrateurMapper;
-import com.ensah.eservice.dto.users.enseignant.EnseignantDTO;
 import com.ensah.eservice.exceptions.alreadyExists.CneAlreadyExistsException;
 import com.ensah.eservice.exceptions.alreadyExists.EmailAlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
 import com.ensah.eservice.models.CadreAdministrateur;
-import com.ensah.eservice.models.Enseignant;
 import com.ensah.eservice.models.File;
 import com.ensah.eservice.models.Role;
 import com.ensah.eservice.repositories.CadreAdministrateurRepository;
-import com.ensah.eservice.repositories.ImageRepository;
+import com.ensah.eservice.repositories.FileRepository;
 import com.ensah.eservice.repositories.UtilisateurRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,7 +29,7 @@ public class CadreAdministrateurService {
 
    private final CadreAdministrateurMapper cadreAdministrateurMapper;
 
-   private final ImageRepository imageRepository;
+   private final FileRepository imageRepository;
 
 
    public CadreAdministrateurDTO getById(Long id) throws NotFoundException {

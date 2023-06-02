@@ -1,5 +1,9 @@
 package com.ensah.eservice.dto.absence;
 
+import com.ensah.eservice.dto.TypeSeance.TypeSeanceDTO;
+import com.ensah.eservice.dto.elements.ElementDTO;
+import com.ensah.eservice.dto.users.enseignant.EnseignantDTO;
+import com.ensah.eservice.dto.users.etudiant.EtudiantDTO;
 import com.ensah.eservice.models.AbsenceEtat;
 import com.ensah.eservice.models.Enseignant;
 import com.ensah.eservice.models.Etudiant;
@@ -21,8 +25,9 @@ public class AbsenceDTO {
     private Date absenceStart;
     private Date absenceEnd;
     private AbsenceEtat etat;
-    private TypeSeance typeSeance;
-    private Enseignant enseignant;
-    private Etudiant etudiant;
+    private ElementDTO element;
+    private TypeSeanceDTO typeSeance;
+    private EnseignantDTO enseignant;
+    private EtudiantDTO etudiant;
 
 }

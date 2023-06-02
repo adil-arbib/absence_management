@@ -9,7 +9,7 @@ import com.ensah.eservice.models.Etudiant;
 import com.ensah.eservice.models.File;
 import com.ensah.eservice.models.Role;
 import com.ensah.eservice.repositories.EtudiantRepository;
-import com.ensah.eservice.repositories.ImageRepository;
+import com.ensah.eservice.repositories.FileRepository;
 import com.ensah.eservice.repositories.UtilisateurRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 @Service
@@ -29,7 +28,7 @@ public class EtudiantService {
 
    private final UtilisateurRepository utilisateurRepository;
 
-   private final ImageRepository imageRepository;
+   private final FileRepository imageRepository;
    private final EtudiantMapper etudiantMapper;
 
    private final Logger logger = Logger.getLogger(EtudiantService.class.getName());

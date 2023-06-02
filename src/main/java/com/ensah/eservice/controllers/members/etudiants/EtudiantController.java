@@ -22,7 +22,7 @@ public class EtudiantController {
            @RequestParam(name = "size", defaultValue = "10") int size,
            @RequestParam(name = "keyword", defaultValue = "") String keyword,
            Model model) {
-//      model.addAttribute("etudiants", etudiantService.getAll(page, size));
+      model.addAttribute("etudiants", etudiantService.getAll(page, size));
       return "etudiants/all";
    }
 

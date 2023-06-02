@@ -2,18 +2,14 @@ package com.ensah.eservice.services.members;
 
 import com.ensah.eservice.dto.users.enseignant.EnseignantDTO;
 import com.ensah.eservice.dto.users.enseignant.EnseignantMapper;
-import com.ensah.eservice.dto.users.etudiant.EtudiantDTO;
-import com.ensah.eservice.dto.users.etudiant.EtudiantMapper;
 import com.ensah.eservice.exceptions.alreadyExists.CneAlreadyExistsException;
 import com.ensah.eservice.exceptions.alreadyExists.EmailAlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
 import com.ensah.eservice.models.Enseignant;
-import com.ensah.eservice.models.Etudiant;
 import com.ensah.eservice.models.File;
 import com.ensah.eservice.models.Role;
 import com.ensah.eservice.repositories.EnseignantRepository;
-import com.ensah.eservice.repositories.EtudiantRepository;
-import com.ensah.eservice.repositories.ImageRepository;
+import com.ensah.eservice.repositories.FileRepository;
 import com.ensah.eservice.repositories.UtilisateurRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,7 +30,7 @@ public class EnseignantService {
 
    private final UtilisateurRepository utilisateurRepository;
 
-   private final ImageRepository imageRepository;
+   private final FileRepository imageRepository;
 
    private final EnseignantMapper enseignantMapper;
 

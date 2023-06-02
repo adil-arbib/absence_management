@@ -1,25 +1,9 @@
 package com.ensah.eservice.controllers.absences.enseignant;
 
 
-import com.ensah.eservice.dto.TypeSeance.TypeSeanceDTO;
-import com.ensah.eservice.dto.files.FileDTO;
-import com.ensah.eservice.dto.modules.ModuleDTO;
-import com.ensah.eservice.dto.niveau.NiveauDTO;
-import com.ensah.eservice.dto.users.etudiant.EtudiantDTO;
-import com.ensah.eservice.exceptions.notfound.NotFoundException;
-import com.ensah.eservice.repositories.InscriptionRepository;
-import com.ensah.eservice.services.Absences.AbsenceService;
-import com.ensah.eservice.services.FiliereService;
-import com.ensah.eservice.services.NiveauService;
-import com.ensah.eservice.services.TypeSeanceService;
-import com.ensah.eservice.services.structure_pedagogique.ModuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 @Controller
 @RequestMapping("enseignant/absences")

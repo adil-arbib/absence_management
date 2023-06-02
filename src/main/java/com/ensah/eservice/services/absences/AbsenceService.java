@@ -1,4 +1,4 @@
-package com.ensah.eservice.services.Absences;
+package com.ensah.eservice.services.absences;
 
 import com.ensah.eservice.dto.absence.AbsenceDTO;
 import com.ensah.eservice.dto.absence.AbsenceMapper;

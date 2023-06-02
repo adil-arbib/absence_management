@@ -1,8 +1,13 @@
 package com.ensah.eservice.repositories;
 
 import com.ensah.eservice.models.Absence;
+import com.ensah.eservice.models.Inscription;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface AbsenceRepository extends JpaRepository<Absence, Long> {
@@ -15,6 +20,7 @@ public interface AbsenceRepository extends JpaRepository<Absence, Long> {
      private Enseignant enseignant;
      private Etudiant etudiant;**/
 
+    Page<Absence> findByInscriptionAndElementCodeContains(Inscription inscription, String keyword, Pageable pageable);
 
 
 

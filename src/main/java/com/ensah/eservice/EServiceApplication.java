@@ -1,10 +1,7 @@
 package com.ensah.eservice;
 
 import com.ensah.eservice.models.*;
-import com.ensah.eservice.repositories.AccreditationRepository;
-import com.ensah.eservice.repositories.CompteRepository;
-import com.ensah.eservice.repositories.EnseignantRepository;
-import com.ensah.eservice.repositories.SuperAdminRepository;
+import com.ensah.eservice.repositories.*;
 import com.ensah.eservice.security.PasswordEncoder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -85,6 +82,27 @@ public class EServiceApplication {
 //            compte.setAccountNotExpired(true);
 //            compte.setAccountNotLocked(true);
 //            compteRepository.save(compte);
+//        };
+//    }
+
+
+//    @Bean
+//    CommandLineRunner commandLineRunner(
+//            InscriptionRepository inscriptionRepository,
+//            NiveauRepository niveauRepository,
+//            EtudiantRepository etudiantRepository
+//    ) {
+//        return args -> {
+//            Etudiant etudiant = etudiantRepository.findById(3L).orElse(null);
+//            Inscription inscription = new Inscription();
+//            inscription.setAnnee(2023);
+//            Niveau niveau = new Niveau();
+//            niveau.setModules(null);
+//            niveau.setAlias("GI1");
+//            niveau.setTitre("genie info 1");
+//            inscription.setNiveau(niveauRepository.save(niveau));
+//            inscription.setEtudiant(etudiant);
+//            inscriptionRepository.save(inscription);
 //        };
 //    }
 
