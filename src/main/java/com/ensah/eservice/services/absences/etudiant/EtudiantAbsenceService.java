@@ -4,6 +4,7 @@ import com.ensah.eservice.dto.absence.AbsenceDTO;
 import com.ensah.eservice.dto.absence.AbsenceMapper;
 import com.ensah.eservice.dto.reclamation.ReclamationDTO;
 import com.ensah.eservice.dto.reclamation.ReclamationMapper;
+import com.ensah.eservice.exceptions.alreadyExists.AlreadyExistsException;
 import com.ensah.eservice.exceptions.notfound.InscriptionNotFoundException;
 import com.ensah.eservice.exceptions.notfound.NotFoundException;
 import com.ensah.eservice.models.*;
@@ -39,6 +40,13 @@ public class EtudiantAbsenceService {
    private final ReclamationMapper reclamationMapper;
 
    private final ReclamationRepository reclamationRepository;
+
+
+
+   public AbsenceDTO getAbsenceById(Long id) throws NotFoundException {
+      return absenceMapper.toAbsenceDTO(absenceRepository.findById(id)
+              .orElseThrow(NotFoundException::new));
+   }
 
 
    /**
@@ -79,12 +87,23 @@ public class EtudiantAbsenceService {
    }
 
 
-   public void addReclamation(ReclamationDTO reclamationDTO) throws NotFoundException {
-      Absence absence = absenceRepository.findById(reclamationDTO.getAbsence().getId())
+   public void addReclamation(Long absenceId, ReclamationDTO reclamationDTO) throws NotFoundException, AlreadyExistsException {
+      Absence absence = absenceRepository.findById(absenceId)
               .orElseThrow(NotFoundException::new);
+      if(reclamationRepository.existsByAbsence(absence))
+         throw new AlreadyExistsException("reclamation deja envoye");
       Reclamation reclamation = reclamationMapper.toReclamation(reclamationDTO);
       reclamation.setAbsence(absence);
+      reclamation.setCreatedAt(new Date());
       reclamationRepository.save(reclamation);
    }
+
+
+   public Page<ReclamationDTO> getCurrentEtudiantReclamations(int page, int size) {
+      return reclamationRepository.findByAbsenceInscriptionEtudiant(
+              (Etudiant) CurrentUser.getCurrentUser(), PageRequest.of(page, size))
+              .map(reclamationMapper::toReclamationDTO);
+   }
+
 
 }
