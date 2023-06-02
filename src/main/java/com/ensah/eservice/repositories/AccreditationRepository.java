@@ -14,6 +14,6 @@ public interface AccreditationRepository extends JpaRepository<Accreditation, Lo
    List<Accreditation> findByFinAccreditationBefore(Date date);
 
 
-   List<Accreditation> findByFinAccreditationAfter(Date date);
+   List<Accreditation> findByFinAccreditationAfterAndFinAccreditationNull(Date date);
 
 }

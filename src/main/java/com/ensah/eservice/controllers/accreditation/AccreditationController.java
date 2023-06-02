@@ -24,27 +24,27 @@ public class AccreditationController {
     private final FiliereService filiereService;
 
 
-    @GetMapping("/create")
-    public String showForm(Model model) throws NotFoundException {
+//    @GetMapping("/create")
+//    public String showForm(Model model) throws NotFoundException {
+//
+//        model.addAttribute("accreditationDTO", new AccreditationDTO());
+//        model.addAttribute("enseignantList", filiereService.getFreeEnseignants());
+//
+//        return "accreditations/create";
+//    }
 
-        model.addAttribute("accreditationDTO", new AccreditationDTO());
-        model.addAttribute("enseignantList", filiereService.getFreeEnseignants());
-
-        return "accreditations/create";
-    }
-
-    @PostMapping("/create")
-    public String createAccreditation(
-            @ModelAttribute("accreditationDTO") AccreditationDTO accreditationDTO,
-            @RequestParam("selectedEnseignant") Long id
-            ) throws NotActiveException {
-
-            accreditationService.update(accreditationDTO, id);
-
-
-        return "redirect:/accreditations/create";
-
-    }
+//    @PostMapping("/create")
+//    public String createAccreditation(
+//            @ModelAttribute("accreditationDTO") AccreditationDTO accreditationDTO,
+//            @RequestParam("selectedEnseignant") Long id
+//            ) throws NotActiveException {
+//
+//            accreditationService.update(accreditationDTO, id);
+//
+//
+//        return "redirect:/accreditations/create";
+//
+//    }
 
 
     @GetMapping("/{id}")
@@ -52,7 +52,7 @@ public class AccreditationController {
 
         model.addAttribute("accreditationDTO",accreditationService.findById(id));
         model.addAttribute("enseignantList", filiereService.getFreeEnseignants());
-        System.out.println(accreditationService.findById(id));
+
 
         return "accreditations/accreditation";
 

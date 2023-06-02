@@ -86,7 +86,7 @@ public class FiliereService {
          accreditation.setCoordinateur(enseignant);
 
 //            filiere.setCreateAt(now);
-         accreditation.setDebutAccreditation(filiere.getCreateAt());
+         accreditation.setDebutAccreditation(now);
 
 
          for (Long id : niveauxIds) {
@@ -135,7 +135,7 @@ public class FiliereService {
       Calendar calendar = Calendar.getInstance();
       Date now = calendar.getTime();
 
-//        Accreditation currentAccreditation = new Accreditation();
+
       if (!accreditationList.isEmpty()) {
          Accreditation currentAccreditation = accreditationList.get(accreditationList.size() - 1);
          currentAccreditation.setFinAccreditation(now);
@@ -144,7 +144,7 @@ public class FiliereService {
 
       Accreditation accreditation = new Accreditation();
       accreditation.setCoordinateur(enseignant);
-      accreditation.setDebutAccreditation(now);
+      accreditation.setDebutAccreditation(filiere.getCreateAt());
 
 
       filiere.getAccreditations().add(accreditation);
@@ -167,7 +167,9 @@ public class FiliereService {
 
       List<Filiere> filiereList = filiereRepository.findAll();
 
-      if (filiereList.isEmpty()) return null;
+      if (filiereList.isEmpty())
+         niveauRepository.findAll().stream().map(niveauMapper::toNiveauDTO).
+                 collect(Collectors.toList());
 
       List<Long> niveauxIds = new ArrayList<>();
 
@@ -215,7 +217,8 @@ public class FiliereService {
               getCoordinateur();
 
 
-      return enseignantMapper.toEnseignantDTO(enseignant);
+
+      return enseignant == null ? null : enseignantMapper.toEnseignantDTO(enseignant);
    }
 
    public void removeNiveauFromFilier(Long filierId, Long niveauId) throws NotFoundException {
@@ -233,13 +236,18 @@ public class FiliereService {
       List<Filiere> filiereList = filiereRepository.findAll();
 
       System.out.println(filiereList);
-      if (filiereList.isEmpty()) return null;
+      if (filiereList.isEmpty())
+            return enseignantRepository.findAll().stream().
+                    map(enseignantMapper::toEnseignantDTO).collect(Collectors.toList());
 
       List<Long> enseignantIds = new ArrayList<>();
 
 
       for (Filiere filiere : filiereList) {
-         enseignantIds.add(getCurrentCoordinnateur(filiere.getId()).getId());
+         if(getCurrentCoordinnateur(filiere.getId()) != null){
+            enseignantIds.add(getCurrentCoordinnateur(filiere.getId()).getId());
+         }
+
       }
 
       return enseignantRepository.findByIdNotIn(enseignantIds).stream().
@@ -250,7 +258,7 @@ public class FiliereService {
 
    public List<EnseignantDTO> getRestEnseignants() {
       List<Enseignant> enseignantList = accreditationRepository
-              .findByFinAccreditationAfter(new Date())
+              .findByFinAccreditationAfterAndFinAccreditationNull(new Date())
               .stream()
               .map(Accreditation::getCoordinateur).toList();
 
