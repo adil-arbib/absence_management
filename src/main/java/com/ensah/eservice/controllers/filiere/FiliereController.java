@@ -54,8 +54,9 @@ public class FiliereController {
     @GetMapping("/create")
     public String showCreatePage(Model model) throws NotFoundException {
         model.addAttribute("niveaux", filiereService.getRestOfNiveaux());
-        model.addAttribute("enseignants", filiereService.getRestEnseignants());
-        System.out.println(filiereService.getRestEnseignants());
+        model.addAttribute("enseignants", filiereService.getFreeEnseignants());
+        System.out.println(filiereService.getFreeEnseignants());
+        System.out.println(new Date());
         model.addAttribute("filiereDTO", new FiliereDTO());
 
 
@@ -80,7 +81,7 @@ public class FiliereController {
         model.addAttribute("filiere", filiereService.getFiliereById(id));
         model.addAttribute("currentCoordinateur", filiereService.getCurrentCoordinnateur(id));
         model.addAttribute("restOfNiveaux", filiereService.getRestOfNiveaux());
-        model.addAttribute("restOfEnseignants",filiereService.getRestOfEnseignants(id));
+        model.addAttribute("restOfEnseignants",filiereService.getFreeEnseignants());
 
         return "filieres/filiere";
     }
