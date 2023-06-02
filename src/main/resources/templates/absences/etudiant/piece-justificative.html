@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+  />
+
+  <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+
+  <meta name="description" content=""/>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" th:href="@{/assets/img/favicon/favicon.ico}"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+          rel="stylesheet"
+  />
+
+  <!-- Icons. Uncomment required icon fonts -->
+  <link rel="stylesheet" th:href="@{/assets/vendor/fonts/boxicons.css}"/>
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" th:href="@{/assets/vendor/css/core.css}" class="template-customizer-core-css"/>
+  <link rel="stylesheet" th:href="@{/assets/vendor/css/theme-default.css}" class="template-customizer-theme-css"/>
+  <link rel="stylesheet" th:href="@{/assets/css/demo.css}"/>
+
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" th:href="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}"/>
+
+  <link rel="stylesheet" th:href="@{/assets/vendor/libs/apex-charts/apex-charts.css}"/>
+
+  <!-- Page CSS -->
+
+  <!-- Helpers -->
+  <script th:src="@{/assets/vendor/js/helpers.js}"></script>
+
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script th:src="@{/assets/js/config.js}"></script>
+</head>
+<body>
+
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+
+
+    <aside th:replace="~{fragments/etudiant-side-bar :: etudiant_sidebar}"></aside>
+
+
+    <!-- Layout container -->
+    <div class="layout-page">
+
+      <div class="content-wrapper">
+
+        <div id="toast" class="bs-toast toast fade show" role="alert" aria-live="assertive" aria-atomic="true"
+             style="position: absolute; top: 10%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;"
+             th:if="${successMessage != null}"
+        >
+          <div class="toast-header">
+            <i class="bx bx-bell me-2"></i>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body" th:text="${successMessage}">
+
+          </div>
+        </div>
+
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Absences /</span> Ajouter une piece justificative</h4>
+          <div class="card mb-4">
+            <h5 class="card-header">Ajout de piece justificative</h5>
+            <div class="card-body">
+              <form method="post" th:action="@{/etudiant/absences/piece-justificative}"  enctype="multipart/form-data">
+                <label>
+                  <input type="hidden" name="absenceId" th:value="${id}">
+                </label>
+
+                <div class="button-wrapper">
+                  <label for="file" class="btn btn-primary me-2 mb-4" tabindex="0" title="Sélectionner un fichier">
+                    <i class="bx bx-upload d-block d-sm-none"></i>
+                    <input type="file" id="file" name="piece" accept="*"/>
+                  </label>
+                </div>
+
+                <div class="demo-inline-spacing">
+                  <button type="submit" class="btn btn-primary">Ajouter</button>
+                  <button type="reset" class="btn btn-secondary">Annuler
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var toast = document.getElementById('toast');
+
+        setTimeout(function() {
+            toast.classList.remove('show');
+        }, 4000);
+    });
+</script>
+
+
+<script th:src="@{/js/utils.js}"></script>
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script th:src="@{/assets/vendor/libs/jquery/jquery.js}"></script>
+<script th:src="@{/assets/vendor/libs/popper/popper.js}"></script>
+<script th:src="@{/assets/vendor/js/bootstrap.js}"></script>
+<script th:src="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
+
+<script th:src="@{/assets/vendor/js/menu.js}"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script th:src="@{/assets/vendor/libs/apex-charts/apexcharts.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/assets/js/main.js}"></script>
+<script th:src="@{/assets/js/ui-toasts.js}"></script>
+
+
+<!-- Page JS -->
+<script th:src="@{/assets/js/dashboards-analytics.js}"></script>
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+</body>
+</html>
