@@ -24,12 +24,6 @@ import java.util.List;
 public class FiliereController {
 
     private final FiliereService filiereService;
-    private final NiveauService niveauService;
-    private final AccreditationService accreditationService;
-    private final EnseignantService enseignantService;
-
-    private final FiliereMapper filiereMapper;
-
 
     @GetMapping
     public String showAll(

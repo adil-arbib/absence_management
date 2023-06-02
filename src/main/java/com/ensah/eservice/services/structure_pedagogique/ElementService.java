@@ -56,7 +56,7 @@ public class ElementService {
       return elementPage.map(elementMapper::toElementDTO);
    }
 
-   private Page<ElementDTO> getAll(int page, int size){
+   public Page<ElementDTO> getAll(int page, int size){
       return elementRepository.findAll(PageRequest.of(page, size))
               .map(elementMapper::toElementDTO);
    }

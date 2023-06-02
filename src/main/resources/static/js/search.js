@@ -1,19 +1,41 @@
 const searchInput = document.getElementById('searchInput');
-const contacts = document.querySelectorAll('.items-div');
+const searchInput2 = document.getElementById('searchInput2');
+
+const elementsDivs = document.querySelectorAll('.elements-div');
+const enseignantsDivs = document.querySelectorAll('.enseignants-div');
+
 
 searchInput.addEventListener('input', (event) => {
     const searchTerm = event.target.value.toLowerCase();
 
-    contacts.forEach((contact) => {
-        const label = contact.querySelector('.form-check-label');
+    elementsDivs.forEach((element) => {
+        const label = element.querySelector('.form-check-label');
         const name = label.textContent.toLowerCase();
-        const checkbox = contact.querySelector('.form-check-input');
+        const checkbox = element.querySelector('.form-check-input');
 
         if (name.includes(searchTerm)) {
-            contact.style.display = 'block';
+            element.style.display = 'block';
             checkbox.disabled = false;
         } else {
-            contact.style.display = 'none';
+            element.style.display = 'none';
+            checkbox.disabled = true;
+        }
+    });
+});
+
+searchInput2.addEventListener('input', (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+
+    enseignantsDivs.forEach((enseignant) => {
+        const label = enseignant.querySelector('.form-check-label');
+        const name = label.textContent.toLowerCase();
+        const checkbox = enseignant.querySelector('.form-check-input');
+
+        if (name.includes(searchTerm)) {
+            enseignant.style.display = 'block';
+            checkbox.disabled = false;
+        } else {
+            enseignant.style.display = 'none';
             checkbox.disabled = true;
         }
     });

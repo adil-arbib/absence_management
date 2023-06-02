@@ -67,12 +67,12 @@ public class ModuleService {
         return moduleMapper.moduleToModuleDTO(moduleRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
-    private Page<ModuleDTO> findByNomContains(int page, int size, String keyword) {
+    public Page<ModuleDTO> findByNomContains(int page, int size, String keyword) {
         Page<Module> modulePage = moduleRepository.findByNomContains(keyword, PageRequest.of(page, size));
         return modulePage.map(moduleMapper::moduleToModuleDTO);
     }
 
-    private Page<ModuleDTO> getAll(int page, int size){
+    public Page<ModuleDTO> getAll(int page, int size){
         return moduleRepository.findAll(PageRequest.of(page, size))
                 .map(moduleMapper::moduleToModuleDTO);
     }

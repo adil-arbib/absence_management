@@ -15,6 +15,7 @@ import java.util.Optional;
 @Repository
 public interface InscriptionRepository extends JpaRepository<Inscription, Long> {
 
+    List<Inscription> findAllByAnneeAndNiveauAndEtudiantNomContains(Integer annee, Niveau niveau, String nom);
     List<Inscription> findAllByAnneeAndNiveau(Integer annee, Niveau niveau);
 
     Optional<Inscription> findByEtudiantAndAnnee(Etudiant etudiant, Integer annee);
