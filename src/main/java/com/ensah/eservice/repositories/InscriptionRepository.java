@@ -18,4 +18,7 @@ public interface InscriptionRepository extends JpaRepository<Inscription, Long> 
     List<Inscription> findAllByAnneeAndNiveau(Integer annee, Niveau niveau);
 
     Optional<Inscription> findByEtudiantAndAnnee(Etudiant etudiant, Integer annee);
+
+
+    List<Inscription> findByEtudiant(Etudiant etudiant);
 }

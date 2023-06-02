@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.time.Year;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -105,5 +106,13 @@ public class EtudiantAbsenceService {
               .map(reclamationMapper::toReclamationDTO);
    }
 
+
+   public List<Integer> allInscriptionYears() {
+      Etudiant currentEtudiant = (Etudiant) CurrentUser.getCurrentUser();
+      return inscriptionRepository.findByEtudiant(currentEtudiant)
+              .stream()
+              .map(Inscription::getAnnee)
+              .collect(Collectors.toList());
+   }
 
 }

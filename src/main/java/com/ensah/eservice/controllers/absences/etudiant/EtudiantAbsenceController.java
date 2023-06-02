@@ -9,6 +9,7 @@ import com.ensah.eservice.services.absences.etudiant.EtudiantAbsenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
+import java.time.Year;
 import java.util.logging.Logger;
 
 @Controller
@@ -111,6 +113,37 @@ public class EtudiantAbsenceController {
 
 
 
+   @GetMapping("/fiche-absences")
+   public String ficheAbsences(
+           @RequestParam(name = "page", defaultValue = "0") int page,
+           @RequestParam(name = "size", defaultValue = "10") int size,
+           @RequestParam(name = "keyword", defaultValue = "") String keyword,
+           @RequestParam(name = "year", defaultValue = "0")
+           @DateTimeFormat(pattern = "yyyy")
+           int year,
+           Model model) throws InscriptionNotFoundException {
+
+      if (year == 0) {
+         year = Year.now().getValue();
+      }
+      Page<AbsenceDTO> absencesPage = etudiantAbsenceService.getYearAbsence(year, page, size, keyword);
+      model.addAttribute("inscriptionYears", etudiantAbsenceService.allInscriptionYears());
+      model.addAttribute("absencesPage", absencesPage);
+      model.addAttribute("pages", new int[absencesPage.getTotalPages()]);
+      model.addAttribute("currentPage", page);
+      model.addAttribute("keyword", keyword);
+      model.addAttribute("year", year);
+      model.addAttribute("max", absencesPage.getTotalPages() - 1);
+      model.addAttribute("size", size);
+      return "absences/etudiant/fiche";
+   }
+
+
+   @PostMapping("/fiche-absences")
+   public RedirectView searchAbsence(@RequestParam("year") int year, RedirectAttributes redirectAttributes) {
+      redirectAttributes.addAttribute("year", year);
+      return new RedirectView("/etudiant/absences/fiche-absences");
+   }
 
 
 

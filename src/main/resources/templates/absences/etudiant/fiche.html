@@ -93,63 +93,85 @@
         <!-- Content -->
 
         <div class="container-xxl flex-grow-1 container-p-y">
-          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Reclamations /</span> mes reclamations </h4>
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Absences /</span> mes absences </h4>
+          <div class="card">
+            <h5 class="card-header">les absences dans l'année en cours</h5>
+            <div class="table-responsive text-nowrap">
+              <form method="post" th:action="@{/etudiant/absences/fiche-absences}">
+                <div class="col-md-3">
+                  <label class="form-label" for="yearSelect">Sélectionner l'année</label>
+                  <select id="yearSelect" name="year" class="form-select color-dropdown">
+                    <option th:each="year : ${inscriptionYears}" th:value="${year}" th:text="${year}"></option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">chercher</button>
+              </form>
 
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Matière</th>
+                  <th>Type de seance</th>
+                  <th>Enseignant</th>
+                  <th>etat</th>
+                  <th>De</th>
+                  <th>À</th>
+                </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                <tr th:each="absence : ${absencesPage.content}">
+                  <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong th:text="${absence.element.nom}"></strong>
+                  </td>
+                  <td th:text="${absence.typeSeance.alias}"></td>
+                  <td th:text="${absence.enseignant.nom}"></td>
+                  <td th:text="${absence.etat}"></td>
+                  <td th:text="${#dates.format(absence.absenceStart, 'dd-MM-yyyy HH:mm')}"></td>
+                  <td th:text="${#dates.format(absence.absenceEnd, 'dd-MM-yyyy HH:mm')}"></td>
 
-          <div th:each="msg : ${reclamationsPage.content}" class="card mt-3">
-            <div class="card-body">
-              <h4 class="card-title" >Enseignant :
-                <span  th:text="${msg.absence.enseignant.nom  + ' ' + msg.absence.enseignant.prenom}"></span>
-              </h4>
-
-              <p class="card-subtitle" th:text="${'Titre : ' + msg.title}"></p>
-              <p class="card-text" th:text="${msg.content}"></p>
-              <p class="card-text" >Réponses : </p>
-              <p th:each="response : ${msg.responses}" th:text="${response.content}"></p>
-
+                </tr>
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-center mt-4" th:if="${absencesPage.isEmpty()}">
+                <p>aucun résultat</p>
+              </div>
+              <div th:if="${!absencesPage.isEmpty()}" class="pagination justify-content-center mt-3">
+                <!-- Pagination -->
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                    <li class="page-item first">
+                      <a class="page-link" th:href="@{/etudiant/absences/fiche-absences(page = 0, size = ${size}, keyword = ${keyword})}"
+                      ><i class="tf-icon bx bx-chevrons-left"></i
+                      ></a>
+                    </li>
+                    <li class="page-item prev">
+                      <a class="page-link"
+                         th:href="@{/etudiant/absences/fiche-absences(page = ${currentPage == 0 ? 0 : currentPage - 1}, size = ${size}, keyword = ${keyword})}"
+                      ><i class="tf-icon bx bx-chevron-left"></i
+                      ></a>
+                    </li>
+                    <li th:class="${status.index == currentPage ? 'page-item active' : 'page-item' }"
+                        th:each="page,status : ${pages}">
+                      <a class="page-link" th:text="${status.index}"
+                         th:href="@{/etudiant/absences/fiche-absences(page = ${status.index}, size = ${size}, keyword = ${keyword})}"></a>
+                    </li>
+                    <li class="page-item next">
+                      <a class="page-link"
+                         th:href="@{/etudiant/absences/fiche-absences(page = ${currentPage == max  ?  max  : currentPage + 1}, size = ${size}, keyword = ${keyword})}"
+                      ><i class="tf-icon bx bx-chevron-right"></i
+                      ></a>
+                    </li>
+                    <li class="page-item last">
+                      <a class="page-link" th:href="@{/etudiant/absences/fiche-absences(page = ${max}, size = ${size}, keyword = ${keyword})}"
+                      ><i class="tf-icon bx bx-chevrons-right"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </nav>
+                <!--/ Basic Pagination -->
+              </div>
             </div>
-            <div class="text-end me-3 mb-3">
-              <small class="text-muted" th:text="${#dates.format(msg.createdAt, 'dd-MM-yyyy HH:mm')}"></small>
-            </div>
-          </div>
-
-          <div th:if="${!reclamationsPage.isEmpty()}" class="pagination justify-content-center mt-3">
-            <!-- Pagination -->
-            <nav aria-label="Page navigation">
-              <ul class="pagination">
-                <li class="page-item first">
-                  <a class="page-link" th:href="@{/etudiant/reclamations(page = 0, size = ${size})}"
-                  ><i class="tf-icon bx bx-chevrons-left"></i
-                  ></a>
-                </li>
-                <li class="page-item prev">
-                  <a class="page-link"
-                     th:href="@{/etudiant/reclamations(page = ${currentPage == 0 ? 0 : currentPage - 1}, size = ${size})}"
-                  ><i class="tf-icon bx bx-chevron-left"></i
-                  ></a>
-                </li>
-                <li th:class="${status.index == currentPage ? 'page-item active' : 'page-item' }"
-                    th:each="page,status : ${pages}">
-                  <a class="page-link" th:text="${status.index}"
-                     th:href="@{/etudiant/reclamations(page = ${status.index}, size = ${size}}"></a>
-                </li>
-                <li class="page-item next">
-                  <a class="page-link"
-                     th:href="@{/etudiant/reclamations(page = ${currentPage == max  ?  max  : currentPage + 1}, size = ${size})}"
-                  ><i class="tf-icon bx bx-chevron-right"></i
-                  ></a>
-                </li>
-                <li class="page-item last">
-                  <a class="page-link" th:href="@{/etudiant/reclamations(page = ${max}, size = ${size})}"
-                  ><i class="tf-icon bx bx-chevrons-right"></i
-                  ></a>
-                </li>
-              </ul>
-            </nav>
-            <!--/ Basic Pagination -->
           </div>
         </div>
-
 
       </div>
     </div>

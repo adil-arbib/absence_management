@@ -116,8 +116,9 @@
                   <td th:text="${absence.typeSeance.alias}"></td>
                   <td th:text="${absence.enseignant.nom}"></td>
                   <td th:text="${absence.etat}"></td>
-                  <td th:text="${absence.absenceStart}"></td>
-                  <td th:text="${absence.absenceEnd}"></td>
+                  <td th:text="${#dates.format(absence.absenceStart, 'dd-MM-yyyy HH:mm')}"></td>
+                  <td th:text="${#dates.format(absence.absenceEnd, 'dd-MM-yyyy HH:mm')}"></td>
+
                   <td>
                     <div th:if="${absence.etat.name == 'NON_JUSTIFIEE'}" class="dropdown">
                       <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -129,7 +130,6 @@
                         ><i class="bx bx-edit-alt me-1"></i>Ajouter piece justificative</a>
                         <a class="dropdown-item" th:href="@{/etudiant/absences/{id}/reclamation(id=${absence.id})}"
                         ><i class="bx bx-edit-alt me-1"></i>Effectuer une réclamation</a>
-
                       </div>
                     </div>
                   </td>
