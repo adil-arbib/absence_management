@@ -31,11 +31,11 @@ public class AbsenceService {
         Absence absence = absenceRepository.findById(id).orElseThrow(NotFoundException::new);
         absenceRepository.delete(absence);
     }
-    public void update(AbsenceDTO absenceDTO) throws NotFoundException {
-        Absence absence = absenceRepository.findById(absenceDTO.getId()).orElseThrow(NotFoundException::new);
-            absenceMapper.updateAbsenceFromDTO(absenceDTO,absence);
-            absenceRepository.save(absence);
-    }
+//    public void update(AbsenceDTO absenceDTO) throws NotFoundException {
+//        Absence absence = absenceRepository.findById(absenceDTO.getId()).orElseThrow(NotFoundException::new);
+//            absenceMapper.updateAbsenceFromDTO(absenceDTO,absence);
+//            absenceRepository.save(absence);
+//    }
 
 
 

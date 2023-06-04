@@ -55,15 +55,15 @@ public class EnseignantAbsenceService {
               PageRequest.of(page, size));
       return absencePage.map(absenceMapper::toAbsenceDTO);
    }
-    public void addAbsence(Date absenceStart, Date absenceEnd, ElementDTO elementDTO,
-                           TypeSeanceDTO typeSeanceDTO, List<EtudiantDTO> list){
-        Enseignant currentEnseignant = (Enseignant) CurrentUser.getCurrentUser();
-        EnseignantDTO enseignantDTO = enseignantMapper.toEnseignantDTO(currentEnseignant);
-        for ( EtudiantDTO etudiantDTO: list) {
-            AbsenceDTO absenceDTO=new AbsenceDTO(null,absenceStart,absenceEnd, AbsenceEtat.NON_JUSTIFIEE,elementDTO
-                    ,typeSeanceDTO,enseignantDTO,etudiantDTO);
-            absenceService.create(absenceDTO);
-        }
-    }
+//    public void addAbsence(Date absenceStart, Date absenceEnd, ElementDTO elementDTO,
+//                           TypeSeanceDTO typeSeanceDTO, List<EtudiantDTO> list){
+//        Enseignant currentEnseignant = (Enseignant) CurrentUser.getCurrentUser();
+//        EnseignantDTO enseignantDTO = enseignantMapper.toEnseignantDTO(currentEnseignant);
+//        for ( EtudiantDTO etudiantDTO: list) {
+//            AbsenceDTO absenceDTO=new AbsenceDTO(null,absenceStart,absenceEnd, AbsenceEtat.NON_JUSTIFIEE,elementDTO
+//                    ,typeSeanceDTO,enseignantDTO,etudiantDTO);
+//            absenceService.create(absenceDTO);
+//        }
+//    }
 
 }

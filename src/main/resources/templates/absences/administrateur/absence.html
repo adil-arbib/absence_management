@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+
+    <meta name="description" content=""/>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/img/favicon/favicon.ico}"/>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+            rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/fonts/boxicons.css}"/>
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/css/core.css}" class="template-customizer-core-css"/>
+    <link rel="stylesheet" th:href="@{/assets/vendor/css/theme-default.css}" class="template-customizer-theme-css"/>
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}"/>
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}"/>
+
+    <link rel="stylesheet" th:href="@{/assets/vendor/libs/apex-charts/apex-charts.css}"/>
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script th:src="@{/assets/vendor/js/helpers.js}"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script th:src="@{/assets/js/config.js}"></script>
+</head>
+<body>
+
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+
+
+        <aside th:replace="~{fragments/cadre-administrateur-side-bar :: cadreAdministrateur_sideBar}"></aside>
+
+        <!-- Layout container -->
+        <div class="layout-page">
+            <div class="content-wrapper">
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Absence /</span> Modifier</h4>
+                    <div class="card mb-4">
+                        <h5 class="card-header">Modifier l'absence de L'etudiant <strong th:text="${currentAbsence.inscription.etudiant.nom + ' ' + currentAbsence.inscription.etudiant.prenom }"> </strong></h5>
+                        <div class="card-body">
+                            <form method="post"  th:action="@{/administrateur/absences/etudiants/absences/update}" th:object="${currentAbsence}">
+                                <input type="hidden" th:field="${currentAbsence.id}">
+
+                                <div class="mb-3 row">
+                                    <label for="absenceStart" class="col-md-2 col-form-label">Date de debut *</label>
+                                    <div class="col-md-10">
+                                        <input name="absenceStart"  th:value="${#dates.format(currentAbsence.absenceStart, 'yyyy-MM-dd')}"  class="form-control" type="date" id="absenceStart" required/>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="absenceEnd" class="col-md-2 col-form-label">Date de Fin *</label>
+                                    <div class="col-md-10">
+                                        <input name="absenceEnd"  th:value="${#dates.format(currentAbsence.absenceEnd, 'yyyy-MM-dd')}" class="form-control" type="date" id="absenceEnd" required/>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="Etudiant" class="col-md-2 col-form-label">CNE Etudiant *</label>
+                                    <div class="col-md-10">
+                                        <input name="Etudiant" disabled  th:value="${currentAbsence.inscription.etudiant.cne}" class="form-control" type="text" id="Etudiant" required/>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label">Element*</label>
+                                    <div class="col-md-10">
+                                        <input class="form-control" type="search" id="searchInput" th:value="${currentAbsence.element.nom}"  />
+                                        <div class="col-md-10 mt-2" style="height: 150px; width: auto; overflow-y: scroll;">
+                                            <div style="display: block;" th:each="element : ${elements}" class="items-div elements-div">
+                                                <input th:value="${element.id}"  th:checked="${currentAbsence.element != null && currentAbsence.element.id == element.id}"  type="radio" class="form-check-input" name="selectedElement" required/>
+                                                <label class="form-check-label" th:text="${element.nom}" ></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label">Enseignant*</label>
+                                    <div class="col-md-10">
+                                        <input class="form-control" type="search" id="searchInput2" th:value="${currentAbsence.enseignant.nom + ' ' + currentAbsence.enseignant.prenom}"  />
+                                        <div class="col-md-10 mt-2" style="height: 150px; width: auto; overflow-y: scroll;">
+                                            <div style="display: block;" th:each="enseignant : ${enseignants}" class="items-div enseignants-div">
+                                                <input th:value="${enseignant.id}"  th:checked="${currentAbsence.enseignant != null && currentAbsence.enseignant.id == enseignant.id}"    type="radio" class="form-check-input" name="selectedEnseignant" required />
+                                                <label class="form-check-label"  th:text="${enseignant.nom + ' ' + enseignant.prenom}" > </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label">Type Seance</label>
+                                    <div class="col-md-10">
+                                        <!--                    <input class="form-control" type="search" id="searchInput3" placeholder="choisir type de seance"/>-->
+                                        <div class="demo-inline-spacing">
+                                            <select id="typeSeance" name="typeSeanceSelected"   class="form-select form-select-lg">
+                                                <option th:each="typeSeance : ${typeSeances}"
+                                                        th:value="${typeSeance.id}"   th:text="${typeSeance.alias}"
+                                                        th:selected="${typeSeance.alias == currentAbsence.typeSeance.alias}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-md-2 col-form-label">Etat Absence</label>
+                                    <div class="col-md-10">
+                                        <div class="demo-inline-spacing">
+                                            <input class="form-check-input" type="radio" id="nonJustifiee" name="etat" value="NON_JUSTIFIEE"
+                                                   th:checked="${currentAbsence.etat.toString() == 'NON_JUSTIFIEE'}">
+                                            <label class="form-check-label" for="nonJustifiee">Non Justifié</label>
+
+                                            <input class="form-check-input" type="radio" id="justifiee" name="etat" value="JUSTIFIEE"
+                                                   th:checked="${currentAbsence.etat.toString() == 'JUSTIFIEE'}">
+                                            <label class="form-check-label"  for="justifiee">Justifié</label>
+
+                                            <input class="form-check-input" type="radio" id="annulee" name="etat" value="ANNULEE"
+                                                   th:checked="${currentAbsence.etat.toString() == 'ANNULEE'}">
+                                            <label class="form-check-label" for="annulee">Annuler</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="demo-inline-spacing">
+                                        <button type="submit" class="btn btn-primary">Valider</button>
+                                        <button type="reset" class="btn btn-secondary" >Annuler</button>
+                                    </div>
+                                    </div>
+
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/search.js}"></script>
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script th:src="@{/assets/vendor/libs/jquery/jquery.js}"></script>
+<script th:src="@{/assets/vendor/libs/popper/popper.js}"></script>
+<script th:src="@{/assets/vendor/js/bootstrap.js}"></script>
+<script th:src="@{/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
+
+<script th:src="@{/assets/vendor/js/menu.js}"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script th:src="@{/assets/vendor/libs/apex-charts/apexcharts.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/assets/js/main.js}"></script>
+
+<!-- Page JS -->
+<script th:src="@{/assets/js/dashboards-analytics.js}"></script>
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+</body>
+</html>

@@ -94,7 +94,7 @@ public class EServiceApplication {
 //            EtudiantRepository etudiantRepository
 //    ) {
 //        return args -> {
-//            Etudiant etudiant = etudiantRepository.findById(8L).orElse(null);
+//            Etudiant etudiant = etudiantRepository.findById(13L).orElse(null);
 //            Inscription inscription = new Inscription();
 //            inscription.setAnnee(2023);
 ////            Niveau niveau = new Niveau();
@@ -102,7 +102,7 @@ public class EServiceApplication {
 ////            niveau.setAlias("GI1");
 ////            niveau.setTitre("genie info 1");
 //
-//            inscription.setNiveau(niveauRepository.findById(2L).orElseThrow(NotFoundException::new));
+//            inscription.setNiveau(niveauRepository.findById(6L).orElseThrow(NotFoundException::new));
 //            inscription.setEtudiant(etudiant);
 //            inscriptionRepository.save(inscription);
 //        };

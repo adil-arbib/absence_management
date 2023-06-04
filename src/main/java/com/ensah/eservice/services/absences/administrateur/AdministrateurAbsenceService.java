@@ -1,6 +1,7 @@
 package com.ensah.eservice.services.absences.administrateur;
 
 
+import com.ensah.eservice.dto.TypeSeance.TypeSeanceMapper;
 import com.ensah.eservice.dto.absence.AbsenceDTO;
 import com.ensah.eservice.dto.absence.AbsenceMapper;
 import com.ensah.eservice.dto.elements.ElementDTO;
@@ -52,6 +53,7 @@ public class AdministrateurAbsenceService {
     private final AbsenceMapper absenceMapper;
     private final EnseignantMapper enseignantMapper;
     private final ElementMapper elementMapper;
+    private final TypeSeanceMapper typeSeanceMapper;
     private final NiveauMapper niveauMapper;
 
 
@@ -120,6 +122,7 @@ public class AdministrateurAbsenceService {
                     orElseThrow(NotFoundException::new), Year.now().getValue()).
                     orElseThrow(NotFoundException::new);
 
+
             Absence absence = new Absence();
             absence.setAbsenceStart(absenceStart);
             absence.setAbsenceEnd(absenceEnd);
@@ -129,7 +132,10 @@ public class AdministrateurAbsenceService {
             absence.setTypeSeance(typeSeance);
             absence.setEtat(AbsenceEtat.NON_JUSTIFIEE);
 
+//            AbsenceDTO absenceDTO = absenceMapper.toAbsenceDTO(absence);
+//            absenceDTO.setEtudiant(etudiantMapper.toEtudiantDTO(inscription.getEtudiant()));
             absenceList.add(absenceMapper.toAbsenceDTO(absence));
+            System.out.println("inscription est :" + inscription);
 
             absenceRepository.save(absence);
         }
@@ -149,10 +155,34 @@ public class AdministrateurAbsenceService {
         }
 
         return etudiantsList;
+    }
+
+    public void updateAbsence(AbsenceDTO absenceDTO) throws NotFoundException {
+        Absence absence = absenceRepository.findById(absenceDTO.getId()).
+                orElseThrow(NotFoundException::new);
+
+        absence.setId(absence.getId());
+        absence.setAbsenceStart(absenceDTO.getAbsenceStart());
+        absence.setAbsenceEnd(absenceDTO.getAbsenceEnd());
+        absence.setInscription(inscriptionMapper.toInscription(absenceDTO.getInscription()));
+        absence.setElement(elementMapper.toElement(absenceDTO.getElement()));
+        absence.setEnseignant(enseignantMapper.toEnseignant(absenceDTO.getEnseignant()));
+        absence.setEtat(absenceDTO.getEtat());
+        absence.setTypeSeance(typeSeanceMapper.toTypeSeance(absenceDTO.getTypeSeance()));
 
 
+//        absenceMapper.updateAbsenceFromDTO(absenceDTO, absence);
 
+        System.out.println("elements"+absence.getElement());
+        absenceRepository.save(absence);
 
+    }
+
+    public void deleteAbsence(Long id) throws NotFoundException {
+        Absence absence = absenceRepository.findById(id).
+                orElseThrow(NotFoundException::new);
+
+        absenceRepository.delete(absence);
     }
 
 }

@@ -98,7 +98,7 @@
           <div class="card">
             <h5 class="card-header">Tous les etudiants de  <strong th:text="${niveau.alias}"></strong></h5>
             <div class="table-responsive text-nowrap">
-              <form method="post" th:action="@{/administrateur/absences/etudiants/absences}" }>
+
               <table class="table">
                 <thead>
                 <tr>
@@ -107,26 +107,27 @@
                   <th>Cne</th>
                   <th>Date de naissance</th>
                   <th>Photo</th>
-                  <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                 <tr th:each="etudiant : ${etudiants}">
+                  <form method="get" th:action="@{/administrateur/absences/etudiants/{id}/absences(id=${etudiant.id})}" >
                   <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong th:text="${etudiant.nom}"></strong></td>
                   <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong th:text="${etudiant.prenom}"></strong></td>
-
                   <td th:text="${etudiant.cne}"></td>
                   <td th:text="${etudiant.dateNaissance}"></td>
-                  <input type="hidden" th:value="${etudiant.id}" name="selectedEtudiant" />
                   <td>
+
                     <div>
+                      <input type="hidden" th:value="${etudiant.id}" name="selectedEtudiant" />
                       <button type="submit"  class="btn btn-primary mt-3">Consulter</button>
                     </div>
+                  </form>
                   </td>
                 </tr>
                 </tbody>
               </table>
-              </form>
+
               <div class="d-flex justify-content-center mt-4" th:if="${etudiants.isEmpty()}">
                 <p>aucun résultat</p>
               </div>
