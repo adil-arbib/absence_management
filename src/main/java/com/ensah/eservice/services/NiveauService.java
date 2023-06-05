@@ -131,12 +131,6 @@ public class NiveauService {
         niveauRepository.delete(niveau);
     }
 
-    public List<NiveauDTO> getByFiliere(FiliereDTO filiereDTO) throws NotFoundException {
-        Filiere filiere =filiereRepository.findByNomOrAlias(filiereDTO.getNom(),filiereDTO.getAlias())
-                .orElseThrow(NotFoundException::new);
-        List<Niveau> niveauList= filiere.getNiveaux().stream().toList();
-        return niveauMapper.listToNiveauDTO(niveauList);
-    }
 
 
 

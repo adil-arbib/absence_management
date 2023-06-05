@@ -1,5 +1,7 @@
 package com.ensah.eservice.dto.inscription;
 
+import com.ensah.eservice.dto.niveau.NiveauDTO;
+import com.ensah.eservice.dto.users.etudiant.EtudiantDTO;
 import com.ensah.eservice.models.Etudiant;
 import com.ensah.eservice.models.Niveau;
 import lombok.AllArgsConstructor;
@@ -18,8 +20,8 @@ public class InscriptionDTO {
 
     private Integer etat;
 
-    private Etudiant etudiant;
+    private EtudiantDTO etudiant;
 
-    private Niveau niveau;
+    private NiveauDTO niveau;
 
 }
