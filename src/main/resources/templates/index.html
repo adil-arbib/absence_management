@@ -63,6 +63,7 @@
         <aside sec:authorize="hasAuthority('ETUDIANT')" th:replace="~{fragments/etudiant-side-bar :: etudiant_sidebar}"></aside>
         <aside sec:authorize="hasAuthority('CADRE_ADMINISTRATEUR')" th:replace="~{fragments/cadre-administrateur-side-bar::cadreAdministrateur_sideBar}"></aside>
         <aside sec:authorize="hasAuthority('SUPER_ADMIN')" th:replace="~{fragments/super-admin-side-bar::sidebar}"></aside>
+        <aside sec:authorize="hasAuthority('ENSEIGNANT')" th:replace="~{fragments/enseignant-side-bar::enseignat-sidebar}"></aside>
 
         <!-- Layout container -->
 <!--        <div class="layout-page">-->

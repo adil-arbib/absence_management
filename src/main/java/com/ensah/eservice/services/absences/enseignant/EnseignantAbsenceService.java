@@ -30,6 +30,7 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,5 +76,11 @@ public class EnseignantAbsenceService {
                    ,inscriptionMapper.toInscriptionDTO(inscription));
             absenceService.create(absenceDTO);
         }
+    }
+
+    public List<AbsenceDTO> getAll(){
+        Long enseignantId= Objects.requireNonNull(CurrentUser.getCurrentUser()).getId();
+        List<AbsenceDTO> list= absenceMapper.toAbsenceDTOList(absenceRepository.findAllByEnseignant_Id(enseignantId));
+        return list;
     }
 }

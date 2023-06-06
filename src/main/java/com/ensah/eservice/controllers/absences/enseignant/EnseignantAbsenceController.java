@@ -86,10 +86,17 @@ public class EnseignantAbsenceController {
 
         ElementDTO elementDTO= elementService.getElementById(element);
         TypeSeanceDTO typeSeanceDTO=typeSeanceService.getTypeSeance(typeSeance);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
        enseignantAbsenceService.createAbsence(elementDTO,
                simpleDateFormat.parse(absenceStart),simpleDateFormat.parse(absenceEnd),IdSelected,typeSeanceDTO);
         return "absences/enseignant/AddAbsences";
+    }
+
+
+    @GetMapping("/all")
+    public String showAll(Model model){
+        model.addAttribute("listeAbsence",enseignantAbsenceService.getAll());
+        return "absences/enseignant/All";
     }
 
 }
