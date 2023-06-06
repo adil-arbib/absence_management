@@ -76,31 +76,109 @@
     </li>
 
     <!-- Gestion des absences -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">Gestion des absences</span></li>
     <!-- Cards -->
     <li class="menu-item">
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Gestion de la structure pédagogique </span>
+    </li>
+    <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-        <div data-i18n="Misc">Absences</div>
+        <i class="menu-icon tf-icons bx bx-dock-top"></i>
+        <div data-i18n="Account Settings">Filières</div>
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a th:href="@{/administrateur/absences/etudiants}" class="menu-link">
-            <div data-i18n="Error">Consulter Fiches Absences</div>
+          <a th:href="@{/administrateur/filieres}" class="menu-link">
+            <div data-i18n="Account">Toutes les filières</div>
           </a>
         </li>
         <li class="menu-item">
-          <a th:href="@{/administrateur/absences/addAbsencesForm}" class="menu-link">
-            <div data-i18n="Error">Ajouter Absence</div>
+          <a th:href="@{/administrateur/filieres/create}" class="menu-link">
+            <div data-i18n="Notifications">Ajouter une filières</div>
           </a>
         </li>
-<!--        <li class="menu-item">-->
-<!--          <a th:href="@{/etudiant/fiche-absence}" class="menu-link">-->
-<!--            <div data-i18n="Error">Fiche d’absence</div>-->
-<!--          </a>-->
-<!--        </li>-->
       </ul>
     </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+        <div data-i18n="Authentications">Niveaux</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a th:href="@{/administrateur/niveaux}" class="menu-link" >
+            <div data-i18n="Basic">Tous les niveaux</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a th:href="@{/administrateur/niveaux/create}" class="menu-link" >
+            <div data-i18n="Basic">Ajouter un niveaux</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+        <div data-i18n="Misc">Modules</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a th:href="@{/administrateur/modules}" class="menu-link">
+            <div data-i18n="Error">Tous les modules</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a th:href="@{/administrateur/modules/create}" class="menu-link">
+            <div data-i18n="Under Maintenance">Ajouter un module</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+        <div data-i18n="Misc">Éléments</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a th:href="@{/administrateur/elements}" class="menu-link">
+            <div data-i18n="Error">Tous les éléments</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a th:href="@{/administrateur/elements/create}" class="menu-link">
+            <div data-i18n="Under Maintenance">Ajouter un éléments</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="menu-item">
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Gestion des Absences </span>
+      </li>
+
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+            <div data-i18n="Misc">Absences</div>
+      </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a th:href="@{/administrateur/absences/etudiants}" class="menu-link">
+                    <div data-i18n="Error">Consulter Fiches Absences</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a th:href="@{/administrateur/absences/addAbsencesForm}" class="menu-link">
+                    <div data-i18n="Error">Ajouter Absence</div>
+                  </a>
+                </li>
+              </ul>
+     </li>
+    </li>
+  </ul>
 
 
   </ul>

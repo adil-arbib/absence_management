@@ -162,8 +162,8 @@ public class FiliereService {
       filiereRepository.save(filiere);
    }
 
-   //return tous le niveaux qui sont pas attribué á une filiere
-   public List<NiveauDTO> getRestOfNiveaux() throws NotFoundException {
+   //return tous les niveaux qui sont pas attribué á une filiere
+   public List<NiveauDTO> getRestOfNiveaux() {
 
       List<Filiere> filiereList = filiereRepository.findAll();
 
@@ -215,8 +215,6 @@ public class FiliereService {
 
       Enseignant enseignant = accreditationList.get(accreditationList.size() - 1).
               getCoordinateur();
-
-
 
       return enseignant == null ? null : enseignantMapper.toEnseignantDTO(enseignant);
    }

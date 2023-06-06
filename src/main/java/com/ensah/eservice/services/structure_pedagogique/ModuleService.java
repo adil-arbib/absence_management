@@ -104,4 +104,9 @@ public class ModuleService {
         moduleRepository.save(module);
     }
 
+    public void deleteModule(Long id) throws NotFoundException {
+        Module module = moduleRepository.findById(id).orElseThrow(NotFoundException::new);
+        moduleRepository.delete(module);
+    }
+
 }

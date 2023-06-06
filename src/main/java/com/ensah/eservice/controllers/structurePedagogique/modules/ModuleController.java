@@ -1,4 +1,4 @@
-package com.ensah.eservice.controllers.modules;
+package com.ensah.eservice.controllers.structurePedagogique.modules;
 
 
 import com.ensah.eservice.dto.modules.ModuleDTO;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/modules")
+@RequestMapping("/administrateur/modules")
 @RequiredArgsConstructor
 public class ModuleController {
 
@@ -36,7 +36,7 @@ public class ModuleController {
             @RequestParam(name = "selectedElements", required = false) List<Long> selectedElementsIds
     ) throws AlreadyExistsException, NotFoundException {
         moduleService.create(moduleDTO, selectedElementsIds);
-        return "redirect:/modules/create";
+        return "redirect:/administrateur/modules/create";
     }
 
     @GetMapping
@@ -67,27 +67,33 @@ public class ModuleController {
     public String updateModule(@ModelAttribute("module") ModuleDTO moduleDTO) throws NotFoundException {
         moduleService.update(moduleDTO);
         System.out.println(moduleDTO);
-        return "redirect:/modules/"+moduleDTO.getId();
+        return "redirect:/administrateur/modules/"+moduleDTO.getId();
     }
 
 
 
     @PostMapping("/{moduleId}/elements/remove")
-    public String removeContactFromGroup(
+    public String removeElementFromModule(
             @PathVariable("moduleId") Long moduleId,
             @RequestParam("elementId") Long elementId
     ) throws NotFoundException {
         moduleService.removeElementFromModule(moduleId, elementId);
-        return "redirect:/modules/"+moduleId;
+        return "redirect:/administrateur/modules/"+moduleId;
     }
 
     @PostMapping("/{moduleId}/elements/add")
-    public String addContactsToGroup(
+    public String addElementsToModule(
             @PathVariable("moduleId") Long moduleId,
             @RequestParam(name = "selectedElements") List<Long> selectedElementsIds
     ) throws NotFoundException {
         moduleService.addElementToModule(moduleId, selectedElementsIds);
-        return "redirect:/modules/"+moduleId;
+        return "redirect:/administrateur/modules/"+moduleId;
+    }
+
+    @PostMapping("/delete")
+    public String deleteElement(@RequestParam("id") Long id) throws NotFoundException {
+        moduleService.deleteModule(id);
+        return "redirect:/administrateur/modules";
     }
 
 

@@ -51,7 +51,7 @@
     <!-- Menu -->
 
 
-    <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+    <aside th:replace="~{fragments/cadre-administrateur-side-bar :: cadreAdministrateur_sideBar}"></aside>
 
     <!-- Layout container -->
     <div class="layout-page">
@@ -61,7 +61,7 @@
           <div class="card mb-4">
             <h5 class="card-header">Modification de Niveau</h5>
             <div class="card-body">
-              <form method="post" th:action="@{/niveaux/update}" th:object="${niveau}">
+              <form method="post" th:action="@{/administrateur/niveaux/update}" th:object="${niveau}">
                 <input type="hidden" th:field="${niveau.id}">
                 <div class="mb-3 row">
                   <label for="titre" class="col-md-2 col-form-label">Nom*</label>
@@ -111,7 +111,7 @@
                                 aria-label="Close"
                         ></button>
                       </div>
-                      <form method="post" th:action="@{/niveaux/{niveauId}/modules/add(niveauId=${niveau.id})}">
+                      <form method="post" th:action="@{/administrateur/niveaux/{niveauId}/modules/add(niveauId=${niveau.id})}">
                         <div class="modal-body">
                           <input class="form-control" type="search" id="searchInput" placeholder="chercher un module"/>
                           <div style="height: 200px; width: auto; overflow-y: scroll; text-align: left">
@@ -150,10 +150,10 @@
                   <td th:text="${module.nom}"></td>
                   <td th:text="${module.code}"></td>
                   <td>
-                      <a class="dropdown-item" th:href="@{/modules/{id}(id=${module.id})}"
+                      <a class="dropdown-item" th:href="@{/administrateur/modules/{id}(id=${module.id})}"
                       ><i class="bx bx-edit-alt me-1x"></i> </a
                       >
-                    <form method="post" th:action="@{/niveaux/{niveauId}/modules/remove(niveauId=${niveau.id})}">
+                    <form method="post" th:action="@{/administrateur/niveaux/{niveauId}/modules/remove(niveauId=${niveau.id})}">
                       <input type="hidden" name="moduleId" th:value="${module.id}"/>
                       <button type="submit" class="dropdown-item"
                                 th:onclick="return confirmDelete()"

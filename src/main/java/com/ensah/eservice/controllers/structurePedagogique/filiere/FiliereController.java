@@ -1,4 +1,4 @@
-package com.ensah.eservice.controllers.filiere;
+package com.ensah.eservice.controllers.structurePedagogique.filiere;
 
 
 import com.ensah.eservice.dto.filieres.FiliereDTO;
@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/filieres")
+@RequestMapping("/administrateur/filieres")
 public class FiliereController {
 
     private final FiliereService filiereService;
@@ -66,7 +66,7 @@ public class FiliereController {
 
         filiereService.create(filiereDTO, enseingnatId, niveauxIds);
 
-        return "redirect:/filieres/create";
+        return "redirect:/administrateur/filieres/create";
     }
 
     @GetMapping("/{id}")
@@ -87,7 +87,7 @@ public class FiliereController {
                filiereService.update(filiereDTO);
 
 
-        return "redirect:/filieres/" + filiereDTO.getId();
+        return "redirect:/administrateur/filieres/" + filiereDTO.getId();
     }
 
     @PostMapping("/delete")
@@ -95,7 +95,7 @@ public class FiliereController {
 
         filiereService.deleteFiliere(id);
 
-        return "redirect:/filieres";
+        return "redirect:/administrateur/filieres";
     }
 
     @PostMapping("/{filiereId}/enseignants/add")
@@ -105,7 +105,7 @@ public class FiliereController {
     ) throws NotFoundException {
         filiereService.addCordinnateurToFiliere(filiereId,selectedEnseignant);
 
-        return "redirect:/filieres/" + filiereId;
+        return "redirect:/administrateur/filieres/" + filiereId;
     }
 
     @PostMapping("/{filiereId}/niveaux/add")
@@ -116,7 +116,7 @@ public class FiliereController {
         System.out.println(selectedNiveaux);
         filiereService.addNiveauToFiliere(filiereId,selectedNiveaux);
 
-        return "redirect:/filieres/" + filiereId;
+        return "redirect:/administrateur/filieres/" + filiereId;
     }
 
     @PostMapping("/{filiereId}/niveaux/remove")
@@ -127,7 +127,7 @@ public class FiliereController {
     ) throws NotFoundException {
         filiereService.removeNiveauFromFilier(filiereId, niveauId);
 
-        return "redirect:/filieres/" + filiereId;
+        return "redirect:/administrateur/filieres/" + filiereId;
 
     }
 

@@ -1,4 +1,4 @@
-package com.ensah.eservice.controllers.elements;
+package com.ensah.eservice.controllers.structurePedagogique.elements;
 
 
 import com.ensah.eservice.dto.elements.ElementDTO;
@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/elements")
+@RequestMapping("/administrateur/elements")
 @RequiredArgsConstructor
 public class ElementController {
 
@@ -32,7 +32,7 @@ public class ElementController {
         } catch (AlreadyExistsException e) {
             model.addAttribute("toastMessage", e.getMessage());
         }
-        return "redirect:/elements/create";
+        return "redirect:/administrateur/elements/create";
     }
 
     @GetMapping
@@ -56,7 +56,7 @@ public class ElementController {
     @PostMapping("/delete")
     public String deleteElement(@RequestParam("id") Long id) throws NotFoundException {
         elementService.deleteElement(id);
-        return "redirect:/elements";
+        return "redirect:/administrateur/elements";
     }
 
     @GetMapping("/{id}")
@@ -68,7 +68,7 @@ public class ElementController {
     @PostMapping("/update")
     public String updateElement(@ModelAttribute("element") ElementDTO elementDTO) throws NotFoundException {
         elementService.updateElement(elementDTO);
-        return "redirect:/elements";
+        return "redirect:/administrateur/elements";
     }
 
 }

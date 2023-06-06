@@ -51,7 +51,7 @@
         <!-- Menu -->
 
 
-        <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+        <aside th:replace="~{fragments/cadre-administrateur-side-bar :: cadreAdministrateur_sideBar}"></aside>
 
         <!-- Layout container -->
         <div class="layout-page">
@@ -61,7 +61,7 @@
                     <div class="card mb-4">
                         <h5 class="card-header">Création d'une Filiere</h5>
                         <div class="card-body">
-                            <form method="post" th:action="@{/filieres/create}" th:object="${filiereDTO}">
+                            <form method="post" th:action="@{/administrateur/filieres/create}" th:object="${filiereDTO}">
                                 <div class="mb-3 row">
                                     <label for="nom" class="col-md-2 col-form-label">Nom*</label>
                                     <div class="col-md-10">

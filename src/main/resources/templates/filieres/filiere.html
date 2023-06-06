@@ -51,7 +51,7 @@
     <!-- Menu -->
 
 
-    <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+    <aside th:replace="~{fragments/cadre-administrateur-side-bar :: cadreAdministrateur_sideBar}"></aside>
 
     <!-- Layout container -->
     <div class="layout-page">
@@ -61,7 +61,7 @@
           <div class="card mb-4">
             <h5 class="card-header">Modification d'une filiere</h5>
             <div class="card-body">
-              <form method="post" th:action="@{/filieres/update}" th:object="${filiere}">
+              <form method="post" th:action="@{/administrateur/filieres/update}" th:object="${filiere}">
                 <input type="hidden" th:field="${filiere.id}">
                 <div class="mb-3 row">
                   <label for="titre" class="col-md-2 col-form-label">Nom*</label>
@@ -120,7 +120,7 @@
                         ></button>
                       </div>
 
-                      <form method="post" th:action="@{/filieres/{filiereId}/niveaux/add(filiereId=${filiere.id})}">
+                      <form method="post" th:action="@{/administrateur/filieres/{filiereId}/niveaux/add(filiereId=${filiere.id})}">
                         <div class="modal-body">
                           <input class="form-control" type="search" id="searchInput" placeholder="chercher un niveau"/>
                           <div style="height: 200px; width: auto; overflow-y: scroll; text-align: left">
@@ -160,10 +160,10 @@
                 <tr th:each="niveau : ${filiere.getNiveaux()}" >
                   <td th:text="${niveau.titre}"></td>
                   <td th:text="${niveau.alias}"></td>                  <td>
-                      <a class="dropdown-item" th:href="@{/niveaux/{id}(id=${niveau.id})}"
+                      <a class="dropdown-item" th:href="@{/administrateur/niveaux/{id}(id=${niveau.id})}"
                       ><i class="bx bx-edit-alt me-1x"></i> </a
                       >
-                    <form method="post" th:action="@{/filieres/{filiereId}/niveaux/remove(filiereId=${filiere.id})}">
+                    <form method="post" th:action="@{/administrateur/filieres/{filiereId}/niveaux/remove(filiereId=${filiere.id})}">
                       <input type="hidden" name="niveauId" th:value="${niveau.id}"/>
                       <button type="submit" class="dropdown-item"
                                 th:onclick="return confirmDelete()"
@@ -207,7 +207,7 @@
                         ></button>
                       </div>
 
-                      <form method="post" th:action="@{/filieres/{filiereId}/enseignants/add(filiereId=${filiere.id})}" >
+                      <form method="post" th:action="@{/administrateur/filieres/{filiereId}/enseignants/add(filiereId=${filiere.id})}" >
                         <div class="modal-body">
                           <input class="form-control" type="search" id="searchInput2" placeholder="chercher un niveau"/>
                           <div style="height: 200px; width: auto; overflow-y: scroll; text-align: left">

@@ -1,4 +1,4 @@
-package com.ensah.eservice.controllers.niveau;
+package com.ensah.eservice.controllers.structurePedagogique.niveau;
 
 
 import com.ensah.eservice.dto.niveau.NiveauDTO;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/niveaux")
+@RequestMapping("/administrateur/niveaux")
 public class NiveauController {
 
     private final NiveauService niveauService;
@@ -60,7 +60,7 @@ public class NiveauController {
 
         niveauService.create(niveauDTO, modulesIds);
 
-        return "redirect:/niveaux/create";
+        return "redirect:/administrateur/niveaux/create";
     }
 
     @GetMapping("/{id}")
@@ -77,14 +77,14 @@ public class NiveauController {
         System.out.println(niveauDTO);
         niveauService.update(niveauDTO);
 
-        return "redirect:/niveaux/" + niveauDTO.getId();
+        return "redirect:/administrateur/niveaux/" + niveauDTO.getId();
     }
 
     @PostMapping("/delete")
     public  String removeNiveau(@RequestParam("id") Long id) throws NotFoundException {
         niveauService.removeNiveau(id);
 
-        return "redirect:/niveaux";
+        return "redirect:/administrateur/niveaux";
 
     }
 
@@ -96,7 +96,7 @@ public class NiveauController {
 
         niveauService.addModulesToNiveau(niveauId, modulesIds);
 
-        return "redirect:/niveaux/"+niveauId;
+        return "redirect:/administrateur/niveaux/"+niveauId;
 
     }
 
@@ -107,7 +107,7 @@ public class NiveauController {
 
         niveauService.removeModuleFromNiveau(niveauId, moduleId);
 
-        return "redirect:/niveaux/" + niveauId;
+        return "redirect:/administrateur/niveaux/" + niveauId;
     }
 
 }

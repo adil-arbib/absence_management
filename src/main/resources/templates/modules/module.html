@@ -51,7 +51,7 @@
     <!-- Menu -->
 
 
-    <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+    <aside th:replace="~{fragments/cadre-administrateur-side-bar :: cadreAdministrateur_sideBar}"></aside>
 
     <!-- Layout container -->
     <div class="layout-page">
@@ -61,7 +61,7 @@
           <div class="card mb-4">
             <h5 class="card-header">Modification de module</h5>
             <div class="card-body">
-              <form method="post" th:action="@{/modules/update}" th:object="${module}">
+              <form method="post" th:action="@{/administrateur/modules/update}" th:object="${module}">
                 <input type="hidden" th:field="${module.id}">
                 <div class="mb-3 row">
                   <label for="nom" class="col-md-2 col-form-label">Nom*</label>
@@ -111,7 +111,7 @@
                                 aria-label="Close"
                         ></button>
                       </div>
-                      <form method="post" th:action="@{/modules/{moduleId}/elements/add(moduleId=${module.id})}">
+                      <form method="post" th:action="@{/administrateur/modules/{moduleId}/elements/add(moduleId=${module.id})}">
                         <div class="modal-body">
                           <input class="form-control" type="search" id="searchInput" placeholder="chercher un element"/>
                           <div style="height: 200px; width: auto; overflow-y: scroll; text-align: left">
@@ -150,7 +150,7 @@
                   <td th:text="${element.nom}"></td>
                   <td th:text="${element.code}"></td>
                   <td>
-                    <form method="post" th:action="@{/modules/{moduleId}/elements/remove(moduleId=${module.id})}"
+                    <form method="post" th:action="@{/administrateur/modules/{moduleId}/elements/remove(moduleId=${module.id})}"
                           th:object="${element}">
                       <input type="hidden" name="elementId" th:value="${element.id}"/>
                       <button type="submit" class="dropdown-item"
