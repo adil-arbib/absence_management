@@ -7,7 +7,7 @@
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
   />
 
-  <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+  <title>Etudiants</title>
 
   <meta name="description" content=""/>
 
@@ -157,7 +157,7 @@
                     <li th:class="${status.index == currentPage ? 'page-item active' : 'page-item' }"
                         th:each="page,status : ${pages}">
                       <a class="page-link" th:text="${status.index}"
-                         th:href="@{/super-admin/etudiants(page = ${status.index}, size = ${size}, keyword = ${keyword})}"></a>
+                         th:href="@{/etudiant/absences(page = ${status.index}, size = ${size}, keyword = ${keyword})}"></a>
                     </li>
                     <li class="page-item next">
                       <a class="page-link"
