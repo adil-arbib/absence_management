@@ -79,7 +79,8 @@
                                 <div class="mb-3 row">
                                     <label for="Etudiant" class="col-md-2 col-form-label">CNE Etudiant *</label>
                                     <div class="col-md-10">
-                                        <input name="Etudiant" disabled  th:value="${currentAbsence.inscription.etudiant.cne}" class="form-control" type="text" id="Etudiant" required/>
+                                        <input disabled  th:value="${currentAbsence.inscription.etudiant.cne}" class="form-control" type="text" id="" required/>
+                                        <input name="etudiant" type="hidden"   th:value="${currentAbsence.inscription.etudiant.cne}" class="form-control" id="etudiant" required/>
                                     </div>
                                 </div>
 
@@ -140,16 +141,15 @@
                                             <label class="form-check-label" for="annulee">Annuler</label>
                                         </div>
                                     </div>
-
                                     <div class="demo-inline-spacing">
                                         <button type="submit" class="btn btn-primary">Valider</button>
                                         <button type="reset" class="btn btn-secondary" >Annuler</button>
                                     </div>
-                                    </div>
+
+
+                                </div>
 
                             </form>
-
-
                         </div>
                     </div>
                 </div>

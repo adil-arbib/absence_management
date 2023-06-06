@@ -21,7 +21,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -135,10 +137,10 @@ public class AdministrateurController {
     @PostMapping("/etudiants/absences/update")
     public String updateAbsence(
             @ModelAttribute("currentAbsence") AbsenceDTO absenceDTO,
-            @RequestParam("selectedElement") Long elementId,
-            @RequestParam("selectedEnseignant") Long enseignantId,
-            @RequestParam("typeSeanceSelected") Long typeSeanceId,
-            @RequestParam("Etudiant") String etudiantCNE,
+            @RequestParam(name = "selectedElement") Long elementId,
+            @RequestParam(name = "selectedEnseignant") Long enseignantId,
+            @RequestParam(name = "typeSeanceSelected") Long typeSeanceId,
+            @RequestParam(name = "etudiant") String etudiantCNE,
             @RequestParam(name = "absenceStart") String absenceStart,
             @RequestParam(name = "absenceEnd") String absenceEnd,
             @RequestParam(name = "etat") String etat
@@ -146,13 +148,13 @@ public class AdministrateurController {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+
         absenceDTO.setElement(elementService.getElementById(elementId));
         absenceDTO.setEnseignant(enseignantService.getById(enseignantId));
         absenceDTO.setTypeSeance(typeSeanceService.getTypeSeance(typeSeanceId));
         absenceDTO.setInscription(inscriptionService.getByEtudiant(etudiantCNE));
         absenceDTO.setAbsenceStart(simpleDateFormat.parse(absenceStart));
         absenceDTO.setAbsenceEnd(simpleDateFormat.parse(absenceEnd));
-        //should work on it
 
         AbsenceEtat etatAbsence;
 
@@ -178,6 +180,17 @@ public class AdministrateurController {
         return "redirect:/administrateur/absences/etudiants/absences/"+ absenceDTO.getId();
 
     }
+
+//    @PostMapping("/etudiants/absences/{id}/pieceJustificative")
+//    public String attachPJ(
+//            @PathVariable Long id,
+//            @RequestParam MultipartFile pj
+//           ) throws NotFoundException, IOException {
+//
+//        administrateurAbsenceService.attachPieceJustificative(id, pj);
+//
+//        return "redirect:/administrateur/absences/etudiants/absences/"+ id;
+//    }
 
 
     @GetMapping("/addAbsencesForm")
@@ -221,6 +234,7 @@ public class AdministrateurController {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+
         model.addAttribute("absencesList",
                 administrateurAbsenceService.createAbsence(
                         elementId,
@@ -239,11 +253,13 @@ public class AdministrateurController {
             @PathVariable Long id,
             @RequestParam("selectedEtudiant") Long etudiantId
            ) throws NotFoundException {
-        System.out.println("hello ?");
             administrateurAbsenceService.deleteAbsence(id);
 
             return "redirect:/administrateur/absences/etudiants/"+etudiantId+"/absences";
     }
+
+
+
 
 
 

@@ -59,18 +59,18 @@
 
       <div class="content-wrapper">
 
-        <div id="toast" class="bs-toast toast fade show" role="alert" aria-live="assertive" aria-atomic="true"
-             style="position: absolute; top: 10%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;"
-             th:if="${successMessage != null}"
-        >
-          <div class="toast-header">
-            <i class="bx bx-bell me-2"></i>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div class="toast-body" th:text="${successMessage}">
+<!--        <div id="toast" class="bs-toast toast fade show" role="alert" aria-live="assertive" aria-atomic="true"-->
+<!--             style="position: absolute; top: 10%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;"-->
+<!--             th:if="${successMessage != null}"-->
+<!--        >-->
+<!--          <div class="toast-header">-->
+<!--            <i class="bx bx-bell me-2"></i>-->
+<!--            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
+<!--          </div>-->
+<!--          <div class="toast-body" th:text="${successMessage}">-->
 
-          </div>
-        </div>
+<!--          </div>-->
+<!--        </div>-->
 
 
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -79,7 +79,7 @@
           <div class="card mb-4">
             <h5 class="card-header">Ajout de piece justificative</h5>
             <div class="card-body">
-              <form method="post" th:action="@{/etudiant/absences/piece-justificative}" enctype="multipart/form-data">
+              <form method="post" th:action="@{/etudiants/absences/etudiants/absences/{id}/pieceJustificative}" enctype="multipart/form-data">
                 <label>
                   <input type="hidden" name="absenceId" th:value="${id}">
                 </label>

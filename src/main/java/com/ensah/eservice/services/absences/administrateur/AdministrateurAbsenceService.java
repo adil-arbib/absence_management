@@ -19,6 +19,7 @@ import com.ensah.eservice.repositories.*;
 import com.ensah.eservice.services.InscriptionService;
 import com.ensah.eservice.services.NiveauService;
 import com.ensah.eservice.services.absences.AbsenceService;
+import com.ensah.eservice.services.absences.pieceJustificative.PieceJustificativeService;
 import com.ensah.eservice.services.members.EnseignantService;
 import com.ensah.eservice.services.members.EtudiantService;
 import com.ensah.eservice.services.structure_pedagogique.ElementService;
@@ -26,8 +27,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
+import java.io.IOException;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,6 +52,7 @@ public class AdministrateurAbsenceService {
     private final EtudiantRepository etudiantRepository;
     private final EtudiantMapper etudiantMapper;
     private final EtudiantService etudiantService;
+    private final PieceJustificativeService pieceJustificativeService;
     private final TypeSeanceRepository typeSeanceRepository;
     private final AbsenceMapper absenceMapper;
     private final EnseignantMapper enseignantMapper;
@@ -183,6 +187,14 @@ public class AdministrateurAbsenceService {
                 orElseThrow(NotFoundException::new);
 
         absenceRepository.delete(absence);
+    }
+
+    public void attachPieceJustificative(Long absenceId, MultipartFile file) throws NotFoundException, IOException {
+        Absence absence = absenceRepository.findById(absenceId)
+                .orElseThrow(NotFoundException::new);
+        PieceJustificative pieceJustificative = pieceJustificativeService.addPieceJustificative(file);
+        absence.getPieceJustificatives().add(pieceJustificative);
+        absenceRepository.save(absence);
     }
 
 }

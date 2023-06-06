@@ -41,11 +41,12 @@ public class Absence {
 
     @ManyToOne
     private Inscription inscription;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable( joinColumns = @JoinColumn(name="absence_id"),
             inverseJoinColumns = @JoinColumn(name="pieceJustificative_id"))
     private List<PieceJustificative> pieceJustificatives;
+
+
 
 
 }

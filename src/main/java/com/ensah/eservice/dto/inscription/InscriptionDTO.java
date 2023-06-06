@@ -20,8 +20,8 @@ public class InscriptionDTO {
 
     private Integer etat;
 
-    private EtudiantDTO etudiant;
+    private Etudiant etudiant;
 
-    private NiveauDTO niveau;
+    private Niveau niveau;
 
 }

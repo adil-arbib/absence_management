@@ -64,7 +64,6 @@ public class EnseignantAbsenceService {
     public void createAbsence(ElementDTO elementDTO, Date absenceStart,
             Date absenceEnd, List<Long> etudiantIds, TypeSeanceDTO typeSeanceDTO
     ) throws NotFoundException {
-
         Enseignant enseignant=(Enseignant) CurrentUser.getCurrentUser();
         for (Long id : etudiantIds){
             Inscription inscription = inscriptionRepository.findByEtudiantAndAnnee(
