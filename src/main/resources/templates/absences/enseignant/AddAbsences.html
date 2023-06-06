@@ -51,7 +51,7 @@
     <!-- Menu -->
 
 
-    <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+    <aside th:replace="~{fragments/enseignant-side-bar ::enseignat-sidebar }"></aside>
 
     <!-- Layout container -->
     <div class="layout-page">
@@ -61,27 +61,25 @@
           <div class="card mb-4">
             <h5 class="card-header">Veuillez saisir les critères de recherche</h5>
             <div class="card-body">
-              <form method="post"  th:action="@{/enseignant/absences/saisirAbsences}">
-                <div class="mt-2 mb-3">
-                  <label for="filiere" class="form-label">Filiere</label>
-                  <select id="filiere" name="filiereId" class="form-select form-select-lg">
-                    <option th:each="filiere : ${filieres}" th:value="${filiere.id}" th:text="${filiere.alias}"></option>
-                  </select>
-                </div>
+              <form method="post"  th:action="@{/enseignant/absences/search}">
 
                 <div class="mt-2 mb-3">
-                  <label for="niveau" class="form-label">Classe/Niveau</label>
-                  <select id="niveau" name="niveauId" class="form-select form-select-lg"></select>
+                  <label  class="form-label">Classe/Niveau</label>
+                  <select name="niveauId"  class="form-select form-select-lg">
+                    <option th:each="niveau : ${niveaux}" th:value="${niveau.id}"  th:text="${niveau.alias}" ></option>
+                  </select>
                 </div>
                 <div class="mt-2 mb-3">
-                  <label for="module" class="form-label">Module</label>
-                  <select id="module" name="moduleId" class="form-select form-select-lg"></select>
+                  <label  class="form-label">Matière</label>
+                  <select  name="elementId" class="form-select form-select-lg">
+                    <option th:each="element:${matieres}" th:value="${element.id}" th:text="${element.nom}" ></option>
+                  </select>
                 </div>
-                <div class="demo-inline-spacing">
-                  <div th:each="type : ${typeSeances}">
-                    <input type="radio" name="typeSelected" th:value="${type.id}" />
-                    <label th:text="${type.alias}"></label>
-                  </div>
+                <div class="mt-2 mb-3">
+                  <label  class="form-label">Type de Séance</label>
+                  <select name="typeSeanceId"   class="form-select form-select-lg">
+                    <option th:each="typeSeance : ${types}" th:value="${typeSeance.id}" th:text="${typeSeance.intitule}" ></option>
+                  </select>
                 </div>
                 <div class="demo-inline-spacing">
                   <button type="submit" class="btn btn-primary">chercher</button>
@@ -99,53 +97,64 @@
   </div>
 
 </div>
-<script th:inline="javascript">
-  // Get the select elements
-  const filiereSelect = document.getElementById('filiere');
-  const niveauSelect = document.getElementById('niveau');
-  const moduleSelect = document.getElementById('module');
+<div th:if="${found}" class="container-xxl flex-grow-1 container-p-y">
+  <div class="card">
+    <h5 class="card-header">Tous les etudiants</h5>
+    <div class="card mb-4">
+      <form th:action="@{/enseignant/absences/AddAbsence}" method="post">
+        <div class="mb-3 row">
+          <label for="absenceStart" class="col-md-2 col-form-label">Date & Heure début de seance</label>
+          <div class="col-md-10">
+            <input name="absenceStart" class="form-control" type="date" id="absenceStart" required/>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="absenceEnd" class="col-md-2 col-form-label">Date & Heure fin de seance</label>
+          <div class="col-md-10">
+            <input name="absenceEnd" class="form-control" type="date" id="absenceEnd" required/>
+          </div>
+        </div>
 
-  // Event listener for filiere select change
-  filiereSelect.addEventListener('change', function() {
-    // Clear existing options
-    niveauSelect.innerHTML = '';
-    moduleSelect.innerHTML = '';
+        <input hidden="hidden" name="typeSeance" th:value="${typeSeance.id}">
+        <input hidden="hidden" name="element" th:value="${element.id}">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prenom</th>
+          <th>Photo</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+        <tr th:each="etudiant : ${etudiants}">
+          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong th:text="${etudiant.nom}"></strong></td>
+          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong th:text="${etudiant.prenom}"></strong></td>
+          <td ><th:block  th:if="${etudiant.image != null}" th:with="base64Data=${etudiant.image.data}">
+            <img th:src="|data:${etudiant.image.type};base64,${etudiant.image.data}|"
+                 alt="user-avatar"
+                 class="d-block rounded"
+                 height="30"
+                 width="30"
+                 id="preview"
+            >
+          </th:block></td>
 
-    // Get the selected filiere value
-    const selectedFiliereId = this.value;
-
-    // Find the selected filiere object
-    const selectedFiliere = [[${filieres}]].find(filiere => filiere.id === selectedFiliereId);
-
-    // Generate options for the selected filiere's niveau property
-    selectedFiliere.niveau.forEach(function(niveau) {
-      const option = document.createElement('option');
-      option.value = niveau;
-      option.text = niveau;
-      niveauSelect.appendChild(option);
-    });
-  });
-
-  // Event listener for niveau select change
-  niveauSelect.addEventListener('change', function() {
-    // Clear existing options
-    moduleSelect.innerHTML = '';
-
-    // Get the selected niveau value
-    const selectedNiveau = this.value;
-
-    // Find the selected niveau object
-    const selectedNiveauObject = [[${filieres}]].find(filiere => filiere.id === filiereSelect.value).modules.find(module => module.niveau === selectedNiveau);
-
-    // Generate options for the selected niveau's modules
-    selectedNiveauObject.modules.forEach(function(module) {
-      const option = document.createElement('option');
-      option.value = module.id;
-      option.text = module.nom;
-      moduleSelect.appendChild(option);
-    });
-  });
-</script>
+     <td class="fab fa-angular fa-lg text-danger me-3">
+       <input class="form-check-input" type="checkbox" name="IdSelected" id="absent" th:value="${etudiant.id}">
+       <label class="form-check-label" for="absent">Absent(e)</label>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+        <div  class="demo-inline-spacing">
+          <button type="submit" class="btn btn-primary">sauvegarder</button>
+          <button type="reset" class="btn btn-secondary" >annuller</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 
 <script th:src="@{/js/utils.js}"></script>

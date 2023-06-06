@@ -58,27 +58,29 @@ public class EServiceApplication {
 //
 //    }
 
-
+//
 //    @Bean
 //    CommandLineRunner commandLineRunner(
-//            SuperAdminRepository superAdminRepository,
+////            SuperAdminRepository superAdminRepository,
 //            CompteRepository compteRepository,
-//            PasswordEncoder passwordEncoder
+//            PasswordEncoder passwordEncoder,
+//            EtudiantRepository etudiantRepository
+//
 //    ) {
 //        return args -> {
-//            SuperAdmin superAdmin = new SuperAdmin();
-//            superAdmin.setNom("admin");
-//            superAdmin.setPrenom("admin");
-//            superAdmin.setNomArabe("أدمين");
-//            superAdmin.setPrenomArab("أدمين");
-//            superAdmin.setEmail("admin@gmail.com");
-//            superAdmin.setTel("0689070809");
-//            superAdmin.setRole(Role.SUPER_ADMIN);
+////            SuperAdmin superAdmin = new SuperAdmin();
+////            superAdmin.setNom("admin");
+////            superAdmin.setPrenom("admin");
+////            superAdmin.setNomArabe("أدمين");
+////            superAdmin.setPrenomArab("أدمين");
+////            superAdmin.setEmail("admin@gmail.com");
+////            superAdmin.setTel("0689070809");
+////            superAdmin.setRole(Role.SUPER_ADMIN);
 //
 //            Compte compte = new Compte();
-//            compte.setUsername("admin");
+//            compte.setUsername("etudiant1");
 //            compte.setPassword(passwordEncoder.bCryptPasswordEncoder().encode("123"));
-//            compte.setUtilisateur(superAdminRepository.save(superAdmin));
+//            compte.setUtilisateur(etudiantRepository.getReferenceById(9L));
 //            compte.setEnabled(true);
 //            compte.setAccountNotExpired(true);
 //            compte.setAccountNotLocked(true);
@@ -86,7 +88,7 @@ public class EServiceApplication {
 //        };
 //    }
 
-
+//
 //    @Bean
 //    CommandLineRunner commandLineRunner(
 //            InscriptionRepository inscriptionRepository,
@@ -97,12 +99,8 @@ public class EServiceApplication {
 //            Etudiant etudiant = etudiantRepository.findById(13L).orElse(null);
 //            Inscription inscription = new Inscription();
 //            inscription.setAnnee(2023);
-////            Niveau niveau = new Niveau();
-////            niveau.setModules(null);
-////            niveau.setAlias("GI1");
-////            niveau.setTitre("genie info 1");
 //
-//            inscription.setNiveau(niveauRepository.findById(6L).orElseThrow(NotFoundException::new));
+//            inscription.setNiveau(niveauRepository.getReferenceById(2L));
 //            inscription.setEtudiant(etudiant);
 //            inscriptionRepository.save(inscription);
 //        };
