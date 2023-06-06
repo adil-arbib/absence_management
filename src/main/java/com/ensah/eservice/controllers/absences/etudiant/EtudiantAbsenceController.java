@@ -22,7 +22,7 @@ import java.time.Year;
 import java.util.logging.Logger;
 
 @Controller
-@RequestMapping("etudiant/absences")
+@RequestMapping("/etudiant/absences")
 @RequiredArgsConstructor
 public class EtudiantAbsenceController {
 
@@ -70,8 +70,14 @@ public class EtudiantAbsenceController {
            RedirectAttributes redirectAttributes
            ) throws NotFoundException {
 
-      redirectAttributes.addFlashAttribute("absenceId", absenceId);
-      redirectAttributes.addFlashAttribute("successMessage", "Ajouté avec succès");
+      try {
+         etudiantAbsenceService.addPieceJustificative(absenceId, piece);
+         redirectAttributes.addFlashAttribute("absenceId", absenceId);
+         redirectAttributes.addFlashAttribute("successMessage", "Ajouté avec succès");
+      } catch (IOException e) {
+         redirectAttributes.addFlashAttribute("successMessage", "Une erreur est survenue");
+      }
+
 
       return new RedirectView("/etudiant/absences/"+absenceId+"/piece-justificative");
    }

@@ -27,12 +27,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**", "/assets/**")
                 .permitAll()
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/etudiant/**").hasAuthority("ETUDIANT")
+                .requestMatchers("/enseignant/**").hasAuthority("ENSEIGNANT")
+                .requestMatchers("/administrateur/**").hasAuthority("CADRE_ADMINISTRATEUR")
+                .requestMatchers("super-admin/**").hasAuthority("SUPER_ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/auth/login")
-                .failureUrl("/auth/login?error");
+                .failureUrl("/auth/login?error")
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/unauthorized");
 
         return http.build();
     }

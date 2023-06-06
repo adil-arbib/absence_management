@@ -109,37 +109,21 @@ public class EServiceApplication {
 //        @Bean
 //    CommandLineRunner commandLineRunner(
 //            InscriptionRepository inscriptionRepository,
-//            ElementRepository elementRepository,
-//            EnseignantRepository enseignantRepository,
 //            EtudiantRepository etudiantRepository,
-//            TypeSeanceRepository typeSeanceRepository,
-//            AbsenceRepository absenceRepository
+//            NiveauRepository niveauRepository
 //    ) {
 //        return args -> {
-//            Etudiant etudiant = etudiantRepository.findById(8L).orElse(null);
-//            Element element = elementRepository.findById(1L).orElse(null);
-//            Enseignant enseignant = enseignantRepository.findById(2L).orElse(null);
-//            Inscription inscription = inscriptionRepository.findById(11L).orElse(null);
 //
-//            TypeSeance typeSeance = new TypeSeance();
-//            typeSeance.setAlias("TP");
-//            typeSeance.setIntitule("Travaux Pratique");
-//            typeSeanceRepository.save(typeSeance);
+//            Inscription inscription = new Inscription();
+//            inscription.setEtudiant(etudiantRepository.findById(3L).orElse(null));
+//            inscription.setNiveau(niveauRepository.findById(4L).orElse(null));
+//            inscription.setAnnee(2022);
+//
+//            inscriptionRepository.save(inscription);
 //
 //
 //
 //
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//            Absence absence = new Absence();
-//            absence.setAbsenceStart(formatter.parse("2023-03-02"));
-//            absence.setAbsenceEnd(formatter.parse("2023-03-04"));
-//            absence.setElement(element);
-//            absence.setEnseignant(enseignant);
-//            absence.setInscription(inscription);
-//            absence.setTypeSeance(typeSeance);
-//            absence.setEtat(AbsenceEtat.NON_JUSTIFIEE);
-//
-//            absenceRepository.save(absence);
 //        };
 //    }
 

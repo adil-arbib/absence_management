@@ -83,7 +83,6 @@ public class EtudiantAbsenceService {
               .orElseThrow(NotFoundException::new);
       PieceJustificative pieceJustificative = pieceJustificativeService.addPieceJustificative(file);
       absence.getPieceJustificatives().add(pieceJustificative);
-      pieceJustificative.getAbsences().add(absence);
       absenceRepository.save(absence);
    }
 

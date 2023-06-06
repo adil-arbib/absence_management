@@ -74,20 +74,18 @@
 
 
         <div class="container-xxl flex-grow-1 container-p-y">
-          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Absences /</span> Ajouter une piece justificative</h4>
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Absences /</span> Ajouter une piece
+            justificative</h4>
           <div class="card mb-4">
             <h5 class="card-header">Ajout de piece justificative</h5>
             <div class="card-body">
-              <form method="post" th:action="@{/etudiant/absences/piece-justificative}"  enctype="multipart/form-data">
+              <form method="post" th:action="@{/etudiant/absences/piece-justificative}" enctype="multipart/form-data">
                 <label>
                   <input type="hidden" name="absenceId" th:value="${id}">
                 </label>
 
-                <div class="button-wrapper">
-                  <label for="file" class="btn btn-primary me-2 mb-4" tabindex="0" title="Sélectionner un fichier">
-                    <i class="bx bx-upload d-block d-sm-none"></i>
-                    <input type="file" id="file" name="piece" accept="*"/>
-                  </label>
+                <div>
+                  <input class="form-control" type="file" id="file" name="piece" accept="*" required/>
                 </div>
 
                 <div class="demo-inline-spacing">
@@ -109,10 +107,10 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var toast = document.getElementById('toast');
 
-        setTimeout(function() {
+        setTimeout(function () {
             toast.classList.remove('show');
         }, 4000);
     });
