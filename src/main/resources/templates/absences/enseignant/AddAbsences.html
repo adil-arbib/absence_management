@@ -103,15 +103,15 @@
     <div class="card mb-4">
       <form th:action="@{/enseignant/absences/AddAbsence}" method="post">
         <div class="mb-3 row">
-          <label for="absenceStart" class="col-md-2 col-form-label">Date & Heure début de seance</label>
+          <label for="absenceStart" class="col-md-2 col-form-label">Début de seance</label>
           <div class="col-md-10">
-            <input name="absenceStart" class="form-control" type="date" id="absenceStart" required/>
+            <input name="absenceStart" class="form-control" type="datetime-local" id="absenceStart" required/>
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="absenceEnd" class="col-md-2 col-form-label">Date & Heure fin de seance</label>
+          <label for="absenceEnd" class="col-md-2 col-form-label">Fin de seance</label>
           <div class="col-md-10">
-            <input name="absenceEnd" class="form-control" type="date" id="absenceEnd" required/>
+            <input name="absenceEnd" class="form-control" type="datetime-local" id="absenceEnd" required/>
           </div>
         </div>
 
