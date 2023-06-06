@@ -47,7 +47,7 @@
 <body>
 
 <aside sec:authorize="hasAuthority('ETUDIANT')" th:replace="~{fragments/etudiant-side-bar :: etudiant_sidebar}"></aside>
-
+<aside sec:authorize="hasAuthority('ENSEIGNANT')" th:replace="~{fragments/enseignant-side-bar :: enseignat-sidebar}"></aside>
 <aside sec:authorize="hasAuthority('SUPER_ADMIN')" id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" th:fragment="sidebar">
   <div class="app-brand demo">
     <a th:href="@{../index}" class="app-brand-link">
