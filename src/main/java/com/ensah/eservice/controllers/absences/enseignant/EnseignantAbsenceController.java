@@ -86,7 +86,7 @@ public class EnseignantAbsenceController {
 
         ElementDTO elementDTO= elementService.getElementById(element);
         TypeSeanceDTO typeSeanceDTO=typeSeanceService.getTypeSeance(typeSeance);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
        enseignantAbsenceService.createAbsence(elementDTO,
                simpleDateFormat.parse(absenceStart),simpleDateFormat.parse(absenceEnd),IdSelected,typeSeanceDTO);
         return "absences/enseignant/AddAbsences";
